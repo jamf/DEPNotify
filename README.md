@@ -1,5 +1,7 @@
 # DEPNotify
 
+![DEPNotify Logo](https://gitlab.com/Mactroll/DEPNotify/blob/master/DEPNotify/Assets.xcassets/DEPNotify.imageset/depnotify_512.png)
+
 DEPNotify is a small light weight notification app that was designed to let your users know what's going on during a DEP enrollment. The app is focused on being very simple to use and easy to deploy.
 
 ## Basic Usage
