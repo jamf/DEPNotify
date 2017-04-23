@@ -4,6 +4,10 @@
 
 DEPNotify is a small light weight notification app that was designed to let your users know what's going on during a DEP enrollment. The app is focused on being very simple to use and easy to deploy.
 
+## Download
+
+Get the latest version, 1.0, here: [DEPNotify-1.0.zip](/uploads/4fd70795f77ff9bc91fcc542db2058f2/DEPNotify-1.0.zip)
+
 ## Basic Usage
 
 DEPNotify is completely controlled via echoing text to it's control file. By default this is `/var/tmp/depnotify.log` but you can change this to anything you want by launching the app with the `-path [some path]`.
