@@ -17,7 +17,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var StatusText: NSTextField!
     @IBOutlet weak var LogoCell: NSImageCell!
     @IBOutlet var myView: NSView!
-    @IBOutlet weak var HelpButton: NSButton!
+    @IBOutlet weak var helpButton: NSButton!
 
     var tracker = TrackProgress()
 
@@ -105,9 +105,8 @@ class ViewController: NSViewController {
             ProgressBar.startAnimation(nil)
 
         case "Help:" :
-            HelpButton.isHidden = false
+            helpButton.isHidden = false
             helpURL = command.replacingOccurrences(of: "Help: ", with: "")
-
 
         case "Image:" :
             logo = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "Image: ", with: ""))
@@ -208,7 +207,6 @@ class ViewController: NSViewController {
         notification.soundName = NSUserNotificationDefaultSoundName
         NSUserNotificationCenter.default.deliver(notification)
     }
-
     @IBAction func HelpClick(_ sender: Any) {
         NSWorkspace.shared().open(URL(string: helpURL)!)
     }
