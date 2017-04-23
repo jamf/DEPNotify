@@ -10,7 +10,7 @@ DEPNotify is completely controlled via echoing text to it's control file. By def
 
 The application then reacts to `Command:` and `Status:` lines written to the control file. 
 
-##Commands
+## Commands
 
 DEPNotify responds to a number of commands. All are prefaced with `Command:` and then the verb. Most are then followed by some text or other attribute.
 
