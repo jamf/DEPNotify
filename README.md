@@ -41,6 +41,7 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 * **MainText:** This command will change the main body of text in the application.
 
 *Example:* `Command: MainText: Something about how amazing the DEP process you've created is.`
+*Example w/ New Lines:* `Command: MainText: Something about how amazing the DEP process you've created is. \n \n It really is amazing.`
 
 * **Notification:** This will issue a notification to the Mac's notification center and display it.
 
