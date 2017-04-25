@@ -125,7 +125,9 @@ class ViewController: NSViewController {
             }
 
         case "MainText:" :
-            MainText.stringValue = command.replacingOccurrences(of: "MainText: ", with: "")
+            // Need to do two replacingOccurrences since we are replacing with different values
+            let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
+            MainText.stringValue = newlinecommand.replacingOccurrences(of: "MainText: ", with: "")
 
         case "Notification:" :
             sendNotification(text: command.replacingOccurrences(of: "Notification: ", with: ""))
