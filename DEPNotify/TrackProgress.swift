@@ -101,6 +101,19 @@ class TrackProgress: NSObject {
             case "Command:" :
                 command = line.replacingOccurrences(of: "Command: ", with: "")
             default:
+                if path == "/var/log/jamf.log"
+                {
+                    if line.contains("jamf[") && line.contains("Installing") {
+
+                        do {
+                        let installerRegEx = try NSRegularExpression(pattern: ".*]: ", options: NSRegularExpression.Options.caseInsensitive)
+                        let status = installerRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "")
+                            statusText = status
+                        } catch {
+                            NSLog("Couldn't parse jamf.log")
+                        }
+                    }
+                }
                 break
             }
         }

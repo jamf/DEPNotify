@@ -30,7 +30,9 @@ class ViewController: NSViewController {
     var notify = false
 
     var logo: NSImage?
+    var notificationImage: NSImage?
 
+    var enableJamf = false
 
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
 
@@ -41,6 +43,9 @@ class ViewController: NSViewController {
         tracker.addObserver(self, forKeyPath: "statusText", options: .new, context: &statusContext)
         tracker.addObserver(self, forKeyPath: "command", options: .new, context: &commandContext)
         tracker.run()
+
+        NSApp.activate(ignoringOtherApps: true)
+
         NSApp.windows[0].makeKeyAndOrderFront(self)
 
     }
@@ -86,6 +91,7 @@ class ViewController: NSViewController {
     }
 
     func processCommand(command: String) {
+
         switch command.components(separatedBy: " ").first! {
 
         case "Alert:" :
@@ -103,6 +109,9 @@ class ViewController: NSViewController {
             ProgressBar.maxValue = totalItems
             currentItem = 0
             ProgressBar.startAnimation(nil)
+
+        case "EnableJamf:" :
+            enableJamf = true
 
         case "Help:" :
             helpButton.isHidden = false
@@ -131,6 +140,9 @@ class ViewController: NSViewController {
 
         case "Notification:" :
             sendNotification(text: command.replacingOccurrences(of: "Notification: ", with: ""))
+
+        case "NotificationImage:" :
+            notificationImage = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "NotificationImage: ", with: ""))
 
         case "NotificationOn:" :
             notify = true
