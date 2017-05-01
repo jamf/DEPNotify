@@ -36,6 +36,7 @@ class ViewController: NSViewController {
 
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
 
+
     override func viewDidLoad() {
 
         ProgressBar.startAnimation(nil)
