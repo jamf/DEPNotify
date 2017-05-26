@@ -172,6 +172,16 @@ class ViewController: NSViewController {
                 NSApp.terminate(self)
             }
 
+        case "Restart:" :
+            let alertController = NSAlert()
+            alertController.messageText = command.replacingOccurrences(of: "Restart: ", with: "")
+            alertController.addButton(withTitle: "Restart")
+            //alertController.addButton(withTitle: "Quit")
+            alertController.beginSheetModal(for: NSApp.windows[0]) { response in
+                self.reboot()
+                NSApp.terminate(self)
+            }
+
         default:
             break
         }
@@ -208,6 +218,39 @@ class ViewController: NSViewController {
             kAEDefaultTimeout
         )
 
+    }
+
+    func reboot() {
+        var targetDesc: AEAddressDesc = AEAddressDesc.init()
+        var psn = ProcessSerialNumber(highLongOfPSN: UInt32(0), lowLongOfPSN: UInt32(kSystemProcess))
+        var eventReply: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
+        var eventToSend: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
+
+        var status: OSErr = AECreateDesc(
+            UInt32(typeProcessSerialNumber),
+            &psn,
+            MemoryLayout<ProcessSerialNumber>.size,
+            &targetDesc
+        )
+
+        status = AECreateAppleEvent(
+            UInt32(kCoreEventClass),
+            kAERestart,
+            &targetDesc,
+            AEReturnID(kAutoGenerateReturnID),
+            AETransactionID(kAnyTransactionID),
+            &eventToSend
+        )
+
+        AEDisposeDesc(&targetDesc)
+
+        let osstatus = AESendMessage(
+            &eventToSend,
+            &eventReply,
+            AESendMode(kAENormalPriority),
+            kAEDefaultTimeout
+        )
+        
     }
 
     func sendNotification(text: String) {
