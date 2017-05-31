@@ -705,7 +705,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rr0-9Z-XLa">
-                                <rect key="frame" x="152" y="71" width="310" height="122"/>
+                                <rect key="frame" x="152" y="63" width="310" height="136"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="pDc-h3-Pop">
                                     <font key="font" metaFont="system"/>
