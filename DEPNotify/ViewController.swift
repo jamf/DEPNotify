@@ -33,6 +33,7 @@ class ViewController: NSViewController {
     var notificationImage: NSImage?
 
     var enableJamf = false
+    var activateEachStep = false
 
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
 
@@ -75,6 +76,10 @@ class ViewController: NSViewController {
                 if determinate {
                     currentItem += 1
                     ProgressBar.increment(by: 1)
+                    if activateEachStep {
+                        NSApp.activate(ignoringOtherApps: true)
+                        NSApp.windows[0].makeKeyAndOrderFront(self)
+                    }
                 }
             } else {
                 super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -150,9 +155,20 @@ class ViewController: NSViewController {
 
         case "WindowStyle:" :
             switch command.replacingOccurrences(of: "WindowStyle: ", with: "") {
+            case "Activate" :
+                NSApp.activate(ignoringOtherApps: true)
+                NSApp.windows[0].makeKeyAndOrderFront(self)
+            case "ActivateOnStep" :
+                activateEachStep = true
             case "NotMovable" :
                 NSApp.windows[0].center()
                 NSApp.windows[0].isMovable = false
+            case "JoshQuick" :
+                let windowTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {_ in
+                    NSApp.activate(ignoringOtherApps: true)
+                    NSApp.windows[0].makeKeyAndOrderFront(self)
+                })
+                windowTimer.fire()
             default :
                 break
             }
