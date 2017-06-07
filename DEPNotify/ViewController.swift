@@ -139,7 +139,7 @@ class ViewController: NSViewController {
                 NSApp.terminate(self)
             }
 
-        case "LogoutNow":
+        case "LogoutNow:":
             self.quitSession()
 
         case "MainText:" :
