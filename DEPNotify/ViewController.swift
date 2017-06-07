@@ -139,6 +139,9 @@ class ViewController: NSViewController {
                 NSApp.terminate(self)
             }
 
+        case "LogoutNow":
+            self.quitSession()
+
         case "MainText:" :
             // Need to do two replacingOccurrences since we are replacing with different values
             let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
@@ -197,6 +200,9 @@ class ViewController: NSViewController {
                 self.reboot()
                 NSApp.terminate(self)
             }
+
+        case "RestartNow:" :
+            self.reboot()
 
         default:
             break
