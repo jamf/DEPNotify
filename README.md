@@ -63,7 +63,11 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: NotificationOn:`
 
-* **WindowStyle:** This has modifier `NotMovable` and will center the DEPNotify window and make it unable to be moved.
+* **WindowStyle:** This command has a few modifiers to it:
+    * `Activate` This will force the DEPNotify window to the front of all other windows.
+    * `ActivateOnStep` This will force the window to the front for each new progress bar step, so that you don't have to issue the Activate command each time.
+    * `NotMovable` This will center the DEPNotify window and make it unable to be moved.
+    * `JoshQuick` This will bring the DEPNotify window to the front every .1 seconds. This can become really annoying for the user, but will keep the window at the front at all times.
 
 *Example:* `Command: WindowStyle: NotMovable`
 
@@ -78,6 +82,14 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 * **Quit:** The second way to quit the application. This method will allow you to show a dialog with text of your choosing. The user will then be able to dismiss the dialog to quit the application.
 
 *Example:* `Command: Quit: Thanks for using this app.`
+
+* **Restart:** This will cause the machine to begin the restart process. The user will get a notification to accept with the text following the command.
+
+*Example:* `Command: Restart: Your session will end now.`
+
+* **Restartnow:** This will cause a restart event without requiring the user to accept.
+
+*Example:* `Command: RestartNow:`
 
 ## Status Updates
 
@@ -95,6 +107,11 @@ While every DEP workflow is different, here's a simple method of using DEPNotify
 * As you complete actions for the user write the status updates, or other changes, to the command file. `echo "Command: Quit: The process is now complete." >> /var/tmp/depnotify.log` is one example of doing this.
 * Quit DEPNotify when you're done either with `Quit` or `Quit:`
 * Remove DEPNotify
+
+## Changelog
+
+* 1.0 - Initial version
+* 1.0.1 - Added "EnableJamf:", "LogoutNow:", "NotificationImage:", Window Styles "Activate" "ActivateOnStep" and "JoshQuick", "Restart:" and "RestartNow:"
 
 ## Notes
 
