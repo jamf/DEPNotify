@@ -167,11 +167,15 @@ class ViewController: NSViewController {
                 NSApp.windows[0].center()
                 NSApp.windows[0].isMovable = false
             case "JoshQuick" :
-                let windowTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {_ in
-                    NSApp.activate(ignoringOtherApps: true)
-                    NSApp.windows[0].makeKeyAndOrderFront(self)
-                })
-                windowTimer.fire()
+                if #available(OSX 10.12, *) {
+                    let windowTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {_ in
+                        NSApp.activate(ignoringOtherApps: true)
+                        NSApp.windows[0].makeKeyAndOrderFront(self)
+                    })
+                    windowTimer.fire()
+                } else {
+                    // Fallback on earlier versions
+                }
             default :
                 break
             }
