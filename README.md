@@ -6,7 +6,7 @@ DEPNotify is a small light weight notification app that was designed to let your
 
 ## Download
 
-Get the latest version, 1.0, here: [DEPNotify-1.0.zip](/uploads/4fd70795f77ff9bc91fcc542db2058f2/DEPNotify-1.0.zip)
+Get the latest version, 1.0.1, here: [DEPNotify-1.0.1.zip](https://macadmins.slack.com/files/mactroll/F5R0Y0BML/depnotify-1.0.1_11_.zip)
 
 ## Basic Usage
 
