@@ -13,6 +13,12 @@ enum StatusState {
     case done
 }
 
+enum OtherLogs {
+    static let jamf = "/var/log/jamf.log"
+    static let munki = ""
+    static let none = ""
+}
+
 class TrackProgress: NSObject {
     
     // set up some defaults
@@ -23,6 +29,7 @@ class TrackProgress: NSObject {
     var status: StatusState
     let task = Process()
     let fm = FileManager()
+    var additionalPath = OtherLogs.none
     
     // init
     
@@ -31,10 +38,17 @@ class TrackProgress: NSObject {
         path = "/var/tmp/depnotify.log"
         
         for arg in 0...(CommandLine.arguments.count - 1) {
-            if CommandLine.arguments[arg] == "-path" {
+
+            switch CommandLine.arguments[arg] {
+            case "-path" :
                 guard (CommandLine.arguments.count >= arg + 1) else { continue }
                 path = CommandLine.arguments[arg + 1]
-                continue
+            case "-jamf" :
+                additionalPath = OtherLogs.jamf
+            case "-munki" :
+                additionalPath = OtherLogs.munki
+            default :
+                break
             }
         }
         
@@ -42,7 +56,7 @@ class TrackProgress: NSObject {
         command = ""
         status = .start
         task.launchPath = "/usr/bin/tail"
-        task.arguments = ["-f", path]
+        task.arguments = ["-f", path, additionalPath]
         
     }
     
@@ -101,6 +115,25 @@ class TrackProgress: NSObject {
             case "Command:" :
                 command = line.replacingOccurrences(of: "Command: ", with: "")
             default:
+                switch additionalPath {
+                case OtherLogs.jamf :
+                    if line.contains("jamf[") && line.contains("Installing") {
+
+                        do {
+                        let installerRegEx = try NSRegularExpression(pattern: ".*]: ", options: NSRegularExpression.Options.caseInsensitive)
+                        let status = installerRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "")
+                            statusText = status
+                        } catch {
+                            NSLog("Couldn't parse jamf.log")
+                        }
+                }
+                case OtherLogs.munki :
+                    break
+                case OtherLogs.none :
+                    break
+                default:
+                    break
+                }
                 break
             }
         }

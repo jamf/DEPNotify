@@ -30,9 +30,13 @@ class ViewController: NSViewController {
     var notify = false
 
     var logo: NSImage?
+    var notificationImage: NSImage?
 
+    var enableJamf = false
+    var activateEachStep = false
 
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
+
 
     override func viewDidLoad() {
 
@@ -41,6 +45,9 @@ class ViewController: NSViewController {
         tracker.addObserver(self, forKeyPath: "statusText", options: .new, context: &statusContext)
         tracker.addObserver(self, forKeyPath: "command", options: .new, context: &commandContext)
         tracker.run()
+
+        NSApp.activate(ignoringOtherApps: true)
+
         NSApp.windows[0].makeKeyAndOrderFront(self)
 
     }
@@ -69,6 +76,10 @@ class ViewController: NSViewController {
                 if determinate {
                     currentItem += 1
                     ProgressBar.increment(by: 1)
+                    if activateEachStep {
+                        NSApp.activate(ignoringOtherApps: true)
+                        NSApp.windows[0].makeKeyAndOrderFront(self)
+                    }
                 }
             } else {
                 super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -86,6 +97,7 @@ class ViewController: NSViewController {
     }
 
     func processCommand(command: String) {
+
         switch command.components(separatedBy: " ").first! {
 
         case "Alert:" :
@@ -103,6 +115,9 @@ class ViewController: NSViewController {
             ProgressBar.maxValue = totalItems
             currentItem = 0
             ProgressBar.startAnimation(nil)
+
+        case "EnableJamf:" :
+            enableJamf = true
 
         case "Help:" :
             helpButton.isHidden = false
@@ -124,6 +139,9 @@ class ViewController: NSViewController {
                 NSApp.terminate(self)
             }
 
+        case "LogoutNow:":
+            self.quitSession()
+
         case "MainText:" :
             // Need to do two replacingOccurrences since we are replacing with different values
             let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
@@ -132,14 +150,28 @@ class ViewController: NSViewController {
         case "Notification:" :
             sendNotification(text: command.replacingOccurrences(of: "Notification: ", with: ""))
 
+        case "NotificationImage:" :
+            notificationImage = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "NotificationImage: ", with: ""))
+
         case "NotificationOn:" :
             notify = true
 
         case "WindowStyle:" :
             switch command.replacingOccurrences(of: "WindowStyle: ", with: "") {
+            case "Activate" :
+                NSApp.activate(ignoringOtherApps: true)
+                NSApp.windows[0].makeKeyAndOrderFront(self)
+            case "ActivateOnStep" :
+                activateEachStep = true
             case "NotMovable" :
                 NSApp.windows[0].center()
                 NSApp.windows[0].isMovable = false
+            case "JoshQuick" :
+                let windowTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {_ in
+                    NSApp.activate(ignoringOtherApps: true)
+                    NSApp.windows[0].makeKeyAndOrderFront(self)
+                })
+                windowTimer.fire()
             default :
                 break
             }
@@ -158,6 +190,19 @@ class ViewController: NSViewController {
             alertController.beginSheetModal(for: NSApp.windows[0]) { response in
                 NSApp.terminate(self)
             }
+
+        case "Restart:" :
+            let alertController = NSAlert()
+            alertController.messageText = command.replacingOccurrences(of: "Restart: ", with: "")
+            alertController.addButton(withTitle: "Restart")
+            //alertController.addButton(withTitle: "Quit")
+            alertController.beginSheetModal(for: NSApp.windows[0]) { response in
+                self.reboot()
+                NSApp.terminate(self)
+            }
+
+        case "RestartNow:" :
+            self.reboot()
 
         default:
             break
@@ -195,6 +240,39 @@ class ViewController: NSViewController {
             kAEDefaultTimeout
         )
 
+    }
+
+    func reboot() {
+        var targetDesc: AEAddressDesc = AEAddressDesc.init()
+        var psn = ProcessSerialNumber(highLongOfPSN: UInt32(0), lowLongOfPSN: UInt32(kSystemProcess))
+        var eventReply: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
+        var eventToSend: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
+
+        var status: OSErr = AECreateDesc(
+            UInt32(typeProcessSerialNumber),
+            &psn,
+            MemoryLayout<ProcessSerialNumber>.size,
+            &targetDesc
+        )
+
+        status = AECreateAppleEvent(
+            UInt32(kCoreEventClass),
+            kAERestart,
+            &targetDesc,
+            AEReturnID(kAutoGenerateReturnID),
+            AETransactionID(kAnyTransactionID),
+            &eventToSend
+        )
+
+        AEDisposeDesc(&targetDesc)
+
+        let osstatus = AESendMessage(
+            &eventToSend,
+            &eventReply,
+            AESendMode(kAENormalPriority),
+            kAEDefaultTimeout
+        )
+        
     }
 
     func sendNotification(text: String) {
