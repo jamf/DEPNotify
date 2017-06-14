@@ -67,7 +67,6 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
     * `Activate` This will force the DEPNotify window to the front of all other windows.
     * `ActivateOnStep` This will force the window to the front for each new progress bar step, so that you don't have to issue the Activate command each time.
     * `NotMovable` This will center the DEPNotify window and make it unable to be moved.
-    * `JoshQuick` This will bring the DEPNotify window to the front every .1 seconds. This can become really annoying for the user, but will keep the window at the front at all times.
 
 *Example:* `Command: WindowStyle: NotMovable`
 
@@ -111,7 +110,7 @@ While every DEP workflow is different, here's a simple method of using DEPNotify
 ## Changelog
 
 * 1.0 - Initial version
-* 1.0.1 - Added "EnableJamf:", "LogoutNow:", "NotificationImage:", Window Styles "Activate" "ActivateOnStep" and "JoshQuick", "Restart:" and "RestartNow:"
+* 1.0.1 - Added "EnableJamf:", "LogoutNow:", "NotificationImage:", Window Styles "Activate" and "ActivateOnStep", "Restart:" and "RestartNow:"
 
 ## Notes
 
