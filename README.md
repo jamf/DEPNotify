@@ -26,6 +26,10 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: Determinate: 5`
 
+* **EnableJamf:** This has DEP Notify read in the Jamf log at /var/log/jamf.log and then update the status line in the DeP Notofy window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
+
+*Example:* `Command: EnableJamf:`
+
 * **Help:**  This will show a help button in the lower right corner of the DEPNotify window. Pressing the button will open up the path that you specify. Note that this can be both web URLs, such as http://www.apple.com/support, or file paths to local files such as file:///Applications/Chess.app.
 
 *Example:* `Command: Help: http://www.apple.com/support`
@@ -38,6 +42,10 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: Logout: Please logout now to start disk encryption.`
 
+* **LogoutNow:** Executes an immediate logout of the user session without waiting until the user responds to the alert  
+
+*Example:* `Command: LogoutNow:`
+
 * **MainText:** This command will change the main body of text in the application.
 
 *Example:* `Command: MainText: Something about how amazing the DEP process you've created is.`
@@ -47,11 +55,15 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: Notification: Please look at this notification.`
 
+* **NotificationImage:** This sets an image to use for the user notifications. Keep in mind that this may not be what you are looking for. After setting this notoifications will still have the DEP Notify icon in them, but will also have the image set with this command.
+
+*Example:* `Command: NotificationImage: /tmp/image.png`
+
 * **NotificationOn:** This will cause all status updates to be sent to the Notification Center as well. It takes no modifiers.
 
 *Example:* `Command: NotificationOn:`
 
-* **WindowStyle:** This has one modifier `NotMovable` and will center the DEPNotify window and make it unable to be moved.
+* **WindowStyle:** This has modifier `NotMovable` and will center the DEPNotify window and make it unable to be moved.
 
 *Example:* `Command: WindowStyle: NotMovable`
 
