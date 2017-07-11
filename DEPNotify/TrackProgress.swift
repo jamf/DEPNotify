@@ -16,6 +16,7 @@ enum StatusState {
 enum OtherLogs {
     static let jamf = "/var/log/jamf.log"
     static let munki = ""
+    static let filewave = "/private/var/log/fwcld.log"
     static let none = ""
 }
 
@@ -47,6 +48,8 @@ class TrackProgress: NSObject {
                 additionalPath = OtherLogs.jamf
             case "-munki" :
                 additionalPath = OtherLogs.munki
+            case "-filewave" :
+                additionalPath = OtherLogs.filewave
             default :
                 break
             }
@@ -129,6 +132,8 @@ class TrackProgress: NSObject {
                 }
                 case OtherLogs.munki :
                     break
+                case OtherLogs.filewave :
+                    statusText = line
                 case OtherLogs.none :
                     break
                 default:
