@@ -39,7 +39,11 @@ class ViewController: NSViewController {
 
 
     override func viewDidLoad() {
-
+        super.viewDidLoad()
+        //Set the background color to white
+        self.view.wantsLayer = true
+        self.view.layer?.backgroundColor = CGColor.white
+        var isOpaque = false
         ProgressBar.startAnimation(nil)
 
         tracker.addObserver(self, forKeyPath: "statusText", options: .new, context: &statusContext)
@@ -52,6 +56,18 @@ class ViewController: NSViewController {
 
     }
 
+    override func viewDidAppear() {
+        //Customize the window's title bar
+        let window = self.view.window
+        
+        window?.styleMask.insert(NSWindowStyleMask.unifiedTitleAndToolbar)
+        window?.styleMask.insert(NSWindowStyleMask.fullSizeContentView)
+        window?.styleMask.insert(NSWindowStyleMask.titled)
+        window?.toolbar?.isVisible = false
+        window?.titleVisibility = .hidden
+        window?.titlebarAppearsTransparent = true
+    }
+    
     override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
@@ -166,6 +182,7 @@ class ViewController: NSViewController {
             case "NotMovable" :
                 NSApp.windows[0].center()
                 NSApp.windows[0].isMovable = false
+                
             case "JoshQuick" :
                 if #available(OSX 10.12, *) {
                     let windowTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {_ in
