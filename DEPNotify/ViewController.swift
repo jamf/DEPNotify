@@ -61,12 +61,14 @@ class ViewController: NSViewController {
         //Customize the window's title bar
         let window = self.view.window
         
-        window?.styleMask.insert(NSWindowStyleMask.unifiedTitleAndToolbar)
-        window?.styleMask.insert(NSWindowStyleMask.fullSizeContentView)
-        window?.styleMask.insert(NSWindowStyleMask.titled)
-        window?.toolbar?.isVisible = false
-        window?.titleVisibility = .hidden
-        window?.titlebarAppearsTransparent = true
+        if !CommandLine.arguments.contains("-oldskool") {
+            window?.styleMask.insert(NSWindowStyleMask.unifiedTitleAndToolbar)
+            window?.styleMask.insert(NSWindowStyleMask.fullSizeContentView)
+            window?.styleMask.insert(NSWindowStyleMask.titled)
+            window?.toolbar?.isVisible = false
+            window?.titleVisibility = .hidden
+            window?.titlebarAppearsTransparent = true
+        }
     }
     
     override var representedObject: Any? {
@@ -124,6 +126,7 @@ class ViewController: NSViewController {
             alertController.beginSheetModal(for: NSApp.windows[0])
 
         case "Determinate:" :
+            
             determinate = true
             ProgressBar.isIndeterminate = false
 
@@ -145,12 +148,28 @@ class ViewController: NSViewController {
             ProgressBar.startAnimation(nil)
             
         case "DeterminateManualStep:" :
-            currentItem += 1
+            
+            let stepMove = Int(Double(command.replacingOccurrences(of: "DeterminateManualStep: ", with: "")) ?? 1 )
+            currentItem += stepMove
             ProgressBar.increment(by: 1)
             if activateEachStep {
                 NSApp.activate(ignoringOtherApps: true)
                 NSApp.windows[0].makeKeyAndOrderFront(self)
             }
+            
+        case "DeterminateOff:" :
+            
+            determinate = false
+            ProgressBar.isIndeterminate = true
+            ProgressBar.stopAnimation(nil)
+            
+        case "DeterminateOffReset:" :
+            
+            determinate = false
+            currentItem = 0
+            ProgressBar.increment(by: -100)
+            ProgressBar.isIndeterminate = true
+            ProgressBar.stopAnimation(nil)
         
         case "EnableJamf:" :
             enableJamf = true
