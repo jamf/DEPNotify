@@ -129,9 +129,9 @@ class ViewController: NSViewController {
             
             determinate = true
             ProgressBar.isIndeterminate = false
-
-            // error check this
-            totalItems = Double(command.replacingOccurrences(of: "Determinate: ", with: ""))!
+            
+            // default to 1 if we can't make a number
+            totalItems = Double(command.replacingOccurrences(of: "Determinate: ", with: "")) ?? 1
             ProgressBar.maxValue = totalItems
             currentItem = 0
             ProgressBar.startAnimation(nil)
@@ -141,14 +141,15 @@ class ViewController: NSViewController {
             determinate = false
             ProgressBar.isIndeterminate = false
             
-            // error check this
-            totalItems = Double(command.replacingOccurrences(of: "DeterminateManual: ", with: ""))!
+            // default to 1 if we can't make a number
+            totalItems = Double(command.replacingOccurrences(of: "DeterminateManual: ", with: "")) ?? 1
             ProgressBar.maxValue = totalItems
             currentItem = 0
             ProgressBar.startAnimation(nil)
             
         case "DeterminateManualStep:" :
             
+            // default to 1 if we can't make a number
             let stepMove = Int(Double(command.replacingOccurrences(of: "DeterminateManualStep: ", with: "")) ?? 1 )
             currentItem += stepMove
             ProgressBar.increment(by: 1)
@@ -167,7 +168,7 @@ class ViewController: NSViewController {
             
             determinate = false
             currentItem = 0
-            ProgressBar.increment(by: -100)
+            ProgressBar.increment(by: -1000)
             ProgressBar.isIndeterminate = true
             ProgressBar.stopAnimation(nil)
         
