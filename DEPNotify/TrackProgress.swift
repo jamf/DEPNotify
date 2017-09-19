@@ -15,7 +15,7 @@ enum StatusState {
 
 enum OtherLogs {
     static let jamf = "/var/log/jamf.log"
-    static let munki = ""
+    static let munki = "/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log"
     static let none = ""
 }
 
@@ -128,7 +128,16 @@ class TrackProgress: NSObject {
                         }
                 }
                 case OtherLogs.munki :
-                    break
+                    if line.contains("Installing") && !line.contains("at") && !line.contains("from") {
+
+                        do {
+                            let installerRegEx = try NSRegularExpression(pattern: "(.*?)Installing")
+                            let status = installerRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "").replacingOccurrences(of: "\\s?\\([\\w\\s]*\\)", with: "", options: .regularExpression)
+                            statusText = status
+                        } catch {
+                            NSLog("Couldn't parse ManagedSoftwareUpdate.log")
+                        }
+                    }
                 case OtherLogs.none :
                     break
                 default:

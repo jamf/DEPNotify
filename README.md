@@ -26,9 +26,13 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: Determinate: 5`
 
-* **EnableJamf:** This has DEP Notify read in the Jamf log at /var/log/jamf.log and then update the status line in the DeP Notofy window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
+* **EnableJamf:** This has DEP Notify read in the Jamf log at /var/log/jamf.log and then update the status line in the DEP Notify window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
 
 *Example:* `Command: EnableJamf:`
+
+* **EnableMunki:** This has DEP Notify read in the Munki log at /Library/Managed Installs/Logs/ManagedSoftwareUpdate.log and then update the status line in the DEP Notify window with any installations.
+
+*Example:* `Command: EnableMunki:`
 
 * **Help:**  This will show a help button in the lower right corner of the DEPNotify window. Pressing the button will open up the path that you specify. Note that this can be both web URLs, such as http://www.apple.com/support, or file paths to local files such as file:///Applications/Chess.app.
 
