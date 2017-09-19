@@ -3,7 +3,7 @@
 //  DEPNotify
 //
 //  Created by Joel Rennich on 2/16/17.
-//  Copyright © 2017 Trusource Labs. All rights reserved.
+//  Copyright © 2017 Orchard & Grove Inc. All rights reserved.
 //
 
 import Cocoa
