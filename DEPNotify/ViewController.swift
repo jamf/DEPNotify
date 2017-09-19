@@ -33,8 +33,6 @@ class ViewController: NSViewController {
     var logo: NSImage?
     var notificationImage: NSImage?
 
-    var enableJamf = false
-    var enableMunki = false
     var activateEachStep = false
 
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
@@ -171,12 +169,6 @@ class ViewController: NSViewController {
             ProgressBar.increment(by: -100)
             ProgressBar.isIndeterminate = true
             ProgressBar.stopAnimation(nil)
-        
-        case "EnableJamf:" :
-            enableJamf = true
-        
-        case "EnableMunki:" :
-            enableMunki = true
 
         case "Help:" :
             helpButton.isHidden = false

@@ -131,8 +131,18 @@ class TrackProgress: NSObject {
                     if line.contains("Installing") && !line.contains("at") && !line.contains("from") {
 
                         do {
-                            let installerRegEx = try NSRegularExpression(pattern: "(.*?)Installing")
-                            let status = installerRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "").replacingOccurrences(of: "\\s?\\([\\w\\s]*\\)", with: "", options: .regularExpression)
+                            let installerRegEx = try NSRegularExpression(pattern: "^.{0,27}")
+                            let status = installerRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "")
+                            statusText = status
+                        } catch {
+                            NSLog("Couldn't parse ManagedSoftwareUpdate.log")
+                        }
+                    }
+                    if line.contains("Downloading") && !line.contains("from") {
+                        
+                        do {
+                            let downloadRegEx = try NSRegularExpression(pattern: "^.{0,31}")
+                            let status = downloadRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "")
                             statusText = status
                         } catch {
                             NSLog("Couldn't parse ManagedSoftwareUpdate.log")
