@@ -117,16 +117,16 @@ class TrackProgress: NSObject {
             default:
                 switch additionalPath {
                 case OtherLogs.jamf :
-                    if line.contains("jamf[") && line.contains("Installing") {
-
+                    if line.contains("jamf[") && ( line.contains("Installing") || line.contains("Executing")) {
+                        
                         do {
-                        let installerRegEx = try NSRegularExpression(pattern: ".*]: ", options: NSRegularExpression.Options.caseInsensitive)
-                        let status = installerRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "")
+                            let installerRegEx = try NSRegularExpression(pattern: ".*]: ", options: NSRegularExpression.Options.caseInsensitive)
+                            let status = installerRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "")
                             statusText = status
                         } catch {
                             NSLog("Couldn't parse jamf.log")
                         }
-                }
+                    }
                 case OtherLogs.munki :
                     break
                 case OtherLogs.none :
