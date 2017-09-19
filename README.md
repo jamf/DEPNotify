@@ -12,7 +12,19 @@ Get the latest version, 1.0.1, here: [DEPNotify-1.0.1.zip](https://files.slack.c
 
 DEPNotify is completely controlled via echoing text to it's control file. By default this is `/var/tmp/depnotify.log` but you can change this to anything you want by launching the app with the `-path [some path]`.
 
-The application then reacts to `Command:` and `Status:` lines written to the control file. 
+The application then reacts to `Command:` and `Status:` lines written to the control file.
+
+## Additional Flags
+
+Adding additional log files has to be done with arguments at the command line.
+
+* **EnableJamf:** This has DEP Notify read in the Jamf log at `/var/log/jamf.log` and then update the status line in the DEP Notify window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
+
+*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -jamf`
+
+* **EnableMunki:** This has DEP Notify read in the Munki log at `/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log` and then update the status line in the DEP Notify window with any downloads and installations.
+
+*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -munki`
 
 ## Commands
 
@@ -25,10 +37,6 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 * **Determinate:** This makes the process bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
 
 *Example:* `Command: Determinate: 5`
-
-* **EnableJamf:** This has DEP Notify read in the Jamf log at /var/log/jamf.log and then update the status line in the DeP Notofy window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
-
-*Example:* `Command: EnableJamf:`
 
 * **Help:**  This will show a help button in the lower right corner of the DEPNotify window. Pressing the button will open up the path that you specify. Note that this can be both web URLs, such as http://www.apple.com/support, or file paths to local files such as file:///Applications/Chess.app.
 
