@@ -120,7 +120,7 @@ class TrackProgress: NSObject {
             default:
                 switch additionalPath {
                 case OtherLogs.jamf :
-                    if line.contains("jamf[") && line.contains("Installing") {
+                    if line.contains("jamf[") && ( line.contains("Installing") || line.contains("Executing")) {
 
                         do {
                         let installerRegEx = try NSRegularExpression(pattern: ".*]: ", options: NSRegularExpression.Options.caseInsensitive)
