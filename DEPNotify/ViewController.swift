@@ -12,6 +12,7 @@ private var statusContext = 0
 private var commandContext = 1
 
 class ViewController: NSViewController {
+
     @IBOutlet weak var MainText: NSTextField!
     @IBOutlet weak var ProgressBar: NSProgressIndicator!
     @IBOutlet weak var StatusText: NSTextField!
@@ -132,6 +133,25 @@ class ViewController: NSViewController {
             currentItem = 0
             ProgressBar.startAnimation(nil)
 
+        case "DeterminateManual:" :
+            
+            determinate = false
+            ProgressBar.isIndeterminate = false
+            
+            // error check this
+            totalItems = Double(command.replacingOccurrences(of: "DeterminateManual: ", with: ""))!
+            ProgressBar.maxValue = totalItems
+            currentItem = 0
+            ProgressBar.startAnimation(nil)
+            
+        case "DeterminateManualStep:" :
+            currentItem += 1
+            ProgressBar.increment(by: 1)
+            if activateEachStep {
+                NSApp.activate(ignoringOtherApps: true)
+                NSApp.windows[0].makeKeyAndOrderFront(self)
+            }
+        
         case "EnableJamf:" :
             enableJamf = true
 
@@ -182,7 +202,6 @@ class ViewController: NSViewController {
             case "NotMovable" :
                 NSApp.windows[0].center()
                 NSApp.windows[0].isMovable = false
-                
             case "JoshQuick" :
                 if #available(OSX 10.12, *) {
                     let windowTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: {_ in
@@ -311,5 +330,4 @@ class ViewController: NSViewController {
     @IBAction func HelpClick(_ sender: Any) {
         NSWorkspace.shared().open(URL(string: helpURL)!)
     }
-
 }
