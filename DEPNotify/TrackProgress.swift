@@ -189,7 +189,7 @@ class TrackProgress: NSObject {
                     }
                     else if line.contains("Installation(s) Completed.") {
                         do {
-                            command = "Restart: Your DEP enrollment is over, let's reboot to get started! ."
+                            command = "Restart: Your DEP enrollment is over, let's reboot to get started!"
                         }
                     }
                 case OtherLogs.munki :
