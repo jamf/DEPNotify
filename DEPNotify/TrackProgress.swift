@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Cocoa
 
 enum StatusState {
     case start
@@ -136,7 +135,23 @@ class TrackProgress: NSObject {
                         }
                     }
                 case OtherLogs.filewave :
-                    if line.contains("Downloading Fileset:") {
+                    if line.contains("Done processing Fileset") {
+                        do {
+                            filesetCount += 1
+                        }
+                    }
+                    else if line.contains("download/activation cancelled") {
+                        do {
+                            filesetCount -= 1
+                        }
+                    }
+                    else if line.contains("about to download") && (fwDownloadsStarted == false) {
+                        do {
+                            fwDownloadsStarted = true
+                            command = "Determinate: \(filesetCount * 2)"
+                        }
+                    }
+                    else if line.contains("Downloading Fileset:") {
                         
                         do {
                             let typePattern = "(?<=Fileset:)(.*)(?=ID:)"
@@ -147,20 +162,20 @@ class TrackProgress: NSObject {
                             statusText = "\(insertText) \(wantedText)"
                         }
                     }
-                    else if line.contains("Installer") {
+                    else if line.contains("Create all folders of fileset") {
                         
                         do {
-                            let typePattern = "(?<=Installer:\\s)(.*)(?=\\sfrom)"
+                            let typePattern = "(?<=Create\\sall\\sfolders\\sof\\sfileset\\sID\\s)(.*)(?=\\sID:)"
                             let typeRange = line.range(of: typePattern,
                                                        options: .regularExpression)
-                            let insertText = "Running Installer: "
+                            let insertText = "Installing: "
                             let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
                             statusText = "\(insertText) \(wantedText)"
                         }
                     }
-                    else if line.contains("Installed") {
+                    else if line.contains("Done activating all") {
                         do {
-                            let typePattern = "(?<=Software:\\s)(.*)(?=\\sResult)"
+                            let typePattern = "(?<=fileset\\sID\\s)(.*)(?=\\sID:)"
                             let typeRange = line.range(of: typePattern,
                                                        options: .regularExpression)
                             let insertDL = "Installed: "
@@ -170,27 +185,6 @@ class TrackProgress: NSObject {
                             } else {
                                 command = "DeterminateManualStep:"
                             }
-                        }
-                    }
-                    else if line.contains("Done processing Fileset") {
-                        do {
-                            filesetCount += 1
-                        }
-                    }
-                    else if line.contains("Requirements not met") {
-                        do {
-                            filesetCount -= 1
-                        }
-                    }
-                    else if line.contains("About to download") && (fwDownloadsStarted == false) {
-                        do {
-                            fwDownloadsStarted = true
-                            command = "Determinate: \(filesetCount * 2)"
-                        }
-                    }
-                    else if line.contains("Result code: 0") {
-                        do {
-                            command = "DeterminateManualStep:"
                         }
                     }
                     else if line.contains("Installation(s) Completed.") {
