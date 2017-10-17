@@ -3,10 +3,11 @@
 //  DEPNotify
 //
 //  Created by Joel Rennich on 2/16/17.
-//  Copyright © 2017 Trusource Labs. All rights reserved.
+//  Copyright © 2017 Orchard & Grove Inc. All rights reserved.
 //
 
 import Foundation
+import Cocoa
 
 enum StatusState {
     case start
@@ -15,8 +16,8 @@ enum StatusState {
 
 enum OtherLogs {
     static let jamf = "/var/log/jamf.log"
+    static let filewave = "/var/log/fwcld.log"
     static let munki = ""
-    static let filewave = "/private/var/log/fwcld.log"
     static let none = ""
 }
 
@@ -31,6 +32,8 @@ class TrackProgress: NSObject {
     let task = Process()
     let fm = FileManager()
     var additionalPath = OtherLogs.none
+    var filesetCount = 0
+    var fwDownloadsStarted = false
     
     // init
     
@@ -39,7 +42,7 @@ class TrackProgress: NSObject {
         path = "/var/tmp/depnotify.log"
         
         for arg in 0...(CommandLine.arguments.count - 1) {
-
+            
             switch CommandLine.arguments[arg] {
             case "-path" :
                 guard (CommandLine.arguments.count >= arg + 1) else { continue }
@@ -50,6 +53,7 @@ class TrackProgress: NSObject {
                 additionalPath = OtherLogs.munki
             case "-filewave" :
                 additionalPath = OtherLogs.filewave
+                statusText = "Downloading Filewave configuration"
             default :
                 break
             }
@@ -64,22 +68,22 @@ class TrackProgress: NSObject {
     }
     
     // watch for updates and post them
-
+    
     func run() {
-
+        
         // check to make sure the file exists
-
+        
         if !fm.fileExists(atPath: path) {
             // need to make the file
             fm.createFile(atPath: path, contents: nil, attributes: nil)
         }
-
+        
         let pipe = Pipe()
         task.standardOutput = pipe
-
+        
         let outputHandle = pipe.fileHandleForReading
         outputHandle.waitForDataInBackgroundAndNotify()
-
+        
         var dataAvailable : NSObjectProtocol!
         dataAvailable = NotificationCenter.default.addObserver(forName: NSNotification.Name.NSFileHandleDataAvailable,
                                                                object: outputHandle, queue: nil) {  notification -> Void in
@@ -94,23 +98,24 @@ class TrackProgress: NSObject {
                                                                     NotificationCenter.default.removeObserver(dataAvailable)
                                                                 }
         }
-
+        
         var dataReady : NSObjectProtocol!
         dataReady = NotificationCenter.default.addObserver(forName: Process.didTerminateNotification,
                                                            object: pipe.fileHandleForReading, queue: nil) { notification -> Void in
                                                             print("Task terminated!")
                                                             NotificationCenter.default.removeObserver(dataReady)
         }
-
+        
         task.launch()
-
+        
         statusText = "Reticulating splines..."
-
+        
     }
-
+    
     func processCommands(commands: String) {
-        let allCommands = commands.components(separatedBy: "\n") 
-
+        
+        let allCommands = commands.components(separatedBy: "\n")
+        
         for line in allCommands {
             switch line.components(separatedBy: " ").first! {
             case "Status:" :
@@ -121,19 +126,80 @@ class TrackProgress: NSObject {
                 switch additionalPath {
                 case OtherLogs.jamf :
                     if line.contains("jamf[") && ( line.contains("Installing") || line.contains("Executing")) {
-
+                        
                         do {
-                        let installerRegEx = try NSRegularExpression(pattern: ".*]: ", options: NSRegularExpression.Options.caseInsensitive)
-                        let status = installerRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "")
+                            let installerRegEx = try NSRegularExpression(pattern: ".*]: ", options: NSRegularExpression.Options.caseInsensitive)
+                            let status = installerRegEx.stringByReplacingMatches(in: line, options: NSRegularExpression.MatchingOptions.anchored, range: NSMakeRange(0, line.characters.count), withTemplate: "")
                             statusText = status
                         } catch {
                             NSLog("Couldn't parse jamf.log")
                         }
-                }
+                    }
+                case OtherLogs.filewave :
+                    if line.contains("Downloading Fileset:") {
+                        
+                        do {
+                            let typePattern = "(?<=Fileset:)(.*)(?=ID:)"
+                            let typeRange = line.range(of: typePattern,
+                                                       options: .regularExpression)
+                            let insertText = "Downloading: "
+                            let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
+                            statusText = "\(insertText) \(wantedText)"
+                        }
+                    }
+                    else if line.contains("Installer") {
+                        
+                        do {
+                            let typePattern = "(?<=Installer:\\s)(.*)(?=\\sfrom)"
+                            let typeRange = line.range(of: typePattern,
+                                                       options: .regularExpression)
+                            let insertText = "Running Installer: "
+                            let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
+                            statusText = "\(insertText) \(wantedText)"
+                        }
+                    }
+                    else if line.contains("Installed") {
+                        do {
+                            let typePattern = "(?<=Software:\\s)(.*)(?=\\sResult)"
+                            let typeRange = line.range(of: typePattern,
+                                                       options: .regularExpression)
+                            let insertDL = "Installed: "
+                            if typeRange != nil {
+                                let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
+                                statusText = "\(insertDL) \(wantedText)"
+                            } else {
+                                command = "DeterminateManualStep:"
+                            }
+                        }
+                    }
+                    else if line.contains("Done processing Fileset") {
+                        do {
+                            filesetCount += 1
+                        }
+                    }
+                    else if line.contains("Requirements not met") {
+                        do {
+                            filesetCount -= 1
+                        }
+                    }
+                    else if line.contains("About to download") && (fwDownloadsStarted == false) {
+                        do {
+                            fwDownloadsStarted = true
+                            command = "Determinate: \(filesetCount * 2)"
+                        }
+                    }
+                    else if line.contains("Result code: 0") {
+                        do {
+                            command = "DeterminateManualStep:"
+                        }
+                    }
+                    else if line.contains("Installation(s) Completed.") {
+                        do {
+                            command = "Restart: Your DEP enrollment is over, lets reboot because it's fun."
+                        }
+                    }
                 case OtherLogs.munki :
                     break
-                case OtherLogs.filewave :
-                    statusText = line
                 case OtherLogs.none :
                     break
                 default:
