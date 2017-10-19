@@ -148,7 +148,7 @@ class TrackProgress: NSObject {
                     else if line.contains("about to download") && (fwDownloadsStarted == false) {
                         do {
                             fwDownloadsStarted = true
-                            command = "Determinate: \(filesetCount * 2)"
+                            command = "Determinate: \(filesetCount * 3)"
                         }
                     }
                     else if line.contains("Downloading Fileset:") {
