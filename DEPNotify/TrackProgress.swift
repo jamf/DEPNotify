@@ -148,7 +148,7 @@ class TrackProgress: NSObject {
                     else if line.contains("about to download") && (fwDownloadsStarted == false) {
                         do {
                             fwDownloadsStarted = true
-                            command = "Determinate: \(filesetCount * 3)"
+                            command = "Determinate: \(filesetCount * 2)"
                         }
                     }
                     else if line.contains("Downloading Fileset:") {
@@ -173,18 +173,23 @@ class TrackProgress: NSObject {
                             statusText = "\(insertText) \(wantedText)"
                         }
                     }
-                    else if line.contains("Done activating all") {
+//                    else if line.contains("Done activating all") {
+//                        do {
+//                            let typePattern = "(?<=fileset\\sID\\s)(.*)(?=\\sID:)"
+//                            let typeRange = line.range(of: typePattern,
+//                                                       options: .regularExpression)
+//                            let insertDL = "Installed: "
+//                            if typeRange != nil {
+//                                let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
+//                                statusText = "\(insertDL) \(wantedText)"
+//                            } else {
+//                                command = "DeterminateManualStep:"
+//                            }
+//                        }
+//                    }
+                    else if line.contains("Installation(s) Completed.") {
                         do {
-                            let typePattern = "(?<=fileset\\sID\\s)(.*)(?=\\sID:)"
-                            let typeRange = line.range(of: typePattern,
-                                                       options: .regularExpression)
-                            let insertDL = "Installed: "
-                            if typeRange != nil {
-                                let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
-                                statusText = "\(insertDL) \(wantedText)"
-                            } else {
-                                command = "DeterminateManualStep:"
-                            }
+                            fwDownloadsStarted = false
                         }
                     }
                 case OtherLogs.munki :
