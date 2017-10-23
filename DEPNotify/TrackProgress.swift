@@ -33,6 +33,7 @@ class TrackProgress: NSObject {
     var additionalPath = OtherLogs.none
     var filesetCount = 0
     var fwDownloadsStarted = false
+    var filesets = Set<String>()
     
     // init
     
@@ -137,18 +138,43 @@ class TrackProgress: NSObject {
                 case OtherLogs.filewave :
                     if line.contains("Done processing Fileset") {
                         do {
-                            filesetCount += 1
+//                            filesetCount += 1
+                            let typePattern = "(?<=Fileset\\sContainer\\sID\\s)(.*)"
+                            let typeRange = line.range(of: typePattern,
+                                                       options: .regularExpression)
+                            let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
+                            filesets.insert(wantedText)
                         }
                     }
                     else if line.contains("download/activation cancelled") {
                         do {
-                            filesetCount -= 1
+//                            filesetCount -= 1
+                            let typePattern = "(?<=Fileset\\sID\\s)(.*)(?=\\swere\\snot\\met)"
+                            let typeRange = line.range(of: typePattern,
+                                                       options: .regularExpression)
+                            let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
+                            filesets.remove(wantedText)
                         }
                     }
+                    else if line.contains("verifyAllFilesAndFolders") {
+                        do {
+                            //                            filesetCount -= 1
+                            let typePattern = "(?<=ID:\\s)(.*)"
+                            let typeRange = line.range(of: typePattern,
+                                                       options: .regularExpression)
+                            let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
+                            filesets.remove(wantedText)
+                        }
+                    }
+//                    else if line.contains("... Downloadind fileset") {
+//                        do {
+//                            filesetCount -= 1
+//                        }
+//                    }
                     else if line.contains("about to download") && (fwDownloadsStarted == false) {
                         do {
                             fwDownloadsStarted = true
-                            command = "Determinate: \(filesetCount * 2)"
+                            command = "Determinate: \(filesets.count * 2)"
                         }
                     }
                     else if line.contains("Downloading Fileset:") {
@@ -187,9 +213,11 @@ class TrackProgress: NSObject {
 //                            }
 //                        }
 //                    }
-                    else if line.contains("Installation(s) Completed.") {
+                    else if line.contains("= HEADER =") {
                         do {
                             fwDownloadsStarted = false
+                            filesets.removeAll()
+                            statusText = "Please wait..."
                         }
                     }
                 case OtherLogs.munki :
