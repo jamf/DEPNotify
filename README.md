@@ -22,13 +22,15 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: Alert: The installation is now finished`
 
-* **Determinate:** This makes the process bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
+* **Determinate:** This makes the process bar be determinate instead of just a spiny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
 
 *Example:* `Command: Determinate: 5`
 
-* **EnableJamf:** This has DEP Notify read in the Jamf log at /var/log/jamf.log and then update the status line in the DeP Notofy window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
+* **EnableJamf:** This has DEP Notify read in the Jamf log at /var/log/jamf.log and then update the status line in the DEPNotify window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
 
 *Example:* `Command: EnableJamf:`
+
+* **
 
 * **Help:**  This will show a help button in the lower right corner of the DEPNotify window. Pressing the button will open up the path that you specify. Note that this can be both web URLs, such as http://www.apple.com/support, or file paths to local files such as file:///Applications/Chess.app.
 
@@ -107,6 +109,18 @@ While every DEP workflow is different, here's a simple method of using DEPNotify
 * Quit DEPNotify when you're done either with `Quit` or `Quit:`
 * Remove DEPNotify
 
+## Advanced Workflows
+
+* **Using Filewave argument `-filewave`**
+This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then update the status line in the DEPNotify window with any downloads, installs or complete installs from the Filewave log. Progress bar will move depending on how many installs or filesets being deployed. Note there is nothing special you need to name your items in Filewave for them to be read.
+
+*Create LaunchAgent to open DEPNotify with argument `-filewave` (stage1)
+*Create LaunchDaemon and script watching for the DEPNotify process to start. 
+*When the DEPNotify process starts, curl down the Filewave client and install. -create script (stage1)
+*Recommended - Energy saver profile Mac’s sleep in 15min out of box, disrupting the DEP process. (stage1)
+
+
+
 ## Changelog
 
 * 1.0 - Initial version
@@ -114,7 +128,7 @@ While every DEP workflow is different, here's a simple method of using DEPNotify
 
 ## Notes
 
-* The application is written entirely in Swift of the course of a few weeks. It should be fairly easy for anyone with basic to moderate knoweldge of Swift to enhance this as you see fit.
+* The application is written entirely in Swift of the course of a few weeks. It should be fairly easy for anyone with basic to moderate knowledge of Swift to enhance this as you see fit.
 * DEPNotify was specifically designed to show some notifications to a user while the DEP process completes. The goal was to not block the user from experiencing their new machine. If you would like a more elaborate process, please look at projects like SplashBuddy.
-* Comments and feature requests about addtional functionality are welcome.
+* Comments and feature requests about additional functionality are welcome.
 * For information, help and otherwise good times, feel more than welcome to visit the #depnotify channel on the MacAdmins Slack, http://macadmins.slack.com
