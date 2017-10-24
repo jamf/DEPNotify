@@ -121,7 +121,7 @@ This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then upda
 * Create LaunchAgent to open DEPNotify with argument `-filewave` (stage1)
 * Create LaunchDaemon and script watching for the DEPNotify process to start. 
 * When the DEPNotify process starts, curl down the Filewave client and install. -create script (stage1)
-* Recommended - Energy saver profile Mac’s sleep in 15min out of box, disrupting the DEP process. (stage1)
+* **Recommended** - Energy saver profile - Mac’s sleep in 15min out of box, disrupting the DEP process. (stage1)
 
 
 
