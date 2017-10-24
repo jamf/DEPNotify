@@ -157,4 +157,19 @@ class TrackProgress: NSObject {
             }
         }
     }
+    
+    func killCommandFile() {
+        // delete the command file
+        
+        let fs = FileManager.init()
+        
+        if fs.isDeletableFile(atPath: path) {
+            do {
+                try fs.removeItem(atPath: path)
+                NSLog("Deleted DEPNotify command file")
+            } catch {
+                NSLog("Unable to delete command file")
+            }
+        }
+    }
 }
