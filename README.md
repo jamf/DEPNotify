@@ -30,6 +30,10 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: EnableJamf:`
 
+* **EnableFilewave:** This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then update the status line in the DEPNotify window with any installations or downloads from the Filewave log. Note there is nothing special you need to name your items in Filewave for them to be read.
+
+*Example:* `Command: EnableFilewave:`
+
 * **
 
 * **Help:**  This will show a help button in the lower right corner of the DEPNotify window. Pressing the button will open up the path that you specify. Note that this can be both web URLs, such as http://www.apple.com/support, or file paths to local files such as file:///Applications/Chess.app.
