@@ -149,7 +149,7 @@ class TrackProgress: NSObject {
                     else if line.contains("download/activation cancelled") {
                         do {
 //                            filesetCount -= 1
-                            let typePattern = "(?<=Fileset\\sID\\s)(.*)(?=\\swere\\snot\\met)"
+                            let typePattern = "(?<=Fileset\\sID\\s)(.*)(?=\\swere\\snot\\smet)"
                             let typeRange = line.range(of: typePattern,
                                                        options: .regularExpression)
                             let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
