@@ -118,10 +118,10 @@ While every DEP workflow is different, here's a simple method of using DEPNotify
 * **Using Filewave argument `-filewave`**
 This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then update the status line in the DEPNotify window with any downloads, installs or complete installs from the Filewave log. Progress bar will move depending on how many installs or filesets being deployed. Note there is nothing special you need to name your items in Filewave for them to be read.
 
-*Create LaunchAgent to open DEPNotify with argument `-filewave` (stage1)
-*Create LaunchDaemon and script watching for the DEPNotify process to start. 
-*When the DEPNotify process starts, curl down the Filewave client and install. -create script (stage1)
-*Recommended - Energy saver profile Mac’s sleep in 15min out of box, disrupting the DEP process. (stage1)
+* Create LaunchAgent to open DEPNotify with argument `-filewave` (stage1)
+* Create LaunchDaemon and script watching for the DEPNotify process to start. 
+* When the DEPNotify process starts, curl down the Filewave client and install. -create script (stage1)
+* Recommended - Energy saver profile Mac’s sleep in 15min out of box, disrupting the DEP process. (stage1)
 
 
 
