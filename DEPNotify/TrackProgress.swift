@@ -4,7 +4,7 @@
 //
 //  Created by Joel Rennich on 2/16/17.
 //  Copyright © 2017 Orchard & Grove Inc. All rights reserved.
-//
+//  FileWave log processing added by Damon O'Hare and Dan DeRusha
 
 import Foundation
 
@@ -31,7 +31,6 @@ class TrackProgress: NSObject {
     let task = Process()
     let fm = FileManager()
     var additionalPath = OtherLogs.none
-    var filesetCount = 0
     var fwDownloadsStarted = false
     var filesets = Set<String>()
     
@@ -138,7 +137,6 @@ class TrackProgress: NSObject {
                 case OtherLogs.filewave :
                     if line.contains("Done processing Fileset") {
                         do {
-//                            filesetCount += 1
                             let typePattern = "(?<=Fileset\\sContainer\\sID\\s)(.*)"
                             let typeRange = line.range(of: typePattern,
                                                        options: .regularExpression)
@@ -148,7 +146,6 @@ class TrackProgress: NSObject {
                     }
                     else if line.contains("download/activation cancelled") {
                         do {
-//                            filesetCount -= 1
                             let typePattern = "(?<=Fileset\\sID\\s)(.*)(?=\\swere\\snot\\smet)"
                             let typeRange = line.range(of: typePattern,
                                                        options: .regularExpression)
@@ -158,7 +155,6 @@ class TrackProgress: NSObject {
                     }
                     else if line.contains("verifyAllFilesAndFolders") {
                         do {
-                            //                            filesetCount -= 1
                             let typePattern = "(?<=ID:\\s)(.*)"
                             let typeRange = line.range(of: typePattern,
                                                        options: .regularExpression)
@@ -166,11 +162,6 @@ class TrackProgress: NSObject {
                             filesets.remove(wantedText)
                         }
                     }
-//                    else if line.contains("... Downloadind fileset") {
-//                        do {
-//                            filesetCount -= 1
-//                        }
-//                    }
                     else if line.contains("about to download") && (fwDownloadsStarted == false) {
                         do {
                             fwDownloadsStarted = true
@@ -199,25 +190,11 @@ class TrackProgress: NSObject {
                             statusText = "\(insertText) \(wantedText)"
                         }
                     }
-//                    else if line.contains("Done activating all") {
-//                        do {
-//                            let typePattern = "(?<=fileset\\sID\\s)(.*)(?=\\sID:)"
-//                            let typeRange = line.range(of: typePattern,
-//                                                       options: .regularExpression)
-//                            let insertDL = "Installed: "
-//                            if typeRange != nil {
-//                                let wantedText = line[typeRange!].trimmingCharacters(in: .whitespacesAndNewlines)
-//                                statusText = "\(insertDL) \(wantedText)"
-//                            } else {
-//                                command = "DeterminateManualStep:"
-//                            }
-//                        }
-//                    }
                     else if line.contains("= HEADER =") {
                         do {
                             fwDownloadsStarted = false
                             filesets.removeAll()
-                            statusText = "Please wait..."
+                            statusText = "Please wait while FileWave continues processing..."
                         }
                     }
                 case OtherLogs.munki :
