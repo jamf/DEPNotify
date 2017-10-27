@@ -194,6 +194,7 @@ class TrackProgress: NSObject {
                         do {
                             fwDownloadsStarted = false
                             filesets.removeAll()
+                            command = "DeterminateOffReset:"
                             statusText = "Please wait while FileWave continues processing..."
                         }
                     }
