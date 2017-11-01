@@ -13,12 +13,15 @@ private var commandContext = 1
 
 class ViewController: NSViewController {
 
+    @IBOutlet weak var MainTitle: NSTextField!
     @IBOutlet weak var MainText: NSTextField!
     @IBOutlet weak var ProgressBar: NSProgressIndicator!
     @IBOutlet weak var StatusText: NSTextField!
     @IBOutlet weak var LogoCell: NSImageCell!
+    @IBOutlet weak var ImageCell: NSImageCell!
     @IBOutlet var myView: NSView!
     @IBOutlet weak var helpButton: NSButton!
+    @IBOutlet weak var continueButton: NSButton!
 
     var tracker = TrackProgress()
 
@@ -31,6 +34,7 @@ class ViewController: NSViewController {
     var notify = false
 
     var logo: NSImage?
+    var maintextImage: NSImage?
     var notificationImage: NSImage?
 
     var activateEachStep = false
@@ -43,7 +47,7 @@ class ViewController: NSViewController {
         //Set the background color to white
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = CGColor.white
-        var isOpaque = false
+        //var isOpaque = false
         ProgressBar.startAnimation(nil)
 
         tracker.addObserver(self, forKeyPath: "statusText", options: .new, context: &statusContext)
@@ -59,7 +63,7 @@ class ViewController: NSViewController {
     override func viewDidAppear() {
         //Customize the window's title bar
         let window = self.view.window
-        
+
         if !CommandLine.arguments.contains("-oldskool") {
             window?.styleMask.insert(NSWindowStyleMask.unifiedTitleAndToolbar)
             window?.styleMask.insert(NSWindowStyleMask.fullSizeContentView)
@@ -69,7 +73,7 @@ class ViewController: NSViewController {
             window?.titlebarAppearsTransparent = true
         }
     }
-    
+
     override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
@@ -125,10 +129,10 @@ class ViewController: NSViewController {
             alertController.beginSheetModal(for: NSApp.windows[0])
 
         case "Determinate:" :
-            
+
             determinate = true
             ProgressBar.isIndeterminate = false
-            
+
             // default to 1 if we can't make a number
             totalItems = Double(command.replacingOccurrences(of: "Determinate: ", with: "")) ?? 1
             ProgressBar.maxValue = totalItems
@@ -136,18 +140,18 @@ class ViewController: NSViewController {
             ProgressBar.startAnimation(nil)
 
         case "DeterminateManual:" :
-            
+
             determinate = false
             ProgressBar.isIndeterminate = false
-            
+
             // default to 1 if we can't make a number
             totalItems = Double(command.replacingOccurrences(of: "DeterminateManual: ", with: "")) ?? 1
             ProgressBar.maxValue = totalItems
             currentItem = 0
             ProgressBar.startAnimation(nil)
-            
+
         case "DeterminateManualStep:" :
-            
+
             // default to 1 if we can't make a number
             let stepMove = Int(Double(command.replacingOccurrences(of: "DeterminateManualStep: ", with: "")) ?? 1 )
             currentItem += stepMove
@@ -156,15 +160,15 @@ class ViewController: NSViewController {
                 NSApp.activate(ignoringOtherApps: true)
                 NSApp.windows[0].makeKeyAndOrderFront(self)
             }
-            
+
         case "DeterminateOff:" :
-            
+
             determinate = false
             ProgressBar.isIndeterminate = true
             ProgressBar.stopAnimation(nil)
-            
+
         case "DeterminateOffReset:" :
-            
+
             determinate = false
             currentItem = 0
             ProgressBar.increment(by: -1000)
@@ -174,6 +178,9 @@ class ViewController: NSViewController {
         case "Help:" :
             helpButton.isHidden = false
             helpURL = command.replacingOccurrences(of: "Help: ", with: "")
+
+        case "ContinueButton" :
+            continueButton.isHidden = false
 
         case "Image:" :
             logo = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "Image: ", with: ""))
@@ -194,10 +201,25 @@ class ViewController: NSViewController {
         case "LogoutNow:":
             self.quitSession()
 
-        case "MainText:" :
+        case "MainText:":
             // Need to do two replacingOccurrences since we are replacing with different values
             let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
             MainText.stringValue = newlinecommand.replacingOccurrences(of: "MainText: ", with: "")
+            ImageCell.image = NSImage.init(byReferencingFile: "")
+
+        case "MainTextImage:" :
+            maintextImage = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "MainTextImage: ", with: ""))
+            ImageCell.image = maintextImage
+            ImageCell.imageScaling = .scaleProportionallyUpOrDown
+            ImageCell.imageAlignment = .alignCenter
+            MainText.stringValue = ""
+            MainTitle.stringValue = ""
+
+        case "MainTitle:" :
+            // Need to do two replacingOccurrences since we are replacing with different values
+            let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
+            MainTitle.stringValue = newlinecommand.replacingOccurrences(of: "MainTitle: ", with: "")
+            ImageCell.image = NSImage.init(byReferencingFile: "")
 
         case "Notification:" :
             sendNotification(text: command.replacingOccurrences(of: "Notification: ", with: ""))
@@ -328,7 +350,7 @@ class ViewController: NSViewController {
             AESendMode(kAENormalPriority),
             kAEDefaultTimeout
         )
-        
+
     }
 
     func sendNotification(text: String) {
@@ -346,4 +368,14 @@ class ViewController: NSViewController {
     @IBAction func HelpClick(_ sender: Any) {
         NSWorkspace.shared().open(URL(string: helpURL)!)
     }
+
+    @IBAction func continueButton(_ sender: Any) {
+        let fileMgr = FileManager()
+        let pathDone = "/Users/Shared/.DEPNotifyDone"
+        fileMgr.createFile(atPath: pathDone, contents: nil, attributes: nil)
+        NSApp.terminate(self)
+    }
+
+
+
 }
