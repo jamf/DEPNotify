@@ -36,6 +36,12 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 * **Determinate:** This makes the process bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
 
+* **ContinueButton:** This creates a `Continue` button to exit out of DEPNotify. This is an alternative to the `Quit` functionality and will add a file at `/var/tmp/.DEPNotifyDone`
+
+*Example:* `Command: Alert: The installation is now finished`
+
+* **Determinate:** This makes the process bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
+
 *Example:* `Command: Determinate: 5`
 
 * **Help:**  This will show a help button in the lower right corner of the DEPNotify window. Pressing the button will open up the path that you specify. Note that this can be both web URLs, such as http://www.apple.com/support, or file paths to local files such as file:///Applications/Chess.app.
@@ -58,6 +64,14 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: MainText: Something about how amazing the DEP process you've created is.`
 *Example w/ New Lines:* `Command: MainText: Something about how amazing the DEP process you've created is. \n \n It really is amazing.`
+
+* **MainTextImage:** This command will change the main body to an icon of your choosing
+
+*Example:* `Command: MainTextImage: /tmp/logo.png`
+
+* **MainTitle:** This command will change the main title of text in the application.
+
+*Example:* `Command: MainTitle: Something about how amazing the DEP process you've created is.`
 
 * **Notification:** This will issue a notification to the Mac's notification center and display it.
 
