@@ -38,6 +38,8 @@ class ViewController: NSViewController {
     var notificationImage: NSImage?
 
     var activateEachStep = false
+    
+    var killCommandFile = false
 
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
 
@@ -187,6 +189,9 @@ class ViewController: NSViewController {
             LogoCell.image = logo
             LogoCell.imageScaling = .scaleProportionallyUpOrDown
             LogoCell.imageAlignment = .alignCenter
+            
+        case "KillCommandFile:" :
+            killCommandFile = true
 
         case "Logout:" :
             let alertController = NSAlert()
@@ -317,6 +322,10 @@ class ViewController: NSViewController {
             AESendMode(kAENormalPriority),
             kAEDefaultTimeout
         )
+        
+        if killCommandFile {
+            tracker.killCommandFile()
+        }
 
     }
 
@@ -350,7 +359,11 @@ class ViewController: NSViewController {
             AESendMode(kAENormalPriority),
             kAEDefaultTimeout
         )
-
+        
+        if killCommandFile {
+            tracker.killCommandFile()
+        }
+        
     }
 
     func sendNotification(text: String) {
