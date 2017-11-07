@@ -199,13 +199,41 @@ class TrackProgress: NSObject {
                         }
                     }
                 case OtherLogs.munki :
-                    break
+                    if (line.contains("Installing") || line.contains("Downloading"))
+                        && !line.contains(" at ") && !line.contains(" from ") {
+
+                        do {
+                            let installerRegEx = try NSRegularExpression(pattern: "^.{0,27}")
+                            let status = installerRegEx.stringByReplacingMatches(in: line,
+                                                                                 options: NSRegularExpression.MatchingOptions.anchored,
+                                                                                 range: NSMakeRange(0, line.characters.count),
+                                                                                 withTemplate: "").trimmingCharacters(in: .whitespacesAndNewlines)
+                            statusText = status
+                        } catch {
+                            NSLog("Couldn't parse ManagedSoftwareUpdate.log")
+                        }
+                    }
                 case OtherLogs.none :
                     break
                 default:
                     break
                 }
                 break
+            }
+        }
+    }
+    
+    func killCommandFile() {
+        // delete the command file
+        
+        let fs = FileManager.init()
+        
+        if fs.isDeletableFile(atPath: path) {
+            do {
+                try fs.removeItem(atPath: path)
+                NSLog("Deleted DEPNotify command file")
+            } catch {
+                NSLog("Unable to delete command file")
             }
         }
     }

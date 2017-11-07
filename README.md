@@ -12,7 +12,19 @@ Get the latest version, 1.0.1, here: [DEPNotify-1.0.1.zip](https://files.slack.c
 
 DEPNotify is completely controlled via echoing text to it's control file. By default this is `/var/tmp/depnotify.log` but you can change this to anything you want by launching the app with the `-path [some path]`.
 
-The application then reacts to `Command:` and `Status:` lines written to the control file. 
+The application then reacts to `Command:` and `Status:` lines written to the control file.
+
+## Additional Flags
+
+Adding additional log files has to be done with arguments at the command line.
+
+* **EnableJamf:** This has DEP Notify read in the Jamf log at `/var/log/jamf.log` and then update the status line in the DEP Notify window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
+
+*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -jamf`
+
+* **EnableMunki:** This has DEP Notify read in the Munki log at `/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log` and then update the status line in the DEP Notify window with any downloads and installations.
+
+*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -munki`
 
 ## Commands
 
@@ -24,11 +36,13 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 * **Determinate:** This makes the process bar be determinate instead of just a spiny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
 
+* **ContinueButton:** This creates a `Continue` button to exit out of DEPNotify. This is an alternative to the `Quit` functionality and will add a file at `/var/tmp/.DEPNotifyDone`
+
+*Example:* `Command: Alert: The installation is now finished`
+
+* **Determinate:** This makes the process bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
+
 *Example:* `Command: Determinate: 5`
-
-* **EnableJamf:** This has DEP Notify read in the Jamf log at /var/log/jamf.log and then update the status line in the DEPNotify window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
-
-*Example:* `Command: EnableJamf:`
 
 * **EnableFilewave:** This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then update the status line in the DEPNotify window with any installations or downloads from the Filewave log. Note there is nothing special you need to name your items in Filewave for them to be read.
 
@@ -56,6 +70,14 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: MainText: Something about how amazing the DEP process you've created is.`
 *Example w/ New Lines:* `Command: MainText: Something about how amazing the DEP process you've created is. \n \n It really is amazing.`
+
+* **MainTextImage:** This command will change the main body to an icon of your choosing
+
+*Example:* `Command: MainTextImage: /tmp/logo.png`
+
+* **MainTitle:** This command will change the main title of text in the application.
+
+*Example:* `Command: MainTitle: Something about how amazing the DEP process you've created is.`
 
 * **Notification:** This will issue a notification to the Mac's notification center and display it.
 

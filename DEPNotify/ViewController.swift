@@ -3,7 +3,7 @@
 //  DEPNotify
 //
 //  Created by Joel Rennich on 2/16/17.
-//  Copyright © 2017 Trusource Labs. All rights reserved.
+//  Copyright © 2017 Orchard & Grove Inc. All rights reserved.
 //
 
 import Cocoa
@@ -12,12 +12,16 @@ private var statusContext = 0
 private var commandContext = 1
 
 class ViewController: NSViewController {
+
+    @IBOutlet weak var MainTitle: NSTextField!
     @IBOutlet weak var MainText: NSTextField!
     @IBOutlet weak var ProgressBar: NSProgressIndicator!
     @IBOutlet weak var StatusText: NSTextField!
     @IBOutlet weak var LogoCell: NSImageCell!
+    @IBOutlet weak var ImageCell: NSImageCell!
     @IBOutlet var myView: NSView!
     @IBOutlet weak var helpButton: NSButton!
+    @IBOutlet weak var continueButton: NSButton!
 
     var tracker = TrackProgress()
 
@@ -30,16 +34,22 @@ class ViewController: NSViewController {
     var notify = false
 
     var logo: NSImage?
+    var maintextImage: NSImage?
     var notificationImage: NSImage?
 
-    var enableJamf = false
     var activateEachStep = false
+    
+    var killCommandFile = false
 
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
 
 
     override func viewDidLoad() {
-
+        super.viewDidLoad()
+        //Set the background color to white
+        self.view.wantsLayer = true
+        self.view.layer?.backgroundColor = CGColor.white
+        //var isOpaque = false
         ProgressBar.startAnimation(nil)
 
         tracker.addObserver(self, forKeyPath: "statusText", options: .new, context: &statusContext)
@@ -50,6 +60,20 @@ class ViewController: NSViewController {
 
         NSApp.windows[0].makeKeyAndOrderFront(self)
 
+    }
+
+    override func viewDidAppear() {
+        //Customize the window's title bar
+        let window = self.view.window
+
+        if !CommandLine.arguments.contains("-oldskool") {
+            window?.styleMask.insert(NSWindowStyleMask.unifiedTitleAndToolbar)
+            window?.styleMask.insert(NSWindowStyleMask.fullSizeContentView)
+            window?.styleMask.insert(NSWindowStyleMask.titled)
+            window?.toolbar?.isVisible = false
+            window?.titleVisibility = .hidden
+            window?.titlebarAppearsTransparent = true
+        }
     }
 
     override var representedObject: Any? {
@@ -107,27 +131,67 @@ class ViewController: NSViewController {
             alertController.beginSheetModal(for: NSApp.windows[0])
 
         case "Determinate:" :
+
             determinate = true
             ProgressBar.isIndeterminate = false
 
-            // error check this
-            totalItems = Double(command.replacingOccurrences(of: "Determinate: ", with: ""))!
+            // default to 1 if we can't make a number
+            totalItems = Double(command.replacingOccurrences(of: "Determinate: ", with: "")) ?? 1
             ProgressBar.maxValue = totalItems
             currentItem = 0
             ProgressBar.startAnimation(nil)
 
-        case "EnableJamf:" :
-            enableJamf = true
+        case "DeterminateManual:" :
+
+            determinate = false
+            ProgressBar.isIndeterminate = false
+
+            // default to 1 if we can't make a number
+            totalItems = Double(command.replacingOccurrences(of: "DeterminateManual: ", with: "")) ?? 1
+            ProgressBar.maxValue = totalItems
+            currentItem = 0
+            ProgressBar.startAnimation(nil)
+
+        case "DeterminateManualStep:" :
+
+            // default to 1 if we can't make a number
+            let stepMove = Int(Double(command.replacingOccurrences(of: "DeterminateManualStep: ", with: "")) ?? 1 )
+            currentItem += stepMove
+            ProgressBar.increment(by: 1)
+            if activateEachStep {
+                NSApp.activate(ignoringOtherApps: true)
+                NSApp.windows[0].makeKeyAndOrderFront(self)
+            }
+
+        case "DeterminateOff:" :
+
+            determinate = false
+            ProgressBar.isIndeterminate = true
+            ProgressBar.stopAnimation(nil)
+
+        case "DeterminateOffReset:" :
+
+            determinate = false
+            currentItem = 0
+            ProgressBar.increment(by: -1000)
+            ProgressBar.isIndeterminate = true
+            ProgressBar.stopAnimation(nil)
 
         case "Help:" :
             helpButton.isHidden = false
             helpURL = command.replacingOccurrences(of: "Help: ", with: "")
+
+        case "ContinueButton" :
+            continueButton.isHidden = false
 
         case "Image:" :
             logo = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "Image: ", with: ""))
             LogoCell.image = logo
             LogoCell.imageScaling = .scaleProportionallyUpOrDown
             LogoCell.imageAlignment = .alignCenter
+            
+        case "KillCommandFile:" :
+            killCommandFile = true
 
         case "Logout:" :
             let alertController = NSAlert()
@@ -142,10 +206,25 @@ class ViewController: NSViewController {
         case "LogoutNow:":
             self.quitSession()
 
-        case "MainText:" :
+        case "MainText:":
             // Need to do two replacingOccurrences since we are replacing with different values
             let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
             MainText.stringValue = newlinecommand.replacingOccurrences(of: "MainText: ", with: "")
+            ImageCell.image = NSImage.init(byReferencingFile: "")
+
+        case "MainTextImage:" :
+            maintextImage = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "MainTextImage: ", with: ""))
+            ImageCell.image = maintextImage
+            ImageCell.imageScaling = .scaleProportionallyUpOrDown
+            ImageCell.imageAlignment = .alignCenter
+            MainText.stringValue = ""
+            MainTitle.stringValue = ""
+
+        case "MainTitle:" :
+            // Need to do two replacingOccurrences since we are replacing with different values
+            let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
+            MainTitle.stringValue = newlinecommand.replacingOccurrences(of: "MainTitle: ", with: "")
+            ImageCell.image = NSImage.init(byReferencingFile: "")
 
         case "Notification:" :
             sendNotification(text: command.replacingOccurrences(of: "Notification: ", with: ""))
@@ -243,6 +322,10 @@ class ViewController: NSViewController {
             AESendMode(kAENormalPriority),
             kAEDefaultTimeout
         )
+        
+        if killCommandFile {
+            tracker.killCommandFile()
+        }
 
     }
 
@@ -277,6 +360,10 @@ class ViewController: NSViewController {
             kAEDefaultTimeout
         )
         
+        if killCommandFile {
+            tracker.killCommandFile()
+        }
+        
     }
 
     func sendNotification(text: String) {
@@ -294,5 +381,14 @@ class ViewController: NSViewController {
     @IBAction func HelpClick(_ sender: Any) {
         NSWorkspace.shared().open(URL(string: helpURL)!)
     }
+
+    @IBAction func continueButton(_ sender: Any) {
+        let fileMgr = FileManager()
+        let pathDone = "/Users/Shared/.DEPNotifyDone"
+        fileMgr.createFile(atPath: pathDone, contents: nil, attributes: nil)
+        NSApp.terminate(self)
+    }
+
+
 
 }
