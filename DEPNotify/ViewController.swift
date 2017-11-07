@@ -302,7 +302,7 @@ class ViewController: NSViewController {
         )
         
         if killCommandFile {
-            tracker.killLogFile()
+            tracker.killCommandFile()
         }
 
     }
@@ -339,7 +339,7 @@ class ViewController: NSViewController {
         )
         
         if killCommandFile {
-            tracker.killLogFile()
+            tracker.killCommandFile()
         }
         
     }
