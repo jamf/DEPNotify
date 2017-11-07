@@ -16,7 +16,7 @@ enum StatusState {
 enum OtherLogs {
     static let jamf = "/var/log/jamf.log"
     static let filewave = "/var/log/fwcld.log"
-    static let munki = ""
+    static let munki = "/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log"
     static let none = ""
 }
 
