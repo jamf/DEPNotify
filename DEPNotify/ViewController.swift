@@ -11,6 +11,8 @@ import Cocoa
 private var statusContext = 0
 private var commandContext = 1
 
+var background: Background?
+
 class ViewController: NSViewController {
 
     @IBOutlet weak var MainTitle: NSTextField!
@@ -59,7 +61,6 @@ class ViewController: NSViewController {
         NSApp.activate(ignoringOtherApps: true)
 
         NSApp.windows[0].makeKeyAndOrderFront(self)
-
     }
 
     override func viewDidAppear() {
@@ -389,6 +390,23 @@ class ViewController: NSViewController {
         NSApp.terminate(self)
     }
 
+}
 
-
+class WindowController: NSWindowController {
+    
+    override func windowDidLoad() {
+        
+        if CommandLine.arguments.contains("-fullScreen") {
+        
+        NSApp.activate(ignoringOtherApps: true)
+        self.window?.makeKeyAndOrderFront(self)
+        self.window?.center()
+        self.window?.isMovable = false
+        
+        background = storyboard?.instantiateController(withIdentifier: "Background") as? Background
+        background?.showWindow(self)
+        background?.sendBack()
+        NSApp.windows[0].level = Int(CGWindowLevelForKey(.maximumWindow))
+    }
+    }
 }

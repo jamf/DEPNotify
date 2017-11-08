@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment version="101100" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13196"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
@@ -664,7 +664,7 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController id="B8D-0N-5wS" customClass="WindowController" customModule="DEPNotify" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Welcome to your Mac" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="alertPanel" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -789,9 +789,49 @@
             </objects>
             <point key="canvasLocation" x="54.5" y="701"/>
         </scene>
+        <!--Window Controller-->
+        <scene sceneID="KfJ-U2-YfW">
+            <objects>
+                <windowController storyboardIdentifier="Background" id="Xv3-Qu-b2k" customClass="Background" customModule="DEPNotify" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="J5k-eo-Gj3">
+                        <windowStyleMask key="styleMask" fullSizeContentView="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <connections>
+                            <outlet property="delegate" destination="Xv3-Qu-b2k" id="l9K-xc-tcG"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="yYi-oF-cAs" kind="relationship" relationship="window.shadowedContentViewController" id="T27-Xw-ZrS"/>
+                    </connections>
+                </windowController>
+                <customObject id="Fbr-rm-hYU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-443" y="1149"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="LZg-OR-FNT">
+            <objects>
+                <viewController id="yYi-oF-cAs" sceneMemberID="viewController">
+                    <view key="view" wantsLayer="YES" id="SNt-Cw-FfQ">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" fixedFrame="YES" blendingMode="behindWindow" material="dark" state="active" translatesAutoresizingMaskIntoConstraints="NO" id="ldO-Tb-Let">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
+                            </visualEffectView>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="1QO-1G-sjn" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="264" y="1124"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="DEPNotify" width="512" height="512"/>
-        <image name="MainImageText" width="512" height="512"/>
+        <image name="DEPNotify" width="1024" height="1024"/>
+        <image name="MainImageText" width="1024" height="1024"/>
     </resources>
 </document>
