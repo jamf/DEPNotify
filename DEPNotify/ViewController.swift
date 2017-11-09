@@ -43,7 +43,7 @@ class ViewController: NSViewController {
     
     var killCommandFile = false
     
-    var quitKey = "q"
+    var quitKey = "x"
     
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
     
@@ -290,7 +290,12 @@ class ViewController: NSViewController {
             let quitKeyTemp = command.replacingOccurrences(of: "QuitKey: ", with: "")
             
             if quitKeyTemp.count == 1 {
-                quitKey = quitKeyTemp
+                
+                // exclude "q" as that's the system logout chord
+                
+                if quitKeyTemp != "q" {
+                    quitKey = quitKeyTemp
+                }
             }
             
         case "Restart:" :
@@ -411,6 +416,7 @@ class ViewController: NSViewController {
     // Key pressing
     
     override func keyDown(with event: NSEvent) {
+        
         switch event.modifierFlags.intersection(.deviceIndependentFlagsMask) {
         case [.command, .control] where event.charactersIgnoringModifiers == quitKey:
             NSApp.terminate(nil)
