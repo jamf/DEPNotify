@@ -25,8 +25,8 @@ class TrackProgress: NSObject {
     // set up some defaults
     
     var path: String
-    dynamic var statusText: String
-    dynamic var command: String
+    @objc dynamic var statusText: String
+    @objc dynamic var command: String
     var status: StatusState
     let task = Process()
     let fm = FileManager()
