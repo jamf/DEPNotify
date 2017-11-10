@@ -143,6 +143,15 @@ class ViewController: NSViewController {
             alertController.addButton(withTitle: "Ok")
             alertController.beginSheetModal(for: NSApp.windows[0])
             
+        // Put a Continue button at the bottom of the screen
+        case "ContinueButton" :
+            continueButton.isHidden = false
+
+        // Put a Continue button at the bottom of the screen to display an EULA
+        case "ContinueButtonAgreement" :
+            continueButton.isHidden = false
+            agreementButton = true
+
         case "Determinate:" :
             
             determinate = true
@@ -193,15 +202,6 @@ class ViewController: NSViewController {
         case "Help:" :
             helpButton.isHidden = false
             helpURL = command.replacingOccurrences(of: "Help: ", with: "")
-            
-        // Put a Continue button at the bottom of the screen
-        case "ContinueButton" :
-            continueButton.isHidden = false
-
-        // Put a Continue button at the bottom of the screen to display an EULA
-        case "ContinueButtonAgreement" :
-            continueButton.isHidden = false
-            agreementButton = true
             
         case "Image:" :
             logo = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "Image: ", with: ""))
