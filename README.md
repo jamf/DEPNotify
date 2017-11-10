@@ -26,6 +26,14 @@ Adding additional log files has to be done with arguments at the command line.
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -munki`
 
+* **EnableFileWave:** This has DEP Notify read in the FileWave log at `/var/log/fwcld.log` and then update the status line in the DEP Notify window with any downloads and installations.
+
+*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -filewave`
+
+* **Full Screen Mode:** This flag will create a full screen behind the DEPNotify screen to focus the user on the task at hand. By default command-control-x will quit DEPNotify, although this can be modified via the DEPNotify configuration.
+
+*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -fullScreen`
+
 ## Commands
 
 DEPNotify responds to a number of commands. All are prefaced with `Command:` and then the verb. Most are then followed by some text or other attribute.
@@ -34,21 +42,33 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: Alert: The installation is now finished`
 
-* **Determinate:** This makes the process bar be determinate instead of just a spiny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
-
 * **ContinueButton:** This creates a `Continue` button to exit out of DEPNotify. This is an alternative to the `Quit` functionality and will add a file at `/var/tmp/.DEPNotifyDone`
 
-*Example:* `Command: Alert: The installation is now finished`
+*Example:* `Command: ContinueButton:`
 
-* **Determinate:** This makes the process bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
+* **ContinueButtonAgreement:** This creates a `Continue` button at the bottom of the screen to display a EULA or other agreement you need the user to agree to.
+
+*Example:* `Command: ContinueButtonAgreement:`
+
+* **Determinate:** This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
 
 *Example:* `Command: Determinate: 5`
 
-* **EnableFilewave:** This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then update the status line in the DEPNotify window with any installations or downloads from the Filewave log. Note there is nothing special you need to name your items in Filewave for them to be read.
+* **DeterminateManual:** This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, you will need to manually tell DEPNotify when to update instead of relying on status updates or information from the various log files. This allows you to create a progress bar independant of status updates.
 
-*Example:* `Command: EnableFilewave:`
+*Example:* `Command: DeterminateManual: 5`
 
-* **
+* **DeterminateManualStep:** When in `DeterminateManual` mode this will advance the progress bar by one step, or by the number following the verb.
+
+*Example:* `Command: DeterminateManualStep: 2`
+
+* **DeterminateOff:** Disables a deterministic state for the progress bar. Note that the steps already occured in the bar will remain, allowing you to move between a determinsitic behavior and non-deterministic without loosing your place.
+
+*Example:* `Command: DeterminateOff:`
+
+* **DeterminateOffReset:** After turning off the deterministic state of the progress bar, you need to reset it the count to 0.
+
+*Example:* `Command: DeterminateOffReset:`
 
 * **Help:**  This will show a help button in the lower right corner of the DEPNotify window. Pressing the button will open up the path that you specify. Note that this can be both web URLs, such as http://www.apple.com/support, or file paths to local files such as file:///Applications/Chess.app.
 
@@ -57,6 +77,10 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 * **Image:** This will replace the very fancy DEPNotify logo, created by Erik Gomez, with a very fancy image of your own. Note that DEPNotify should scale the image up or down to fit the space.
 
 *Example:* `Command: Image: /tmp/logo.png`
+
+* **KillCommandFile:** This command will tell DEPNotify to remove the command file from the filesystem when DEPNotify is quit. Keep in mind file permissions to ensure that the file can actually be removed by DEPNotify.
+
+*Example:* `Command: KillCommandFile:`
 
 * **Logout:** This will show a sheet dialog and then log the user out when the "Logout" is clicked. This is commonly used to log the user out and initiate a FileVault encryption process.
 
@@ -110,6 +134,10 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 *Example:* `Command: Quit: Thanks for using this app.`
 
+* **QuitKey:** This will change the default key to quit DEPNotify. By default this is the "x" key with the command and control keys held down. Settign `QuitKey:` allows you to change "x" to any other single character. Note: you are unable to modify the requirement for the command and control keys.
+
+*Example:* `Command: QuitKey: j`
+
 * **Restart:** This will cause the machine to begin the restart process. The user will get a notification to accept with the text following the command.
 
 *Example:* `Command: Restart: Your session will end now.`
@@ -145,12 +173,11 @@ This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then upda
 * When the DEPNotify process starts, curl down the Filewave client and install. -create script (stage1)
 * **Recommended** - Energy saver profile - Mac’s sleep in 15min out of box, disrupting the DEP process. (stage1)
 
-
-
 ## Changelog
 
 * 1.0 - Initial version
 * 1.0.1 - Added "EnableJamf:", "LogoutNow:", "NotificationImage:", Window Styles "Activate" and "ActivateOnStep", "Restart:" and "RestartNow:"
+* 1.0.3 - Added "-filwave", "-fullScreen", "ContinueButton:", "ContinueButtonAgreement:", "Determinate:", "DeterminateManual:", "DeterminateManualStep:", "DeterminateOff:", "KillCommandFile" "DeterminateOffReset:", "KillCommandFile:", "MainTex:", "MainTextImage:", "MainTitle:", and "QuitKey:"
 
 ## Notes
 
