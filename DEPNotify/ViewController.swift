@@ -65,11 +65,11 @@ class ViewController: NSViewController {
         
         NSApp.windows[0].makeKeyAndOrderFront(self)
         
-        NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) {
+        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.flagsChanged) {
             self.flagsChanged(with: $0)
             return $0
         }
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
             self.keyDown(with: $0)
             return $0
         }
@@ -80,9 +80,9 @@ class ViewController: NSViewController {
         let window = self.view.window
         
         if !CommandLine.arguments.contains("-oldskool") {
-            window?.styleMask.insert(NSWindowStyleMask.unifiedTitleAndToolbar)
-            window?.styleMask.insert(NSWindowStyleMask.fullSizeContentView)
-            window?.styleMask.insert(NSWindowStyleMask.titled)
+            window?.styleMask.insert(NSWindow.StyleMask.unifiedTitleAndToolbar)
+            window?.styleMask.insert(NSWindow.StyleMask.fullSizeContentView)
+            window?.styleMask.insert(NSWindow.StyleMask.titled)
             window?.toolbar?.isVisible = false
             window?.titleVisibility = .hidden
             window?.titlebarAppearsTransparent = true
@@ -410,7 +410,7 @@ class ViewController: NSViewController {
         NSUserNotificationCenter.default.deliver(notification)
     }
     @IBAction func HelpClick(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: helpURL)!)
+        NSWorkspace.shared.open(URL(string: helpURL)!)
     }
 
     
@@ -419,8 +419,8 @@ class ViewController: NSViewController {
         let conditional = agreementButton
         if conditional == true {
             do {
-                let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
-                let myViewController = storyBoard.instantiateController(withIdentifier: "SheetViewController") as! NSViewController
+                let storyBoard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "SheetViewController")) as! NSViewController
                 self.presentViewControllerAsSheet(myViewController)
 
             }
@@ -465,8 +465,8 @@ class ViewController: NSViewController {
     
     override func keyDown(with event: NSEvent) {
         
-        switch event.modifierFlags.intersection(.deviceIndependentFlagsMask) {
-        case [.command, .control] where event.charactersIgnoringModifiers == quitKey:
+        switch event.modifierFlags.intersection(NSEvent.ModifierFlags.deviceIndependentFlagsMask) {
+        case [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.control] where event.charactersIgnoringModifiers == quitKey:
             NSApp.terminate(nil)
         default:
             break
@@ -485,10 +485,10 @@ class WindowController: NSWindowController {
             self.window?.center()
             self.window?.isMovable = false
             
-            background = storyboard?.instantiateController(withIdentifier: "Background") as? Background
+            background = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "Background")) as? Background
             background?.showWindow(self)
             background?.sendBack()
-            NSApp.windows[0].level = Int(CGWindowLevelForKey(.maximumWindow))
+            NSApp.windows[0].level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))
         }
     }
 }

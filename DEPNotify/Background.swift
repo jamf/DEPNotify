@@ -15,11 +15,11 @@ class Background: NSWindowController {
         super.windowDidLoad()
 
         if let backgroundWindow = self.window {
-            let mainDisplayRect = NSScreen.main()?.frame
+            let mainDisplayRect = NSScreen.main?.frame
             backgroundWindow.contentRect(forFrameRect: mainDisplayRect!)
-            backgroundWindow.setFrame((NSScreen.main()?.frame)!, display: true)
-            backgroundWindow.setFrameOrigin((NSScreen.main()?.frame.origin)!)
-            backgroundWindow.level = Int(CGWindowLevelForKey(.maximumWindow) - 1 )
+            backgroundWindow.setFrame((NSScreen.main?.frame)!, display: true)
+            backgroundWindow.setFrameOrigin((NSScreen.main?.frame.origin)!)
+            backgroundWindow.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow) - 1 ))
         }
     }
 

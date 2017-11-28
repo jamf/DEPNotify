@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // wait until the Dock is running. We should do this via KVO, but it's not all there in Swift yet
 
         var dockRunning = 0
-        let ws = NSWorkspace.shared()
+        let ws = NSWorkspace.shared
 
         while dockRunning == 0 {
             print("Waiting for the Dock")
