@@ -15,6 +15,7 @@
 		1A6059A11E55D6EA0085B55F /* DEPNotifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6059A01E55D6EA0085B55F /* DEPNotifyTests.swift */; };
 		1A6059AC1E55D6EA0085B55F /* DEPNotifyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6059AB1E55D6EA0085B55F /* DEPNotifyUITests.swift */; };
 		1A6059BA1E55D8F70085B55F /* TrackProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6059B91E55D8F70085B55F /* TrackProgress.swift */; };
+		5063F70A1FB4E50800C73861 /* SheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063F7091FB4E50800C73861 /* SheetViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		1A6059AD1E55D6EA0085B55F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A6059B91E55D8F70085B55F /* TrackProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackProgress.swift; sourceTree = "<group>"; };
 		1AC4F6141F87E0C500C9A4F0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		5063F7091FB4E50800C73861 /* SheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				1A6059901E55D6E90085B55F /* ViewController.swift */,
 				1A6059B91E55D8F70085B55F /* TrackProgress.swift */,
 				1A10FCD71FB2AAFB00D30727 /* Background.swift */,
+				5063F7091FB4E50800C73861 /* SheetViewController.swift */,
 				1A6059921E55D6E90085B55F /* Assets.xcassets */,
 				1A6059941E55D6E90085B55F /* Main.storyboard */,
 				1A6059971E55D6E90085B55F /* Info.plist */,
@@ -269,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A6059911E55D6E90085B55F /* ViewController.swift in Sources */,
+				5063F70A1FB4E50800C73861 /* SheetViewController.swift in Sources */,
 				1A60598F1E55D6E90085B55F /* AppDelegate.swift in Sources */,
 				1A6059BA1E55D8F70085B55F /* TrackProgress.swift in Sources */,
 				1A10FCD81FB2AAFC00D30727 /* Background.swift in Sources */,
