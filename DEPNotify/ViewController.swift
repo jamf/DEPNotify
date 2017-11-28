@@ -47,6 +47,7 @@ class ViewController: NSViewController {
     
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
     
+   var agreementButton : Bool? = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,6 +143,15 @@ class ViewController: NSViewController {
             alertController.addButton(withTitle: "Ok")
             alertController.beginSheetModal(for: NSApp.windows[0])
             
+        // Put a Continue button at the bottom of the screen
+        case "ContinueButton" :
+            continueButton.isHidden = false
+
+        // Put a Continue button at the bottom of the screen to display an EULA
+        case "ContinueButtonAgreement" :
+            continueButton.isHidden = false
+            agreementButton = true
+
         case "Determinate:" :
             
             determinate = true
@@ -192,9 +202,6 @@ class ViewController: NSViewController {
         case "Help:" :
             helpButton.isHidden = false
             helpURL = command.replacingOccurrences(of: "Help: ", with: "")
-            
-        case "ContinueButton" :
-            continueButton.isHidden = false
             
         case "Image:" :
             logo = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "Image: ", with: ""))
@@ -405,12 +412,53 @@ class ViewController: NSViewController {
     @IBAction func HelpClick(_ sender: Any) {
         NSWorkspace.shared().open(URL(string: helpURL)!)
     }
+
     
+    // Function to either quit by hitting the Continue button of to show a EULA
     @IBAction func continueButton(_ sender: Any) {
-        let fileMgr = FileManager()
-        let pathDone = "/Users/Shared/.DEPNotifyDone"
-        fileMgr.createFile(atPath: pathDone, contents: nil, attributes: nil)
-        NSApp.terminate(self)
+        let conditional = agreementButton
+        if conditional == true {
+            do {
+                let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: "SheetViewController") as! NSViewController
+                self.presentViewControllerAsSheet(myViewController)
+
+            }
+        }
+        else {
+            //Write .DEPNotifyDone file to disk
+
+            let DEPKey = true
+            let EULAKey = false
+
+            // Write Done File
+            self.view.window?.close()
+            let fileMgr = FileManager()
+            let pathDone = "/Users/Shared/.DEPNotifyDone"
+            fileMgr.createFile(atPath: pathDone, contents: nil, attributes: nil)
+
+            // Set timestamp
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+            let dateInFormat = dateFormatter.string(from: Date())
+            print (dateInFormat)
+
+            // Write plist file
+            let plistPath = "/Users/Shared/DEPNotify.plist"
+            let dict : [String: Any] = [
+                "DEPNotifyDone": DEPKey,
+                "EULA Acceptance": EULAKey,
+                "Onboarding Date": dateInFormat,
+                // any other key values
+            ]
+            let someData = NSDictionary(dictionary: dict)
+            let isWritten = someData.write(toFile: plistPath, atomically: true)
+            print("is the file created: \(isWritten)")
+
+            //NSApp.terminate(self)
+            NSApp.terminate(nil)
+
+        }
     }
     
     // Key pressing
