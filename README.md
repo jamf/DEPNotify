@@ -22,6 +22,24 @@ Adding additional log files has to be done with arguments at the command line.
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -jamf`
 
+  * jamf.log will be parsed for the following strings:
+    * Downloading *- currently only found when Jamf DEBUG logging is enabled*
+    * Installing
+    * Successfully installed
+    * failed *- when a package fails to install, it will attempt to find the package and reason it failed*
+    * Error:
+    * FileVault, Encrypt, and Encryption *- if one of these is listed, it will open an "alert sheet" via the **Alert:** command stating:  "FileVault has been enabled on this machine and a reboot will be required to start the encryption process."*
+    * DEPNotify Quit *- upon reading, a **Command: Quit:** is issued stating "Setup Complete!" and if FileVault was enabled, it reiterates a reboot is needed.*
+      * So, if a policy name contains this string, and executes on the machine, DEPNotify will quit itself.
+
+  * The following strings will be ignored:
+    * flat package *- for lines with "downloading flat package"*
+    * bom *- for lines with "downloading bom" or "failed to download a bom" file for a package -- only seen when Jamf DEBUG logging is enabled*
+    * an Apple package... *- for lines with "Installing an Apple package" -- only seen when Jamf DEBUG logging is enabled*
+    * com.jamfsoftware.task.errors *- for lines that display Jamf Errors that we don't want displayed*
+
+  * If you have Prefixes, Postfixes, or other Patterns in your package names, that you do not want displayed to screen, you can add those into the code as well.
+
 * **EnableMunki:** This has DEP Notify read in the Munki log at `/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log` and then update the status line in the DEP Notify window with any downloads and installations.
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -munki`
