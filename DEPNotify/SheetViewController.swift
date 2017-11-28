@@ -3,7 +3,7 @@
 //  DEPNotify
 //
 //  Created by Federico Deis on 27/10/2017.
-//  Copyright © 2017 Trusource Labs. All rights reserved.
+//  Copyright © 2017 Orchard & Grove Inc. All rights reserved.
 //
 
 import Foundation

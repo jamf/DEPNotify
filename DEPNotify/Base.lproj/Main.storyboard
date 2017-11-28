@@ -147,7 +147,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="54.5" y="701"/>
+            <point key="canvasLocation" x="162" y="771"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="KfJ-U2-YfW">
@@ -187,7 +187,7 @@
                 </viewController>
                 <customObject id="1QO-1G-sjn" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="264" y="1124"/>
+            <point key="canvasLocation" x="233" y="1194"/>
         </scene>
         <!--Sheet View Controller-->
         <scene sceneID="utJ-Ng-vst">
@@ -209,7 +209,7 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6wq-9e-Jmk">
                                 <rect key="frame" x="18" y="323" width="584" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Accept this terms and conditions to start using your Mac." id="3ke-9P-pWY">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Accept these terms and conditions to start using your Mac." id="3ke-9P-pWY">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
