@@ -110,7 +110,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="pDc-h3-Pop">
                                     <font key="font" metaFont="system"/>
-                                    <string key="title">We are setting up your Mac with a standard suite of software, configuration and seurity policies. This process could take up to 30 minutes so please don't restart your computer until we are finished</string>
+                                    <string key="title">We are setting up your Mac with a standard suite of software, configuration and security policies. This process could take up to 30 minutes so please don't restart your computer until we are finished</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
