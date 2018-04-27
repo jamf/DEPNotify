@@ -66,7 +66,7 @@ This creates an alert sheet on the DEPNotify window with an "Ok" button to allow
 *Example:* `Command: Alert: The installation is now finished`
 
 ### **ContinueButton:**
-This creates a `Continue` button to exit out of DEPNotify. This is an alternative to the `Quit` functionality and will add a file at `/var/tmp/.DEPNotifyDone`
+This creates a `Continue` button to exit out of DEPNotify. This is an alternative to the `Quit` functionality and will add a file at `/Users/Shared/.DEPNotifyDone`
 
 *Example:* `Command: ContinueButton:`
 
