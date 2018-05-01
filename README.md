@@ -51,7 +51,7 @@ This has DEP Notify read in the FileWave log at `/var/log/fwcld.log` and then up
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -filewave`
 
-### `-fullscreen`
+### `-fullScreen`
 This flag will create a full screen behind the DEPNotify screen to focus the user on the task at hand. By default command-control-x will quit DEPNotify, although this can be modified via the DEPNotify configuration.
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -fullScreen`
