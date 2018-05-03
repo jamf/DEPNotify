@@ -233,7 +233,7 @@ This are very simple. Just echo set `Status:` followed by the text of your statu
 
 *Example:* `Status: Reticulating splines...`
 
-# Registration and EULA Window
+# Registration and EULA Windows
 
 You customize the registration and EULA windows using preferences keys. The registration window accepts user input from two text input fields and two pop up menus. You can customize which fields make it to the registration window by setting the fields labels. e.g. if you want to have only one text input field and two pop up menus, just create the keys for the corresponding labels in the preferences file.
 
