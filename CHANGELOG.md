@@ -10,7 +10,7 @@ Please see the [README] for usage.
   * Previous path: `/Users/Shared/.DEPNotifyDone`
   * New path: `/var/tmp/com.depnotify.provisioning.done`
 * `ContinueButtonAgreement` has been replaced with `ContinueButtonEULA`
-* Logout commands now use a more forceful API - @clburlison [!11]
+* Logout commands now uses a more forceful API - @clburlison [#11]
 
 **Added:**
 

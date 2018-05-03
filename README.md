@@ -83,30 +83,30 @@ This creates an alert sheet on the DEPNotify window with an "Ok" button to allow
 
 *Example:* `Command: Alert: The installation is now finished`
 
-### **ContinueButton: <Button Label>**
+### **ContinueButton:**
 This places a Continue button at the bottom of the screen that quits DEPNotify. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
 
-*Example:* `Command: ContinueButton: Get Started`
+*Example:* `Command: ContinueButton: <Button Label>`
 
-### **ContinueButtonRegister: <Button Label>**
+### **ContinueButtonRegister:**
 This places a Continue button at the bottom of the screen that that calls the Registration window. Creates a bom file `/var/tmp/com.depnotify.registration.done` on successful completion.
 
-*Example:* `Command: ContinueButtonRegister: Get Started`
+*Example:* `Command: ContinueButtonRegister: <Button Label>`
 
-### **ContinueButtonEULA: <Button Label>** 
+### **ContinueButtonEULA:**
 This places a Continue button at the bottom of the screen to display a URLA or other agreement you need the user to agree to. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
 
-*Example:* `Command: ContinueButtonEULA:`
+*Example:* `Command: ContinueButtonEULA: <Button Label>`
 
-### **ContinueButtonRestart: <Button Label>** 
+### **ContinueButtonRestart:**
 This places a Continue button at the bottom of the screen that will perform a soft restart of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.restart` on successful completion.
 
-*Example:* `Command: ContinueButtonRestart:`
+*Example:* `Command: ContinueButtonRestart: <Button Label>`
 
-### **ContinueButtonLogout: <Button Label>** 
+### **ContinueButtonLogout:** 
 This places a Continue button at the bottom of the screen that will perform a logout of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
 
-*Example:* `Command: ContinueButtonLogout:`
+*Example:* `Command: ContinueButtonLogout: <Button Label>`
 
 ### **Determinate:** 
 This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
@@ -261,7 +261,7 @@ defaults write menu.nomad.DEPNotify key value
 |------------------------------|--------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
 | Example Command              | String | Sets the main title text on the registration window                                                       | defaults write menu.nomad.DEPNofity RegisterMainTitle 'Register This Mac'               |
 | RegisterButtonLabel          | String | Sets the OK button fo the registration window label                                                       | defaults write menu.nomad.DEPNofity RegisterButtonLabel 'Register'                      |
-| PathToPlistFile              | String | Sets the path where to save the DEPNotify.plist. Make sure there is always a slash at the end of the path | defaults write menu.nomad.DEPNotify PathToPlistFile '/Users/Shared/'.                   |
+| PathToPlistFile              | String | Sets the path where to save the DEPNotify.plist. Make sure there is always a slash at the end of the path | defaults write menu.nomad.DEPNotify PathToPlistFile '/Users/Shared/'                    |
 | UITextFieldUpperPlaceholder  | String | Sets the upper text field placeholder                                                                     | defaults write menu.nomad.DEPNotify UITextFieldUpperPlaceholder 'Upper Placeholder'     |
 | UITextFieldLowerPlaceholder  | String | Sets the lower text field placeholder                                                                     | defaults write menu.nomad.DEPNotify UITextFieldLowerPlaceholder 'Lower Placeholder'     |
 | UIPopUpMenuUpper             | Array  | Sets the upper pop up menu items array                                                                    | defaults write menu.nomad.DEPNotify UIPopUpMenuUpper -array 'London' 'New York' 'Tokio' |
@@ -272,6 +272,7 @@ defaults write menu.nomad.DEPNotify key value
 | UIPopUpMenuLowerLabel        | String | Sets the lower pop up menu label                                                                          | defaults write menu.nomad.DEPNotify UIPopUpMenuLowerLabel 'Lower Menu'                  |
 | pathToEULA                   | String | Set the path to the EULA text file                                                                        | defaults write menu.nomad.DEPNotify pathToEULA "/Users/Shared/eula.txt"                 |
 | checkForSensitiveInformation | Bool   | Set visibility of Sensitive Information button                                                            | defaults write menu.nomad.DEPNotify checkForSensitiveInformation -bool true             |
+
 # Workflow
 
 While every DEP workflow is different, here's a simple method of using DEPNotify with a DEP process.
