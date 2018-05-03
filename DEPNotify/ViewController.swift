@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Foundation
 
 private var statusContext = 0
 private var commandContext = 1
@@ -15,6 +16,7 @@ var background: Background?
 
 class ViewController: NSViewController {
     
+
     @IBOutlet weak var MainTitle: NSTextField!
     @IBOutlet weak var MainText: NSTextField!
     @IBOutlet weak var ProgressBar: NSProgressIndicator!
@@ -24,6 +26,7 @@ class ViewController: NSViewController {
     @IBOutlet var myView: NSView!
     @IBOutlet weak var helpButton: NSButton!
     @IBOutlet weak var continueButton: NSButton!
+    
     
     var tracker = TrackProgress()
     
@@ -47,13 +50,20 @@ class ViewController: NSViewController {
     
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
     
-   var agreementButton : Bool? = false
+    var PathToPlistDefault = "/Users/Shared/DEPNotify.plist"
+    var plistPath = ""
+    
+    // Variable to see Mac Registration Window
+    var continueButtonTitle = "Continue"
+    var buttonAction = "Continue"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         //Set the background color to white
         self.view.wantsLayer = true
         self.view.layer?.backgroundColor = CGColor.white
+
         //var isOpaque = false
         ProgressBar.startAnimation(nil)
         
@@ -73,6 +83,9 @@ class ViewController: NSViewController {
             self.keyDown(with: $0)
             return $0
         }
+        
+        iniPlistFile()
+        continueButton.title = continueButtonTitle
     }
     
     override func viewDidAppear() {
@@ -143,17 +156,44 @@ class ViewController: NSViewController {
             alertController.addButton(withTitle: "Ok")
             alertController.beginSheetModal(for: NSApp.windows[0])
             
-        // Put a Continue button at the bottom of the screen
-        case "ContinueButton" :
+        // Puts a Button at the bottom of the screen to Quit DEPNotify
+        case "ContinueButton:" :
+            let continueButtonTitle = command.replacingOccurrences(of: "ContinueButton: ", with: "")
+            continueButton.isHighlighted = true
+            continueButton.title = continueButtonTitle
             continueButton.isHidden = false
-
-        // Put a Continue button at the bottom of the screen to display an EULA
-        case "ContinueButtonAgreement" :
+        
+        // Puts a Button at the bottom of the screen to produce a Registration Dialog
+        case "ContinueButtonRegister:" :
+            let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonRegister: ", with: "")
+            continueButton.title = continueButtonTitle
             continueButton.isHidden = false
-            agreementButton = true
+            continueButton.isHighlighted = true
+            buttonAction = "Register"
+            
+        // Puts a Button at the bottom of the screen to produce an End User Level Agreement
+        case "ContinueButtonEULA:" :
+            let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonEULA: ", with: "")
+            continueButton.title = continueButtonTitle
+            continueButton.isHidden = false
+            continueButton.isHighlighted = true
+            buttonAction  = "EULA"
+            
+        case "ContinueButtonRestart:" :
+            let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonRestart: ", with: "")
+            continueButton.title = continueButtonTitle
+            continueButton.isHidden = false
+            continueButton.isHighlighted = true
+            buttonAction = "Restart"
+            
+        case "ContinueButtonLogout:" :
+            let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonLogout: ", with: "")
+            continueButton.title = continueButtonTitle
+            continueButton.isHidden = false
+            continueButton.isHighlighted = true
+            buttonAction = "Logout"
 
         case "Determinate:" :
-            
             determinate = true
             ProgressBar.isIndeterminate = false
             
@@ -164,7 +204,6 @@ class ViewController: NSViewController {
             ProgressBar.startAnimation(nil)
             
         case "DeterminateManual:" :
-            
             determinate = false
             ProgressBar.isIndeterminate = false
             
@@ -175,7 +214,6 @@ class ViewController: NSViewController {
             ProgressBar.startAnimation(nil)
             
         case "DeterminateManualStep:" :
-            
             // default to 1 if we can't make a number
             let stepMove = Int(Double(command.replacingOccurrences(of: "DeterminateManualStep: ", with: "")) ?? 1 )
             currentItem += stepMove
@@ -186,13 +224,11 @@ class ViewController: NSViewController {
             }
             
         case "DeterminateOff:" :
-            
             determinate = false
             ProgressBar.isIndeterminate = true
             ProgressBar.stopAnimation(nil)
             
         case "DeterminateOffReset:" :
-            
             determinate = false
             currentItem = 0
             ProgressBar.increment(by: -1000)
@@ -212,7 +248,7 @@ class ViewController: NSViewController {
         case "KillCommandFile:" :
             killCommandFile = true
             
-        case "Logout:" :
+        case "Logout:":
             let alertController = NSAlert()
             alertController.messageText = command.replacingOccurrences(of: "Logout: ", with: "")
             alertController.addButton(withTitle: "Logout")
@@ -322,7 +358,7 @@ class ViewController: NSViewController {
             break
         }
     }
-    
+
     func quitSession() {
         var targetDesc: AEAddressDesc = AEAddressDesc.init()
         var psn = ProcessSerialNumber(highLongOfPSN: UInt32(0), lowLongOfPSN: UInt32(kSystemProcess))
@@ -359,7 +395,7 @@ class ViewController: NSViewController {
         }
         
     }
-    
+
     func reboot() {
         var targetDesc: AEAddressDesc = AEAddressDesc.init()
         var psn = ProcessSerialNumber(highLongOfPSN: UInt32(0), lowLongOfPSN: UInt32(kSystemProcess))
@@ -396,7 +432,7 @@ class ViewController: NSViewController {
         }
         
     }
-    
+
     func sendNotification(text: String) {
         let notification = NSUserNotification()
         
@@ -409,55 +445,81 @@ class ViewController: NSViewController {
         notification.soundName = NSUserNotificationDefaultSoundName
         NSUserNotificationCenter.default.deliver(notification)
     }
+
+    func iniPlistFile() {
+        // Check the Path to the Plist File is already defined in preferences
+        if let PathToPlistFileValue = UserDefaults.standard.string(forKey: "PathToPlistFile"){
+            plistPath = "\(PathToPlistFileValue)DEPNotify.plist"
+        } else {
+            plistPath = PathToPlistDefault
+        }
+        // If Plist File exists, erase it
+        if FileManager.default.fileExists(atPath: plistPath) {
+            do {
+                    try FileManager.default.removeItem(atPath: plistPath)
+            }
+        catch {
+            print ("No Plist File to Initialize")
+        }
+    }
+    }
+
     @IBAction func HelpClick(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: helpURL)!)
     }
 
-    
-    // Function to either quit by hitting the Continue button of to show a EULA
+    // Continue Button Action
     @IBAction func continueButton(_ sender: Any) {
-        let conditional = agreementButton
-        if conditional == true {
+        let conditional = buttonAction
+        print (conditional)
+
+        // Open the Register ViewController
+        if conditional == "Register" {
             do {
                 let storyBoard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)  as NSStoryboard
-                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "SheetViewController")) as! NSViewController
+                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "RegisterViewController")) as! NSViewController
                 self.presentViewControllerAsSheet(myViewController)
-
+                continueButton.isHidden = true
+                
             }
         }
+
+        // Open the EULA ViewController
+        else if conditional == "EULA" {
+            do {
+                let storyBoard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EULA")) as! NSViewController
+                self.presentViewControllerAsSheet(myViewController)
+                continueButton.isHidden = true
+            }
+        }
+
+        // Restart computer
+        else if conditional == "Restart" {
+            do {
+                let bomFile = "/var/tmp/com.depnotify.provisioning.restart"
+                FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
+                print ("BOM file create")
+                self.reboot()
+                NSApp.terminate(self)
+            }
+        }
+
+        // Logout User
+        else if conditional == "Logout" {
+            do {
+                self.quitSession()
+            }
+        }
+
+        // Just terminate DEPNotify gracefully
         else {
-            //Write .DEPNotifyDone file to disk
-
-            let DEPKey = true
-            let EULAKey = false
-
-            // Write Done File
-            self.view.window?.close()
-            let fileMgr = FileManager()
-            let pathDone = "/Users/Shared/.DEPNotifyDone"
-            fileMgr.createFile(atPath: pathDone, contents: nil, attributes: nil)
-
-            // Set timestamp
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
-            let dateInFormat = dateFormatter.string(from: Date())
-            print (dateInFormat)
-
-            // Write plist file
-            let plistPath = "/Users/Shared/DEPNotify.plist"
-            let dict : [String: Any] = [
-                "DEPNotifyDone": DEPKey,
-                "EULA Acceptance": EULAKey,
-                "Onboarding Date": dateInFormat,
-                // any other key values
-            ]
-            let someData = NSDictionary(dictionary: dict)
-            let isWritten = someData.write(toFile: plistPath, atomically: true)
-            print("is the file created: \(isWritten)")
-
-            //NSApp.terminate(self)
-            NSApp.terminate(nil)
-
+            do {
+                let bomFile = "/var/tmp/com.depnotify.provisioning.done"
+                FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
+                    print ("BOM file create")
+            NSApp.terminate(self)
+            }
         }
     }
     
