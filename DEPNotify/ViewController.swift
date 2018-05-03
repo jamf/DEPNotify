@@ -374,7 +374,7 @@ class ViewController: NSViewController {
         
         status = AECreateAppleEvent(
             UInt32(kCoreEventClass),
-            kAELogOut,
+            kAEReallyLogOut,
             &targetDesc,
             AEReturnID(kAutoGenerateReturnID),
             AETransactionID(kAnyTransactionID),
