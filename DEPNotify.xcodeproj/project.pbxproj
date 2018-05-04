@@ -15,7 +15,8 @@
 		1A6059A11E55D6EA0085B55F /* DEPNotifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6059A01E55D6EA0085B55F /* DEPNotifyTests.swift */; };
 		1A6059AC1E55D6EA0085B55F /* DEPNotifyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6059AB1E55D6EA0085B55F /* DEPNotifyUITests.swift */; };
 		1A6059BA1E55D8F70085B55F /* TrackProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6059B91E55D8F70085B55F /* TrackProgress.swift */; };
-		5063F70A1FB4E50800C73861 /* SheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063F7091FB4E50800C73861 /* SheetViewController.swift */; };
+		5061852820783C1F00D7208A /* EULA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061852720783C1F00D7208A /* EULA.swift */; };
+		5063F70A1FB4E50800C73861 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5063F7091FB4E50800C73861 /* RegisterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,8 +51,10 @@
 		1A6059AB1E55D6EA0085B55F /* DEPNotifyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DEPNotifyUITests.swift; sourceTree = "<group>"; };
 		1A6059AD1E55D6EA0085B55F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A6059B91E55D8F70085B55F /* TrackProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackProgress.swift; sourceTree = "<group>"; };
-		1AC4F6141F87E0C500C9A4F0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
-		5063F7091FB4E50800C73861 /* SheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetViewController.swift; sourceTree = "<group>"; };
+		501B2C9F2086DF78007CBBFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		501B2CA02086DF86007CBBFF /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Main.strings"; sourceTree = "<group>"; };
+		5061852720783C1F00D7208A /* EULA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULA.swift; sourceTree = "<group>"; };
+		5063F7091FB4E50800C73861 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +109,8 @@
 				1A6059901E55D6E90085B55F /* ViewController.swift */,
 				1A6059B91E55D8F70085B55F /* TrackProgress.swift */,
 				1A10FCD71FB2AAFB00D30727 /* Background.swift */,
-				5063F7091FB4E50800C73861 /* SheetViewController.swift */,
+				5063F7091FB4E50800C73861 /* RegisterViewController.swift */,
+				5061852720783C1F00D7208A /* EULA.swift */,
 				1A6059921E55D6E90085B55F /* Assets.xcassets */,
 				1A6059941E55D6E90085B55F /* Main.storyboard */,
 				1A6059971E55D6E90085B55F /* Info.plist */,
@@ -200,22 +204,30 @@
 				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Trusource Labs";
+				LastUpgradeCheck = 0930;
 				TargetAttributes = {
 					1A60598A1E55D6E90085B55F = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = VRPY9KHGX6;
 						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
 					};
 					1A60599B1E55D6EA0085B55F = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = AAPZK3CB24;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 1A60598A1E55D6E90085B55F;
 					};
 					1A6059A61E55D6EA0085B55F = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = AAPZK3CB24;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 1A60598A1E55D6E90085B55F;
 					};
@@ -226,7 +238,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = 1A6059821E55D6E90085B55F;
@@ -273,9 +284,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A6059911E55D6E90085B55F /* ViewController.swift in Sources */,
-				5063F70A1FB4E50800C73861 /* SheetViewController.swift in Sources */,
+				5063F70A1FB4E50800C73861 /* RegisterViewController.swift in Sources */,
 				1A60598F1E55D6E90085B55F /* AppDelegate.swift in Sources */,
 				1A6059BA1E55D8F70085B55F /* TrackProgress.swift in Sources */,
+				5061852820783C1F00D7208A /* EULA.swift in Sources */,
 				1A10FCD81FB2AAFC00D30727 /* Background.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,7 +328,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				1A6059951E55D6E90085B55F /* Base */,
-				1AC4F6141F87E0C500C9A4F0 /* es */,
+				501B2C9F2086DF78007CBBFF /* en */,
+				501B2CA02086DF86007CBBFF /* es-419 */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -338,6 +351,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -345,6 +359,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -371,7 +386,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -394,6 +409,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -401,6 +417,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -421,7 +438,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -435,7 +452,6 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = VRPY9KHGX6;
 				INFOPLIST_FILE = DEPNotify/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -477,7 +493,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = menu.nomad.DEPNotifyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DEPNotify.app/Contents/MacOS/DEPNotify";
 			};
 			name = Debug;
@@ -493,7 +510,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = menu.nomad.DEPNotifyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DEPNotify.app/Contents/MacOS/DEPNotify";
 			};
 			name = Release;
@@ -508,7 +526,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = menu.nomad.DEPNotifyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = DEPNotify;
 			};
 			name = Debug;
@@ -523,7 +542,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = menu.nomad.DEPNotifyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = DEPNotify;
 			};
 			name = Release;

@@ -4,19 +4,37 @@
 
 DEPNotify is a small light weight notification app that was designed to let your users know what's going on during a DEP enrollment. The app is focused on being very simple to use and easy to deploy.
 
+## Table of Contents
+
+* [**Download**](#download)
+* [**Basic Usage**](#basic-usage)
+* [**Additional Flags**](#additional-flags)
+* [**Commands**](#commands)
+* [**Status Updates**](#status-updates)
+* [**Registration and EULA Windows**](#registration-and-eula-windows)
+* [**Workflow**](#workflow)
+* [**Advanced Workflows**](#advanced-workflows)
+* [**Changelog**](#changelog)
+* [**Notes**](#notes)
+
 # Download
 
 Get the latest version, visit our tags: [DEPNotify tags](https://gitlab.com/Mactroll/DEPNotify/tags)
 
 # Basic Usage
 
-DEPNotify is completely controlled via echoing text to it's control file. By default this is `/var/tmp/depnotify.log` but you can change this to anything you want by launching the app with the `-path [some path]`.
+DEPNotify is completely controlled via echoing text to it's control file. By default this is `/var/tmp/depnotify.log` but can be changed with the [`-path`](#-path) flag.
 
 The application then reacts to `Command:` and `Status:` lines written to the control file.
 
 # Additional Flags
 
 Adding additional log files has to be done with arguments at the command line.
+
+### `-path`
+This replaces the default control file located at `/var/tmp/depnotify.log` allowing to select the path with `-path [some path]`.
+
+*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -path /private/tmp/setup.txt`
 
 ### `-jamf`
 This has DEP Notify read in the Jamf log at `/var/log/jamf.log` and then update the status line in the DEP Notify window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
@@ -66,14 +84,29 @@ This creates an alert sheet on the DEPNotify window with an "Ok" button to allow
 *Example:* `Command: Alert: The installation is now finished`
 
 ### **ContinueButton:**
-This creates a `Continue` button to exit out of DEPNotify. This is an alternative to the `Quit` functionality and will add a file at `/Users/Shared/.DEPNotifyDone`
+This places a Continue button at the bottom of the screen that quits DEPNotify. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
 
-*Example:* `Command: ContinueButton:`
+*Example:* `Command: ContinueButton: <Button Label>`
 
-### **ContinueButtonAgreement:** 
-This creates a `Continue` button at the bottom of the screen to display a EULA or other agreement you need the user to agree to.
+### **ContinueButtonRegister:**
+This places a Continue button at the bottom of the screen that that calls the Registration window. Creates a bom file `/var/tmp/com.depnotify.registration.done` on successful completion.
 
-*Example:* `Command: ContinueButtonAgreement:`
+*Example:* `Command: ContinueButtonRegister: <Button Label>`
+
+### **ContinueButtonEULA:**
+This places a Continue button at the bottom of the screen to display a URLA or other agreement you need the user to agree to. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
+
+*Example:* `Command: ContinueButtonEULA: <Button Label>`
+
+### **ContinueButtonRestart:**
+This places a Continue button at the bottom of the screen that will perform a soft restart of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.restart` on successful completion.
+
+*Example:* `Command: ContinueButtonRestart: <Button Label>`
+
+### **ContinueButtonLogout:** 
+This places a Continue button at the bottom of the screen that will perform a logout of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
+
+*Example:* `Command: ContinueButtonLogout: <Button Label>`
 
 ### **Determinate:** 
 This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
@@ -200,6 +233,46 @@ This are very simple. Just echo set `Status:` followed by the text of your statu
 
 *Example:* `Status: Reticulating splines...`
 
+# Registration and EULA Windows
+
+You customize the registration and EULA windows using preferences keys. The registration window accepts user input from two text input fields and two pop up menus. You can customize which fields make it to the registration window by setting the fields labels. e.g. if you want to have only one text input field and two pop up menus, just create the keys for the corresponding labels in the preferences file.
+
+You can also set the registration window title and registration button label.
+
+You access defaults key via the defaults command using the `menu.nomad.DEPNotify` domain. This file will be written at `~/Library/Preferences/menu.nomad.DEPNotify.plist`
+
+DEPNotify gets the EULA contents from a text file. 
+
+Sample EULA window:
+![DEPNotify EULA](./.gitlab/eula_demo.png)
+
+Sample Registration window:
+![DEPNotify EULA](./.gitlab/register_demo.png)
+
+**Keys and Values**
+
+You set the keys using the defaults command:
+
+```bash
+defaults write menu.nomad.DEPNotify key value
+```
+
+| Key                          | Key    | Comments                                                                                                  | Example Command                                                                         |
+|------------------------------|--------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| RegisterMainTitle            | String | Sets the main title text on the registration window                                                       | defaults write menu.nomad.DEPNotify RegisterMainTitle 'Register This Mac'               |
+| RegisterButtonLabel          | String | Sets the OK button fo the registration window label                                                       | defaults write menu.nomad.DEPNotify RegisterButtonLabel 'Register'                      |
+| PathToPlistFile              | String | Sets the path where to save the DEPNotify.plist. Make sure there is always a slash at the end of the path | defaults write menu.nomad.DEPNotify PathToPlistFile '/Users/Shared/'                    |
+| UITextFieldUpperPlaceholder  | String | Sets the upper text field placeholder                                                                     | defaults write menu.nomad.DEPNotify UITextFieldUpperPlaceholder 'Upper Placeholder'     |
+| UITextFieldLowerPlaceholder  | String | Sets the lower text field placeholder                                                                     | defaults write menu.nomad.DEPNotify UITextFieldLowerPlaceholder 'Lower Placeholder'     |
+| UIPopUpMenuUpper             | Array  | Sets the upper pop up menu items array                                                                    | defaults write menu.nomad.DEPNotify UIPopUpMenuUpper -array 'London' 'New York' 'Tokio' |
+| UIPopUpMenuLower             | Array  | Sets the lower pop up menu items array                                                                    | defaults write menu.nomad.DEPNotify UIPopUpMenuLower -array 'Item 1' 'Item 2' 'Item 3'  |
+| UITextFieldUpperLabel        | String | Sets the upper text input field label                                                                     | defaults write menu.nomad.DEPNotify UITextFieldUpperLabel 'My ID'                       |
+| UITextFieldLowerLabel        | String | Sets the lower text input field label                                                                     | defaults write menu.nomad.DEPNotify UITextFieldLowerLabel 'Asset Tag'                   |
+| UIPopUpMenuUpperLabel        | String | Sets the upper pop up menu label                                                                          | defaults write menu.nomad.DEPNotify UIPopUpMenuUpperLabel 'City'                        |
+| UIPopUpMenuLowerLabel        | String | Sets the lower pop up menu label                                                                          | defaults write menu.nomad.DEPNotify UIPopUpMenuLowerLabel 'Lower Menu'                  |
+| pathToEULA                   | String | Set the path to the EULA text file                                                                        | defaults write menu.nomad.DEPNotify pathToEULA "/Users/Shared/eula.txt"                 |
+| checkForSensitiveInformation | Bool   | Set visibility of Sensitive Information button                                                            | defaults write menu.nomad.DEPNotify checkForSensitiveInformation -bool true             |
+
 # Workflow
 
 While every DEP workflow is different, here's a simple method of using DEPNotify with a DEP process.
@@ -223,9 +296,7 @@ This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then upda
 
 # Changelog
 
-* 1.0 - Initial version
-* 1.0.1 - Added "EnableJamf:", "LogoutNow:", "NotificationImage:", Window Styles "Activate" and "ActivateOnStep", "Restart:" and "RestartNow:"
-* 1.0.3 - Added "-filwave", "-fullScreen", "ContinueButton:", "ContinueButtonAgreement:", "Determinate:", "DeterminateManual:", "DeterminateManualStep:", "DeterminateOff:", "KillCommandFile" "DeterminateOffReset:", "KillCommandFile:", "MainTex:", "MainTextImage:", "MainTitle:", and "QuitKey:"
+See [CHANGELOG.md](./CHANGELOG.md)
 
 # Notes
 

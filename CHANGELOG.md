@@ -1,3 +1,25 @@
+# [1.0.4] - unreleased
+
+Please see the [README] for usage.
+
+**Changed:**
+
+* Redesigned EULA
+* Logo is now 2:1 ratio instead of previous 1:1 ratio
+* Done dotfile has been moved
+  * Previous path: `/Users/Shared/.DEPNotifyDone`
+  * New path: `/var/tmp/com.depnotify.provisioning.done`
+* `ContinueButtonAgreement` has been replaced with `ContinueButtonEULA`
+* Logout commands now uses a more forceful API - @clburlison [#11]
+
+**Added:**
+
+* "ContinueButtonRegister:" -@fgd
+* "ContinueButtonEULA:" this replaces "ContinueButtonAgreement" - @fgd
+* "ContinueButtonRestart" - @fgd
+* "ContinueButtonLogout" - @fgd
+* New registration window for user input - @fgd
+
 # [1.0.3] - November 28, 2017
 
 * Add "DeterminateManual:" and "DeterminateManualStep:"
@@ -32,7 +54,9 @@
 * Initial commit of DEPNotify
 
 <!-- Links -->
+[README]: https://gitlab.com/Mactroll/DEPNotify/blob/master/README.md
 [1.0]: https://gitlab.com/Mactroll/DEPNotify/tags/version-1.0
 [1.0.1]: https://gitlab.com/Mactroll/DEPNotify/tags/version-1.0.1
 [1.0.2]: https://gitlab.com/Mactroll/DEPNotify/tags/1.0.2
 [1.0.3]: https://gitlab.com/Mactroll/DEPNotify/tags/1.0.3
+[1.0.4]: https://gitlab.com/Mactroll/DEPNotify/tags/1.0.4
