@@ -158,7 +158,7 @@ class TrackProgress: NSObject {
                                     print(getDownloadingItem)
                                     let pattern = "(%20)"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
                                     let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-                                    let downloadingItem = removeRegex.stringByReplacingMatches(in: getDownloadingItem, options: [], range: NSRange(location: 0, length: getDownloadingItem.characters.count), withTemplate: "")
+                                    let downloadingItem = removeRegex.stringByReplacingMatches(in: getDownloadingItem, options: [], range: NSRange(location: 0, length: getDownloadingItem.count), withTemplate: "")
                                     
                                     if !(downloadingItem.isEmpty) {
                                         print("Downloading:  \(downloadingItem)")

@@ -365,7 +365,7 @@ class ViewController: NSViewController {
         var eventReply: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
         var eventToSend: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
         
-        var status: OSErr = AECreateDesc(
+        _ = AECreateDesc(
             UInt32(typeProcessSerialNumber),
             &psn,
             MemoryLayout<ProcessSerialNumber>.size,
@@ -383,7 +383,7 @@ class ViewController: NSViewController {
         
         AEDisposeDesc(&targetDesc)
         
-        let osstatus = AESendMessage(
+        _ = AESendMessage(
             &eventToSend,
             &eventReply,
             AESendMode(kAENormalPriority),
@@ -402,14 +402,14 @@ class ViewController: NSViewController {
         var eventReply: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
         var eventToSend: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
         
-        var status: OSErr = AECreateDesc(
+        _ = AECreateDesc(
             UInt32(typeProcessSerialNumber),
             &psn,
             MemoryLayout<ProcessSerialNumber>.size,
             &targetDesc
         )
         
-        status = AECreateAppleEvent(
+        _ = AECreateAppleEvent(
             UInt32(kCoreEventClass),
             kAERestart,
             &targetDesc,
@@ -420,7 +420,7 @@ class ViewController: NSViewController {
         
         AEDisposeDesc(&targetDesc)
         
-        let osstatus = AESendMessage(
+        _ = AESendMessage(
             &eventToSend,
             &eventReply,
             AESendMode(kAENormalPriority),
