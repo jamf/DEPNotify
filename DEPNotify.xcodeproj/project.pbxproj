@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A10FCD81FB2AAFC00D30727 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10FCD71FB2AAFB00D30727 /* Background.swift */; };
 		1A376815209D4F3200F28164 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A376814209D4F2E00F28164 /* RegisterViewController.swift */; };
+		1A376819209D633900F28164 /* EULA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A376818209D633900F28164 /* EULA.swift */; };
 		1A60598F1E55D6E90085B55F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A60598E1E55D6E90085B55F /* AppDelegate.swift */; };
 		1A6059911E55D6E90085B55F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6059901E55D6E90085B55F /* ViewController.swift */; };
 		1A6059931E55D6E90085B55F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A6059921E55D6E90085B55F /* Assets.xcassets */; };
@@ -38,6 +39,8 @@
 /* Begin PBXFileReference section */
 		1A10FCD71FB2AAFB00D30727 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		1A376814209D4F2E00F28164 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterViewController.swift; path = "../../../../Downloads/DEPNotify-103(24)/DEPNotify/RegisterViewController.swift"; sourceTree = "<group>"; };
+		1A376817209D558A00F28164 /* SampleTest.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SampleTest.sh; sourceTree = "<group>"; };
+		1A376818209D633900F28164 /* EULA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULA.swift; sourceTree = "<group>"; };
 		1A60598B1E55D6E90085B55F /* DEPNotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DEPNotify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A60598E1E55D6E90085B55F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A6059901E55D6E90085B55F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A376816209D556400F28164 /* Sample Setup */ = {
+			isa = PBXGroup;
+			children = (
+				1A376817209D558A00F28164 /* SampleTest.sh */,
+			);
+			path = "Sample Setup";
+			sourceTree = "<group>";
+		};
 		1A6059821E55D6E90085B55F = {
 			isa = PBXGroup;
 			children = (
@@ -102,11 +113,13 @@
 		1A60598D1E55D6E90085B55F /* DEPNotify */ = {
 			isa = PBXGroup;
 			children = (
+				1A376816209D556400F28164 /* Sample Setup */,
 				1A60598E1E55D6E90085B55F /* AppDelegate.swift */,
 				1A6059901E55D6E90085B55F /* ViewController.swift */,
 				1A6059B91E55D8F70085B55F /* TrackProgress.swift */,
 				1A10FCD71FB2AAFB00D30727 /* Background.swift */,
 				1A376814209D4F2E00F28164 /* RegisterViewController.swift */,
+				1A376818209D633900F28164 /* EULA.swift */,
 				1A6059921E55D6E90085B55F /* Assets.xcassets */,
 				1A6059941E55D6E90085B55F /* Main.storyboard */,
 				1A6059971E55D6E90085B55F /* Info.plist */,
@@ -272,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A376819209D633900F28164 /* EULA.swift in Sources */,
 				1A6059911E55D6E90085B55F /* ViewController.swift in Sources */,
 				1A376815209D4F3200F28164 /* RegisterViewController.swift in Sources */,
 				1A60598F1E55D6E90085B55F /* AppDelegate.swift in Sources */,
