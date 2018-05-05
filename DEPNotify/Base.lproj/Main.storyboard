@@ -66,16 +66,16 @@
                                 <rect key="frame" x="0.0" y="120" width="700" height="512"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="MainImageText" id="Wpc-HA-0GA" userLabel="Image"/>
                             </imageView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S7k-po-3Vp">
-                                <rect key="frame" x="0.0" y="265" width="700" height="40"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="S7k-po-3Vp">
+                                <rect key="frame" x="169" y="266" width="362" height="39"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Welcome to your new Mac!" id="uNN-nN-sFa">
                                     <font key="font" metaFont="systemThin" size="32"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N48-Mi-Fab">
-                                <rect key="frame" x="100" y="63" width="500" height="20"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N48-Mi-Fab">
+                                <rect key="frame" x="274" y="63" width="152" height="20"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Starting configuration..." id="Wes-CZ-MzJ">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -140,6 +140,7 @@ This process could take up to 20 minutes so please don't restart or shutdown you
                             <constraint firstAttribute="bottom" secondItem="XoJ-GQ-tx3" secondAttribute="bottom" constant="12" id="UAj-fc-K4j"/>
                             <constraint firstAttribute="bottom" secondItem="lC2-WV-ZF0" secondAttribute="bottom" id="VTz-of-isY"/>
                             <constraint firstAttribute="trailing" secondItem="MBk-su-WHI" secondAttribute="trailing" constant="20" symbolic="YES" id="bsV-K5-ji1"/>
+                            <constraint firstItem="MBk-su-WHI" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="dPK-BX-LmW"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="dyu-4l-kyN"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="top" secondItem="MBk-su-WHI" secondAttribute="top" id="e3p-37-eLt"/>
                             <constraint firstItem="ybm-7R-2cn" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="f8j-11-zhJ"/>

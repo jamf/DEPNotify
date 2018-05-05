@@ -150,48 +150,42 @@ class TrackProgress: NSObject {
                         if (!(line.range(of: "flat package") != nil)) && (!(line.range(of: "bom") != nil)) && (!(line.range(of: "an Apple package...") != nil)) && (!(line.range(of: "com.jamfsoftware.task.errors") != nil)) {
                             
                             switch true {
-                            
+                                
                             case line.range(of: "Downloading") != nil:
                                 let lineDownloadingItem = line.components(separatedBy: "CasperShare/")
-                                if lineDownloadingItem is NSArray {
-                                    let getDownloadingItem = lineDownloadingItem[1]
-                                    print(getDownloadingItem)
-                                    let pattern = "(%20)"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
-                                    let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-                                    let downloadingItem = removeRegex.stringByReplacingMatches(in: getDownloadingItem, options: [], range: NSRange(location: 0, length: getDownloadingItem.count), withTemplate: "")
-                                    
-                                    if !(downloadingItem.isEmpty) {
-                                        print("Downloading:  \(downloadingItem)")
-                                        statusText = "Downloading:  \(downloadingItem)"
-                                    }
+                                let getDownloadingItem = lineDownloadingItem[1]
+                                print(getDownloadingItem)
+                                let pattern = "(%20)"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
+                                let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+                                let downloadingItem = removeRegex.stringByReplacingMatches(in: getDownloadingItem, options: [], range: NSRange(location: 0, length: getDownloadingItem.count), withTemplate: "")
+                                
+                                if !(downloadingItem.isEmpty) {
+                                    print("Downloading:  \(downloadingItem)")
+                                    statusText = "Downloading:  \(downloadingItem)"
                                 }
                                 
                             case line.range(of: "Installing") != nil:
                                 let lineInstallItem = line.components(separatedBy: "Installing ")
-                                if lineInstallItem is NSArray {
-                                    let getInstallItem = lineInstallItem[1]
-                                    let pattern = "\\[.*?\\]\\s"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
-                                    let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-                                    let installItem = removeRegex.stringByReplacingMatches(in: getInstallItem, options: [], range: NSRange(location: 0, length: getInstallItem.characters.count), withTemplate: "")
-                                    
-                                    if !(installItem.isEmpty) {
-                                        print("Installing:  \(installItem)")
-                                        statusText = "Installing:  \(installItem)"
-                                    }
+                                let getInstallItem = lineInstallItem[1]
+                                let pattern = "\\[.*?\\]\\s"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
+                                let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+                                let installItem = removeRegex.stringByReplacingMatches(in: getInstallItem, options: [], range: NSRange(location: 0, length: getInstallItem.count), withTemplate: "")
+                                
+                                if !(installItem.isEmpty) {
+                                    print("Installing:  \(installItem)")
+                                    statusText = "Installing:  \(installItem)"
                                 }
                                 
                             case line.range(of: "Successfully installed") != nil:
                                 let lineInstalledItem = line.components(separatedBy: "]: Successfully installed")
-                                if lineInstalledItem is NSArray {
-                                    let getInstalledItem = lineInstalledItem[1]
-                                    let pattern = "\\s*\\[.*?\\]\\s*"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
-                                    let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-                                    let installedItem = removeRegex.stringByReplacingMatches(in: getInstalledItem, options: [], range: NSRange(location: 0, length: getInstalledItem.characters.count), withTemplate: "")
-                                    
-                                    if !(installedItem.isEmpty) {
-                                        print("Successfully installed:  \(installedItem)")
-                                        statusText = "Successfully installed:  \(installedItem)"
-                                    }
+                                let getInstalledItem = lineInstalledItem[1]
+                                let pattern = "\\s*\\[.*?\\]\\s*"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
+                                let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+                                let installedItem = removeRegex.stringByReplacingMatches(in: getInstalledItem, options: [], range: NSRange(location: 0, length: getInstalledItem.count), withTemplate: "")
+                                
+                                if !(installedItem.isEmpty) {
+                                    print("Successfully installed:  \(installedItem)")
+                                    statusText = "Successfully installed:  \(installedItem)"
                                 }
                                 
                             case line.range(of: "failed") != nil:
@@ -212,25 +206,21 @@ class TrackProgress: NSObject {
                                     globalVariables.failedReason = getFailedReason[1]
                                     print(globalVariables.failedReason)
                                 }
-                                if (getInstalledItem is NSArray) {
-                                    if !(getInstalledItem[1].isEmpty) {
-                                        print("Failed to install:  \(getInstalledItem[1])  Reason:  \(globalVariables.failedReason)")
-                                        statusText = "Failed to install:  \(getInstalledItem[1])  Reason:  \(globalVariables.failedReason)"
-                                    }
+                                if !(getInstalledItem[1].isEmpty) {
+                                    print("Failed to install:  \(getInstalledItem[1])  Reason:  \(globalVariables.failedReason)")
+                                    statusText = "Failed to install:  \(getInstalledItem[1])  Reason:  \(globalVariables.failedReason)"
                                 }
                                 
                             case line.range(of: "Error:") != nil:
                                 let lineErrorItem = line.components(separatedBy: "Error: ")
-                                if lineErrorItem is NSArray {
-                                    let getErrorItem = lineErrorItem[1]
-                                    let pattern = "(%20)"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
-                                    let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
-                                    let errorItem = removeRegex.stringByReplacingMatches(in: getErrorItem, options: [], range: NSRange(location: 0, length: getErrorItem.characters.count), withTemplate: "")
-                                    
-                                    if !(errorItem.isEmpty) {
-                                        print("Error:  \(errorItem)")
-                                        statusText = "Error installing:  \(errorItem)"
-                                    }
+                                let getErrorItem = lineErrorItem[1]
+                                let pattern = "(%20)"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
+                                let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+                                let errorItem = removeRegex.stringByReplacingMatches(in: getErrorItem, options: [], range: NSRange(location: 0, length: getErrorItem.count), withTemplate: "")
+                                
+                                if !(errorItem.isEmpty) {
+                                    print("Error:  \(errorItem)")
+                                    statusText = "Error installing:  \(errorItem)"
                                 }
                                 
                             case (action.range(of: "FileVault") != nil) || (action.range(of: "Encrypt") != nil) || (action.range(of: "Encryption") != nil):
@@ -320,12 +310,12 @@ class TrackProgress: NSObject {
                 case OtherLogs.munki :
                     if (line.contains("Installing") || line.contains("Downloading"))
                         && !line.contains(" at ") && !line.contains(" from ") {
-
+                        
                         do {
                             let installerRegEx = try NSRegularExpression(pattern: "^.{0,27}")
                             let status = installerRegEx.stringByReplacingMatches(in: line,
                                                                                  options: NSRegularExpression.MatchingOptions.anchored,
-                                                                                 range: NSMakeRange(0, line.characters.count),
+                                                                                 range: NSMakeRange(0, line.count),
                                                                                  withTemplate: "").trimmingCharacters(in: .whitespacesAndNewlines)
                             statusText = status
                         } catch {
