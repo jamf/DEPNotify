@@ -272,6 +272,7 @@ defaults write menu.nomad.DEPNotify key value
 | UIPopUpMenuLowerLabel        | String | Sets the lower pop up menu label                                                                          | defaults write menu.nomad.DEPNotify UIPopUpMenuLowerLabel 'Lower Menu'                  |
 | pathToEULA                   | String | Set the path to the EULA text file                                                                        | defaults write menu.nomad.DEPNotify pathToEULA "/Users/Shared/eula.txt"                 |
 | checkForSensitiveInformation | Bool   | Set visibility of Sensitive Information button                                                            | defaults write menu.nomad.DEPNotify checkForSensitiveInformation -bool true             |
+| quitSuccessiveEULA           | Bool   | Set key to quit after EULA accepted and plist written                                                     | defaults write menu.nomad.DEPNotify quitSuccessiveEULA -bool true                       |
 
 # Workflow
 
