@@ -112,8 +112,9 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
             print("Is Plist file created: \(isWritten)")
             writeBomFile()
             self.view.window?.close()
-            if let quitSuccessiveEULA = UserDefaults.standard.bool(forKey: "quitSuccessiveEULA") {
+            if UserDefaults.standard.bool(forKey: "quitSuccessiveEULA") {
                 NSApp.terminate(self)
+            }
 
         }
     }
