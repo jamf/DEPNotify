@@ -114,7 +114,7 @@ This makes the progress bar be determinate instead of just a spinny bar. You nee
 *Example:* `Command: Determinate: 5`
 
 ### **DeterminateManual:** 
-This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, you will need to manually tell DEPNotify when to update instead of relying on status updates or information from the various log files. This allows you to create a progress bar independant of status updates.
+This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, you will need to manually tell DEPNotify when to update instead of relying on status updates or information from the various log files. This allows you to create a progress bar independent of status updates.
 
 *Example:* `Command: DeterminateManual: 5`
 
@@ -124,7 +124,7 @@ When in `DeterminateManual` mode this will advance the progress bar by one step,
 *Example:* `Command: DeterminateManualStep: 2`
 
 ### **DeterminateOff:** 
-Disables a deterministic state for the progress bar. Note that the steps already occured in the bar will remain, allowing you to move between a determinsitic behavior and non-deterministic without loosing your place.
+Disables a deterministic state for the progress bar. Note that the steps already occurred in the bar will remain, allowing you to move between a deterministic behavior and non-deterministic without loosing your place.
 
 *Example:* `Command: DeterminateOff:`
 
@@ -180,7 +180,7 @@ This will issue a notification to the Mac's notification center and display it.
 *Example:* `Command: Notification: Please look at this notification.`
 
 ### **NotificationImage:** 
-This sets an image to use for the user notifications. Keep in mind that this may not be what you are looking for. After setting this notoifications will still have the DEP Notify icon in them, but will also have the image set with this command.
+This sets an image to use for the user notifications. Keep in mind that this may not be what you are looking for. After setting this notifications will still have the DEP Notify icon in them, but will also have the image set with this command.
 
 *Example:* `Command: NotificationImage: /tmp/image.png`
 
