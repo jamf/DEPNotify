@@ -241,7 +241,9 @@ You can also set the registration window title and registration button label.
 
 You access defaults key via the defaults command using the `menu.nomad.DEPNotify` domain. This file will be written at `~/Library/Preferences/menu.nomad.DEPNotify.plist`
 
-DEPNotify gets the EULA contents from a text file. 
+DEPNotify gets the EULA contents from a text file, see `pathToEULA` below.
+
+When the registration is complete DEPNotify will write the contents of the input to a file named `DEPNotify.plist` in the default path `/Users/Shared/`. This default path can be changed with the `PathToPlistFile` key.
 
 Sample EULA window:
 ![DEPNotify EULA](./.gitlab/eula_demo.png)
