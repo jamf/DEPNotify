@@ -224,9 +224,11 @@ class TrackProgress: NSObject {
                                 }
                                 
                             case (action.range(of: "FileVault") != nil) || (action.range(of: "Encrypt") != nil) || (action.range(of: "Encryption") != nil):
-                                statusText = "Configuring for FileVault Encryption..."
-                                command = "Alert:  FileVault has been enabled on this machine and a reboot will be required to start the encryption process."
-                                globalVariables.fileVaultState = "Enabled"
+                                if (globalVariables.fileVaultState == "Disabled") {
+                                    statusText = "Configuring for FileVault Encryption..."
+                                    command = "Alert:  FileVault has been enabled on this machine and a reboot will be required to start the encryption process."
+                                    globalVariables.fileVaultState = "Enabled"
+                                }
                                 
                             case action.range(of: "DEPNotify Quit") != nil:
                                 statusText = "Setup Complete!"

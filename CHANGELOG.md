@@ -19,6 +19,7 @@ Please see the [README] for usage.
 * The continue button now auto-resizes so you can have really long buttons
 * EULA text is no longer editable if you had nothing in the field
 * DeterminateManualStep should work as you think it should
+* If using the -jamf option and enabling FileVault with jamf DEPNotify will only show one alert screen
 
 **Added:**
 
