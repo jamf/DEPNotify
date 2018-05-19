@@ -38,7 +38,7 @@
 
 /* Begin PBXFileReference section */
 		1A10FCD71FB2AAFB00D30727 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
-		1A376814209D4F2E00F28164 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterViewController.swift; path = "../../../../Downloads/DEPNotify-103(24)/DEPNotify/RegisterViewController.swift"; sourceTree = "<group>"; };
+		1A376814209D4F2E00F28164 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		1A376817209D558A00F28164 /* SampleTest.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SampleTest.sh; sourceTree = "<group>"; };
 		1A376818209D633900F28164 /* EULA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULA.swift; sourceTree = "<group>"; };
 		1A60598B1E55D6E90085B55F /* DEPNotify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DEPNotify.app; sourceTree = BUILT_PRODUCTS_DIR; };

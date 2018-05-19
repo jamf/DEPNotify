@@ -5,12 +5,21 @@ Please see the [README] for usage.
 **Changed:**
 
 * Redesigned EULA
-* Logo is now 2:1 ratio instead of previous 1:1 ratio
+* Logo images will now resize up or down proportionally as necessary
+  * The log image is now a banner too, 660x105 so if you want to fill the top
 * Done dotfile has been moved
   * Previous path: `/Users/Shared/.DEPNotifyDone`
   * New path: `/var/tmp/com.depnotify.provisioning.done`
 * `ContinueButtonAgreement` has been replaced with `ContinueButtonEULA`
 * Logout commands now uses a more forceful API - @clburlison [#11]
+* If you cancel the EULA the continue button gets re-enabled so the user can go back to the EULA
+
+**Fixed:**
+
+* The continue button now auto-resizes so you can have really long buttons
+* EULA text is no longer editable if you had nothing in the field
+* DeterminateManualStep should work as you think it should
+* If using the -jamf option and enabling FileVault with jamf DEPNotify will only show one alert screen
 
 **Added:**
 
@@ -19,6 +28,9 @@ Please see the [README] for usage.
 * "ContinueButtonRestart" - @fgd
 * "ContinueButtonLogout" - @fgd
 * New registration window for user input - @fgd
+* A demo script is included to show off a few common action. DEPNotify/Sample Setup/SampleTest.sh
+* "quitSuccessiveEULA" to allow DEPNotify to be closed after EULA agreement - @headmin
+
 
 # [1.0.3] - November 28, 2017
 
