@@ -14,6 +14,8 @@ private var commandContext = 1
 
 var background: Background?
 
+var enableContinueButton =  NSNotification.Name(rawValue: "menu.nomad.DEPNotify.reenableContinue")
+
 class ViewController: NSViewController {
     
 
@@ -26,7 +28,8 @@ class ViewController: NSViewController {
     @IBOutlet var myView: NSView!
     @IBOutlet weak var helpButton: NSButton!
     @IBOutlet weak var continueButton: NSButton!
-    
+    @IBOutlet weak var logoView: NSImageView!
+    @IBOutlet weak var ImageView: NSImageView!
     
     var tracker = TrackProgress()
     
@@ -41,6 +44,8 @@ class ViewController: NSViewController {
     var logo: NSImage?
     var maintextImage: NSImage?
     var notificationImage: NSImage?
+    
+    @IBOutlet weak var test: NSImageView!
     
     var activateEachStep = false
     
@@ -59,6 +64,10 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // notification listeners
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(enableContinue), name: enableContinueButton, object: nil)
 
         //Set the background color to white
         self.view.wantsLayer = true
@@ -217,7 +226,7 @@ class ViewController: NSViewController {
             // default to 1 if we can't make a number
             let stepMove = Int(Double(command.replacingOccurrences(of: "DeterminateManualStep: ", with: "")) ?? 1 )
             currentItem += stepMove
-            ProgressBar.increment(by: 1)
+            ProgressBar.increment(by: Double(stepMove))
             if activateEachStep {
                 NSApp.activate(ignoringOtherApps: true)
                 NSApp.windows[0].makeKeyAndOrderFront(self)
@@ -241,9 +250,13 @@ class ViewController: NSViewController {
             
         case "Image:" :
             logo = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "Image: ", with: ""))
-            LogoCell.image = logo
-            LogoCell.imageScaling = .scaleProportionallyUpOrDown
-            LogoCell.imageAlignment = .alignCenter
+            
+            logoView.image = logo
+            logoView.imageScaling = .scaleProportionallyUpOrDown
+            logoView.imageAlignment = .alignCenter
+            //LogoCell.image = logo
+            //LogoCell.imageScaling = .scaleProportionallyUpOrDown
+            //LogoCell.imageAlignment = .alignCenter
             
         case "KillCommandFile:" :
             killCommandFile = true
@@ -263,17 +276,31 @@ class ViewController: NSViewController {
             
         case "MainText:":
             // Need to do two replacingOccurrences since we are replacing with different values
+            
+            MainText.isHidden = false
+            MainTitle.isHidden = false
+            logoView.isHidden = false
+            
             let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
             MainText.stringValue = newlinecommand.replacingOccurrences(of: "MainText: ", with: "")
-            ImageCell.image = NSImage.init(byReferencingFile: "")
+            
+            // Remove the image if there is one
+            
+            ImageCell.image = nil
+            
+            //ImageCell.image = NSImage.init(byReferencingFile: "")
             
         case "MainTextImage:" :
             maintextImage = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "MainTextImage: ", with: ""))
-            ImageCell.image = maintextImage
-            ImageCell.imageScaling = .scaleProportionallyUpOrDown
-            ImageCell.imageAlignment = .alignCenter
-            MainText.stringValue = ""
-            MainTitle.stringValue = ""
+            
+            ImageView.image = maintextImage
+            ImageView.imageScaling = .scaleProportionallyUpOrDown
+            ImageView.imageAlignment = .alignCenter
+            
+            
+            MainText.isHidden = true
+            MainTitle.isHidden = true
+            logoView.isHidden = true
             
         case "MainTitle:" :
             // Need to do two replacingOccurrences since we are replacing with different values
@@ -365,14 +392,14 @@ class ViewController: NSViewController {
         var eventReply: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
         var eventToSend: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
         
-        var status: OSErr = AECreateDesc(
+        _ = AECreateDesc(
             UInt32(typeProcessSerialNumber),
             &psn,
             MemoryLayout<ProcessSerialNumber>.size,
             &targetDesc
         )
         
-        status = AECreateAppleEvent(
+        _ = AECreateAppleEvent(
             UInt32(kCoreEventClass),
             kAEReallyLogOut,
             &targetDesc,
@@ -383,7 +410,7 @@ class ViewController: NSViewController {
         
         AEDisposeDesc(&targetDesc)
         
-        let osstatus = AESendMessage(
+        _ = AESendMessage(
             &eventToSend,
             &eventReply,
             AESendMode(kAENormalPriority),
@@ -402,14 +429,14 @@ class ViewController: NSViewController {
         var eventReply: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
         var eventToSend: AppleEvent = AppleEvent(descriptorType: UInt32(typeNull), dataHandle: nil)
         
-        var status: OSErr = AECreateDesc(
+        _ = AECreateDesc(
             UInt32(typeProcessSerialNumber),
             &psn,
             MemoryLayout<ProcessSerialNumber>.size,
             &targetDesc
         )
         
-        status = AECreateAppleEvent(
+        _ = AECreateAppleEvent(
             UInt32(kCoreEventClass),
             kAERestart,
             &targetDesc,
@@ -420,7 +447,7 @@ class ViewController: NSViewController {
         
         AEDisposeDesc(&targetDesc)
         
-        let osstatus = AESendMessage(
+        _ = AESendMessage(
             &eventToSend,
             &eventReply,
             AESendMode(kAENormalPriority),
@@ -463,6 +490,14 @@ class ViewController: NSViewController {
         }
     }
     }
+    
+    //MARK: Notification actions
+    
+    @objc func enableContinue() {
+        continueButton.isHighlighted = true
+        continueButton.isEnabled = true
+        continueButton.isHidden = false
+    }
 
     @IBAction func HelpClick(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: helpURL)!)
@@ -480,7 +515,6 @@ class ViewController: NSViewController {
                 let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "RegisterViewController")) as! NSViewController
                 self.presentViewControllerAsSheet(myViewController)
                 continueButton.isHidden = true
-                
             }
         }
 
