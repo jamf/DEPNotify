@@ -278,6 +278,8 @@ class ViewController: NSViewController {
             // Need to do two replacingOccurrences since we are replacing with different values
             
             MainText.isHidden = false
+            MainTitle.isHidden = false
+            logoView.isHidden = false
             
             let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
             MainText.stringValue = newlinecommand.replacingOccurrences(of: "MainText: ", with: "")
@@ -295,7 +297,10 @@ class ViewController: NSViewController {
             ImageView.imageScaling = .scaleProportionallyUpOrDown
             ImageView.imageAlignment = .alignCenter
             
+            
             MainText.isHidden = true
+            MainTitle.isHidden = true
+            logoView.isHidden = true
             
         case "MainTitle:" :
             // Need to do two replacingOccurrences since we are replacing with different values
