@@ -29,6 +29,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var helpButton: NSButton!
     @IBOutlet weak var continueButton: NSButton!
     @IBOutlet weak var logoView: NSImageView!
+    @IBOutlet weak var ImageView: NSImageView!
     
     var tracker = TrackProgress()
     
@@ -275,17 +276,26 @@ class ViewController: NSViewController {
             
         case "MainText:":
             // Need to do two replacingOccurrences since we are replacing with different values
+            
+            MainText.isHidden = false
+            
             let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
             MainText.stringValue = newlinecommand.replacingOccurrences(of: "MainText: ", with: "")
-            ImageCell.image = NSImage.init(byReferencingFile: "")
+            
+            // Remove the image if there is one
+            
+            ImageCell.image = nil
+            
+            //ImageCell.image = NSImage.init(byReferencingFile: "")
             
         case "MainTextImage:" :
             maintextImage = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "MainTextImage: ", with: ""))
-            ImageCell.image = maintextImage
-            ImageCell.imageScaling = .scaleProportionallyUpOrDown
-            ImageCell.imageAlignment = .alignCenter
-            MainText.stringValue = ""
-            MainTitle.stringValue = ""
+            
+            ImageView.image = maintextImage
+            ImageView.imageScaling = .scaleProportionallyUpOrDown
+            ImageView.imageAlignment = .alignCenter
+            
+            MainText.isHidden = true
             
         case "MainTitle:" :
             // Need to do two replacingOccurrences since we are replacing with different values

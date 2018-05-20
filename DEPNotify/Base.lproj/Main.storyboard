@@ -56,16 +56,12 @@
                                 <rect key="frame" x="0.0" y="0.0" width="700" height="45"/>
                             </visualEffectView>
                             <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="PdX-76-P6c">
-                                <rect key="frame" x="100" y="88" width="500" height="20"/>
+                                <rect key="frame" x="100" y="85" width="500" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="9Sh-mI-GnL"/>
                                     <constraint firstAttribute="width" constant="500" id="xss-kR-CL6"/>
                                 </constraints>
                             </progressIndicator>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AnR-P2-Lqa">
-                                <rect key="frame" x="0.0" y="120" width="700" height="512"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="MainImageText" id="Wpc-HA-0GA" userLabel="Image"/>
-                            </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="S7k-po-3Vp">
                                 <rect key="frame" x="169" y="266" width="362" height="39"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Welcome to your new Mac!" id="uNN-nN-sFa">
@@ -75,7 +71,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="N48-Mi-Fab">
-                                <rect key="frame" x="274" y="63" width="152" height="20"/>
+                                <rect key="frame" x="274" y="63" width="152" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Starting configuration..." id="Wes-CZ-MzJ">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -125,15 +121,23 @@ This process could take up to 20 minutes so please don't restart or shutdown you
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" focusRingType="none" alignment="left" imageScaling="proportionallyUpOrDown" image="macbasics_2x" id="vcg-o4-XhS" userLabel="Logo"/>
                             </imageView>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AnR-P2-Lqa">
+                                <rect key="frame" x="20" y="117" width="660" height="313"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="660" id="PTI-hM-EKO"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="313" id="d5O-Jf-xM3"/>
+                                    <constraint firstAttribute="height" constant="313" id="n0D-AN-vN7"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="MainImageText" id="Wpc-HA-0GA" userLabel="Image"/>
+                            </imageView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerY" secondItem="lC2-WV-ZF0" secondAttribute="centerY" id="3aj-f0-yjn"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="ybm-7R-2cn" secondAttribute="centerX" id="4f9-pV-xpd"/>
-                            <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="AnR-P2-Lqa" secondAttribute="centerX" id="7pO-KO-Clc"/>
-                            <constraint firstItem="lC2-WV-ZF0" firstAttribute="leading" secondItem="AnR-P2-Lqa" secondAttribute="leading" id="BvQ-z7-CHK"/>
                             <constraint firstItem="OuP-hY-kcg" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="LX4-7K-oB5"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="S7k-po-3Vp" secondAttribute="centerX" id="Mw4-61-dtH"/>
                             <constraint firstItem="S7k-po-3Vp" firstAttribute="top" secondItem="ybm-7R-2cn" secondAttribute="bottom" constant="20" id="MxK-sl-gAb"/>
+                            <constraint firstItem="PdX-76-P6c" firstAttribute="top" secondItem="OuP-hY-kcg" secondAttribute="bottom" constant="16" id="O1Y-qe-1Yw"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="N48-Mi-Fab" secondAttribute="centerX" id="OWM-Xf-uKb"/>
                             <constraint firstItem="OuP-hY-kcg" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="88" id="RZc-w4-2xk"/>
                             <constraint firstItem="N48-Mi-Fab" firstAttribute="top" secondItem="PdX-76-P6c" secondAttribute="bottom" constant="6" id="Rf1-EC-Z6A"/>
@@ -144,12 +148,11 @@ This process could take up to 20 minutes so please don't restart or shutdown you
                             <constraint firstItem="MBk-su-WHI" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="dPK-BX-LmW"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="dyu-4l-kyN"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="top" secondItem="MBk-su-WHI" secondAttribute="top" id="e3p-37-eLt"/>
+                            <constraint firstItem="AnR-P2-Lqa" firstAttribute="leading" secondItem="lC2-WV-ZF0" secondAttribute="leading" constant="20" id="eyY-Gf-q2F"/>
                             <constraint firstItem="ybm-7R-2cn" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="f8j-11-zhJ"/>
                             <constraint firstItem="lC2-WV-ZF0" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="iGX-MS-Sg9"/>
                             <constraint firstItem="PdX-76-P6c" firstAttribute="top" secondItem="AnR-P2-Lqa" secondAttribute="bottom" constant="13" id="j5c-5o-Tnd"/>
-                            <constraint firstItem="MBk-su-WHI" firstAttribute="top" secondItem="AnR-P2-Lqa" secondAttribute="bottom" constant="87" id="mKj-nY-rnI"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="top" secondItem="N48-Mi-Fab" secondAttribute="bottom" constant="30" id="p4u-Wc-Gl7"/>
-                            <constraint firstItem="OuP-hY-kcg" firstAttribute="bottom" secondItem="AnR-P2-Lqa" secondAttribute="bottom" id="pK6-tX-wce"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerY" secondItem="lC2-WV-ZF0" secondAttribute="centerY" id="qat-MK-0y3"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="lC2-WV-ZF0" secondAttribute="centerX" id="toH-eU-CE9"/>
                             <constraint firstItem="MBk-su-WHI" firstAttribute="trailing" secondItem="ybm-7R-2cn" secondAttribute="trailing" id="uKN-bM-6kp"/>
@@ -163,6 +166,7 @@ This process could take up to 20 minutes so please don't restart or shutdown you
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="ImageCell" destination="Wpc-HA-0GA" id="hX7-t0-h3E"/>
+                        <outlet property="ImageView" destination="AnR-P2-Lqa" id="omL-aM-OrQ"/>
                         <outlet property="LogoCell" destination="vcg-o4-XhS" id="Xe5-Ru-Vlr"/>
                         <outlet property="MainText" destination="OuP-hY-kcg" id="lKS-Mt-bSo"/>
                         <outlet property="MainTitle" destination="S7k-po-3Vp" id="dic-aH-FGO"/>
