@@ -162,9 +162,9 @@ class RegisterViewController: NSViewController, NSTextFieldDelegate {
     // Replace special characters from text fields & Constrains Characters
     override func controlTextDidChange(_ obj: Notification) {
         
-        let characterSet: CharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789-_").inverted
-        let alphaCharSet: CharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ.").inverted
-        let numCharSet: CharacterSet = CharacterSet(charactersIn: "0123456789").inverted
+        let characterSet: CharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789-_@.").inverted
+//        let alphaCharSet: CharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ.").inverted
+//        let numCharSet: CharacterSet = CharacterSet(charactersIn: "0123456789").inverted
         
         self.UITextFieldUpper.stringValue = (self.UITextFieldUpper.stringValue.components(separatedBy: characterSet) as NSArray).componentsJoined(by: "")
         self.UITextFieldLower.stringValue = (self.UITextFieldLower.stringValue.components(separatedBy: characterSet) as NSArray).componentsJoined(by: "")
