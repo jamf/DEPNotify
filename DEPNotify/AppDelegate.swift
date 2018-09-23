@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         while dockRunning == 0 {
             print("Waiting for the Dock")
             dockRunning = ws.runningApplications.filter({ $0.bundleIdentifier == "com.apple.dock" }).count
-            RunLoop.main.run(mode: RunLoopMode.defaultRunLoopMode, before: Date.distantFuture)
+            RunLoop.main.run(mode: RunLoop.Mode.default, before: Date.distantFuture)
         }
     }
 

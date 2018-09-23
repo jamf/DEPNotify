@@ -39,7 +39,7 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
         
         // Set window background color to white
         self.view.wantsLayer = true
-        self.view.layer?.backgroundColor = CGColor.white
+        //self.view.layer?.backgroundColor = CGColor.white
         
         // Get EULA text from Preferences file
         if let pathToEULA = UserDefaults.standard.string(forKey: "pathToEULA") {

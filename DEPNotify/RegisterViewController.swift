@@ -55,7 +55,7 @@ class RegisterViewController: NSViewController, NSTextFieldDelegate {
 
         // Set window background color to white
         self.view.wantsLayer = true
-        self.view.layer?.backgroundColor = CGColor.white
+        //self.view.layer?.backgroundColor = CGColor.white
         
         
         
@@ -160,7 +160,7 @@ class RegisterViewController: NSViewController, NSTextFieldDelegate {
     
     
     // Replace special characters from text fields & Constrains Characters
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         
         let characterSet: CharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789-_").inverted
         let alphaCharSet: CharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ.").inverted

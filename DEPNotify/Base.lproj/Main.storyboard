@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment version="101100" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -25,7 +24,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="WindowController" customModule="DEPNotify" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Welcome to your Mac" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="alertPanel" id="IQv-IB-iLA">
+                    <window key="window" title="Welcome to your Mac" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="alertPanel" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -52,9 +51,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="700" height="450"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <visualEffectView wantsLayer="YES" appearanceType="vibrantLight" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="lC2-WV-ZF0">
-                                <rect key="frame" x="0.0" y="0.0" width="700" height="45"/>
-                            </visualEffectView>
                             <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="PdX-76-P6c">
                                 <rect key="frame" x="100" y="85" width="500" height="20"/>
                                 <constraints>
@@ -93,7 +89,7 @@ This process could take up to 20 minutes so please don't restart or shutdown you
                                 </textFieldCell>
                             </textField>
                             <button hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MBk-su-WHI">
-                                <rect key="frame" x="657" y="9" width="25" height="25"/>
+                                <rect key="frame" x="657" y="8" width="25" height="25"/>
                                 <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="elz-TA-xjH">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -132,9 +128,10 @@ This process could take up to 20 minutes so please don't restart or shutdown you
                             </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerY" secondItem="lC2-WV-ZF0" secondAttribute="centerY" id="3aj-f0-yjn"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="ybm-7R-2cn" secondAttribute="centerX" id="4f9-pV-xpd"/>
+                            <constraint firstItem="AnR-P2-Lqa" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="8lt-Ia-9Kc"/>
                             <constraint firstItem="OuP-hY-kcg" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="LX4-7K-oB5"/>
+                            <constraint firstItem="AnR-P2-Lqa" firstAttribute="leading" secondItem="ybm-7R-2cn" secondAttribute="leading" id="MT6-1P-4Be"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="S7k-po-3Vp" secondAttribute="centerX" id="Mw4-61-dtH"/>
                             <constraint firstItem="S7k-po-3Vp" firstAttribute="top" secondItem="ybm-7R-2cn" secondAttribute="bottom" constant="20" id="MxK-sl-gAb"/>
                             <constraint firstItem="PdX-76-P6c" firstAttribute="top" secondItem="OuP-hY-kcg" secondAttribute="bottom" constant="16" id="O1Y-qe-1Yw"/>
@@ -143,20 +140,14 @@ This process could take up to 20 minutes so please don't restart or shutdown you
                             <constraint firstItem="N48-Mi-Fab" firstAttribute="top" secondItem="PdX-76-P6c" secondAttribute="bottom" constant="6" id="Rf1-EC-Z6A"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="PdX-76-P6c" secondAttribute="centerX" id="S1v-ZT-Cwn"/>
                             <constraint firstAttribute="bottom" secondItem="XoJ-GQ-tx3" secondAttribute="bottom" constant="12" id="UAj-fc-K4j"/>
-                            <constraint firstAttribute="bottom" secondItem="lC2-WV-ZF0" secondAttribute="bottom" id="VTz-of-isY"/>
                             <constraint firstAttribute="trailing" secondItem="MBk-su-WHI" secondAttribute="trailing" constant="20" symbolic="YES" id="bsV-K5-ji1"/>
                             <constraint firstItem="MBk-su-WHI" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="dPK-BX-LmW"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="dyu-4l-kyN"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="top" secondItem="MBk-su-WHI" secondAttribute="top" id="e3p-37-eLt"/>
-                            <constraint firstItem="AnR-P2-Lqa" firstAttribute="leading" secondItem="lC2-WV-ZF0" secondAttribute="leading" constant="20" id="eyY-Gf-q2F"/>
                             <constraint firstItem="ybm-7R-2cn" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="f8j-11-zhJ"/>
-                            <constraint firstItem="lC2-WV-ZF0" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="iGX-MS-Sg9"/>
                             <constraint firstItem="PdX-76-P6c" firstAttribute="top" secondItem="AnR-P2-Lqa" secondAttribute="bottom" constant="13" id="j5c-5o-Tnd"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="top" secondItem="N48-Mi-Fab" secondAttribute="bottom" constant="30" id="p4u-Wc-Gl7"/>
-                            <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerY" secondItem="lC2-WV-ZF0" secondAttribute="centerY" id="qat-MK-0y3"/>
-                            <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="lC2-WV-ZF0" secondAttribute="centerX" id="toH-eU-CE9"/>
                             <constraint firstItem="MBk-su-WHI" firstAttribute="trailing" secondItem="ybm-7R-2cn" secondAttribute="trailing" id="uKN-bM-6kp"/>
-                            <constraint firstItem="lC2-WV-ZF0" firstAttribute="centerX" secondItem="PdX-76-P6c" secondAttribute="centerX" id="yET-Ca-V1E"/>
                         </constraints>
                     </view>
                     <userDefinedRuntimeAttributes>
@@ -186,7 +177,7 @@ This process could take up to 20 minutes so please don't restart or shutdown you
         <scene sceneID="KfJ-U2-YfW">
             <objects>
                 <windowController storyboardIdentifier="Background" id="Xv3-Qu-b2k" customClass="Background" customModule="DEPNotify" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="J5k-eo-Gj3">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="J5k-eo-Gj3">
                         <windowStyleMask key="styleMask" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -287,26 +278,26 @@ Gw
                             <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7LM-we-CqE">
                                 <rect key="frame" x="20" y="51" width="610" height="277"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <clipView key="contentView" ambiguous="YES" id="KC3-Iu-etL">
+                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="KC3-Iu-etL">
                                     <rect key="frame" x="1" y="1" width="608" height="275"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView ambiguous="YES" editable="NO" importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsCharacterPickerTouchBarItem="NO" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" id="6Fj-1A-uEj">
                                             <rect key="frame" x="0.0" y="0.0" width="608" height="275"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <size key="minSize" width="608" height="275"/>
                                             <size key="maxSize" width="610" height="10000000"/>
-                                            <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
                                     </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="f5m-Rd-xkG">
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="f5m-Rd-xkG">
                                     <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="85b-Hd-Opy">
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="85b-Hd-Opy">
                                     <rect key="frame" x="593" y="1" width="16" height="275"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -358,7 +349,7 @@ Gw
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" focusRingType="none" drawsBackground="YES" id="Zjj-fe-pv6">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -370,7 +361,7 @@ Gw
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="zk0-Ir-CS3">
                                     <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
@@ -513,7 +504,7 @@ Gw
     </scenes>
     <resources>
         <image name="GenericErrorDot" width="13" height="13"/>
-        <image name="MainImageText" width="512" height="512"/>
+        <image name="MainImageText" width="1024" height="1024"/>
         <image name="macbasics_2x" width="487" height="242"/>
         <image name="mbpWhiteTick" width="5000" height="3000"/>
     </resources>

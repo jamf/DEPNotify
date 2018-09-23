@@ -71,7 +71,7 @@ class ViewController: NSViewController {
 
         //Set the background color to white
         self.view.wantsLayer = true
-        self.view.layer?.backgroundColor = CGColor.white
+        //self.view.layer?.backgroundColor = CGColor.white
 
         //var isOpaque = false
         ProgressBar.startAnimation(nil)
@@ -511,9 +511,9 @@ class ViewController: NSViewController {
         // Open the Register ViewController
         if conditional == "Register" {
             do {
-                let storyBoard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)  as NSStoryboard
-                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "RegisterViewController")) as! NSViewController
-                self.presentViewControllerAsSheet(myViewController)
+                let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: "RegisterViewController") as! NSViewController
+                self.presentAsSheet(myViewController)
                 continueButton.isHidden = true
             }
         }
@@ -521,9 +521,9 @@ class ViewController: NSViewController {
         // Open the EULA ViewController
         else if conditional == "EULA" {
             do {
-                let storyBoard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)  as NSStoryboard
-                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EULA")) as! NSViewController
-                self.presentViewControllerAsSheet(myViewController)
+                let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: "EULA") as! NSViewController
+                self.presentAsSheet(myViewController)
                 continueButton.isHidden = true
             }
         }
@@ -581,7 +581,7 @@ class WindowController: NSWindowController {
             self.window?.center()
             self.window?.isMovable = false
             
-            background = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "Background")) as? Background
+            background = storyboard?.instantiateController(withIdentifier: "Background") as? Background
             background?.showWindow(self)
             background?.sendBack()
             NSApp.windows[0].level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))
