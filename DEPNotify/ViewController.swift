@@ -171,6 +171,7 @@ class ViewController: NSViewController {
             continueButton.isHighlighted = true
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
+            buttonAction = "Continue"
         
         // Puts a Button at the bottom of the screen to produce a Registration Dialog
         case "ContinueButtonRegister:" :
