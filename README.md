@@ -9,17 +9,17 @@ DEPNotify is a small light weight notification app that was designed to let your
 * [**Download**](#download)
 * [**Basic Usage**](#basic-usage)
 * [**Application Flags**](#application-flags)
-* [**Default File Locations**](#default-file-locations)
 * [**Commands**](#commands)
   * [**Main Window Configuration**](#main-window-configuration)
   * [**Interaction**](#interaction)
   * [**Notification**](#notification)
   * [**Completion**](#completion)
-* [**Status Updates**](#status-updates)
 * [**DEPNotify Plist**](#depnotify-plist)
   * [**Main Window Configuration**](#main-window-configuration)
   * [**EULA Window Configuration**](#eula-window-configuration)
   * [**Registration Window Configuration**](#registration-window-configuration)
+* [**Status Updates**](#status-updates)
+* [**Default File Locations**](#default-file-locations)
 * [**Workflow**](#workflow)
 * [**Advanced Workflows**](#advanced-workflows)
 * [**Changelog**](#changelog)
@@ -33,7 +33,7 @@ Get the latest version, visit our tags: [DEPNotify tags](https://gitlab.com/Mact
 
 DEPNotify is completely controlled via echoing text to its control file. By default this is `/var/tmp/depnotify.log` but can be changed with the [`-path`](#-path) flag.
 
-The application then reacts to `Command:` and `Status:` lines written to the control file.
+The application then reacts to `Command:` and `Status:` lines written to the control file. Newer features of the app also utilize menu.nomad.DEPNotify.plist that is saved to the current user's home library preferences folder.
 
 # Application Flags
 
@@ -83,18 +83,6 @@ This has DEP Notify read in the Jamf log at `/var/log/jamf.log` and then update 
 This has DEP Notify read in the Munki log at `/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log` and then update the status line in the DEP Notify window with any downloads and installations.
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -munki`
-
-# Default File Locations
-
-* DEPNotify.app: `/Applications/Utilities/DEPNotify.app`
-* Configuration and Control File: `/var/tmp/depnotify.log`
-* Configuration plist: `/Users/username/Library/Preferences/menu.nomad.DEPNotify.plist`
-* EULA and Registration responses: `/Users/Shared/UserInput.plist`
-* Completion BOM file: `/var/tmp/com.depnotify.provisioning.done`
-* Restart BOM file: `/var/tmp/com.depnotify.provisioning.restart`
-* EULA BOM file: `/var/tmp/com.depnotify.agreement.done`
-* Registration BOM file: `/var/tmp/com.depnotify.registration.done`
-* EULA text file: `/Users/Shared/eula.txt`
 
 # Commands
 
@@ -288,12 +276,6 @@ This will show a help button in the lower right corner of the DEPNotify window. 
 
 *Example:* `Command: Help: http://www.apple.com/support`
 
-# Status Updates
-
-This are very simple. Just echo set `Status:` followed by the text of your status. If you've set `NotificationOn:` the status will also be sent as a notification. Also, if you have `Determinate:` set, each time you send a status the process bar will increment by one.
-
-*Example:* `Status: Reticulating splines...`
-
 # DEPNotify Plist
 
 For more functionality and advanced workflows, additional options are slowly being added into the `menu.nomad.DEPNotify.plist`. This file is able to configure various things like EULA window, registration window, status text alignment, and help bubbles.
@@ -311,7 +293,7 @@ Main window configurations modify the look, feel, and some of the underlying loc
 
 ## EULA Window Configuration
 
-The EULA window adds a button the end user must press to activate a dropdown that the user can read and then accept some terms of agreement to use the computer.
+The EULA window adds a button the end user must press to activate a dropdown that the user can read and then accept some terms of agreement to use the computer. The EULA text file can be ether `.txt` or `.rtf` format.
 
 | Key | Type | Description | Example |
 | --- | ---- | ----------- | ------- |
@@ -381,6 +363,24 @@ Registration window adds a button the end user must press to activate a dropdown
 | popupButton4Label | String | Enables popup button 4 and sets custom label | defaults write menu.nomad.DEPNotify	popupButton4Label "Region" |
 | popupButton4Content | Array | Contents of the popup menu 4 | defaults write menu.nomad.DEPNotify popupButton4Content -array "US" "APAC" "Europe" "Americas" |
 | popupMenu4Bubble | Array | Enables popup menu 4 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	popupMenu4Bubble -array "Title" "Informative text" |
+
+# Status Updates
+
+This are very simple. Just echo set `Status:` followed by the text of your status. If you've set `NotificationOn:` the status will also be sent as a notification. Also, if you have `Determinate:` set, each time you send a status the process bar will increment by one.
+
+*Example:* `Status: Reticulating splines...`
+
+# Default File Locations
+
+* DEPNotify.app: `/Applications/Utilities/DEPNotify.app`
+* Configuration and Control File: `/var/tmp/depnotify.log`
+* Configuration plist: `/Users/username/Library/Preferences/menu.nomad.DEPNotify.plist`
+* EULA and Registration responses: `/Users/Shared/UserInput.plist`
+* Completion BOM file: `/var/tmp/com.depnotify.provisioning.done`
+* Restart BOM file: `/var/tmp/com.depnotify.provisioning.restart`
+* EULA BOM file: `/var/tmp/com.depnotify.agreement.done`
+* Registration BOM file: `/var/tmp/com.depnotify.registration.done`
+* EULA text file: `/Users/Shared/eula.txt`
 
 # Workflow
 
