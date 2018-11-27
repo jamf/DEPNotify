@@ -3,13 +3,13 @@
 //  DEPNotify
 //
 //  Created by Federico Deis on 06/04/2018.
-//  Copyright © 2018 AgileMobility360. All rights reserved.
+//  Copyright © 2018 AgileMobility360 LLC. All rights reserved.
 //
 
 import Cocoa
 import Foundation
 
-class EULA: NSViewController {
+class EULAViewController: NSViewController {
 
     // Interface Builder Connnectors
     @IBOutlet weak var eulaTitle: NSTextField!
@@ -18,8 +18,8 @@ class EULA: NSViewController {
     @IBOutlet weak var cancelButton: NSButton!
     @IBOutlet weak var continueButton: NSButton!
     @IBOutlet weak var agreeCheck: NSButton!
-
-    var PathToPlistDefault = "/Users/Shared/DEPNotify.plist"
+    
+    var pathToPlistDefault = "/Users/Shared/UserInput.plist"
     var plistPath = ""
     
     let defaultEULA = """
@@ -37,28 +37,61 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set window background color to white
-        self.view.wantsLayer = true
-        //self.view.layer?.backgroundColor = CGColor.white
+        // Get path to user plist file
+        if let pathToPlistFileValue = UserDefaults.standard.string(forKey: "pathToPlistFile"){
+            plistPath = pathToPlistFileValue
+        } else {
+            plistPath = pathToPlistDefault
+        }
         
-        // Get EULA text from Preferences file
+        // Get EULA texts from Preferences file
         if let pathToEULA = UserDefaults.standard.string(forKey: "pathToEULA") {
-            do {
-                // Get the contents
-                let eula = try NSString(contentsOfFile: pathToEULA, encoding: String.Encoding.utf8.rawValue)
-                print(pathToEULA)
-                //EULATextView .insertText(contents)
-                eulaContent.string = eula as String
+            
+            // Get eula file extension
+            let fileExtension = NSURL(fileURLWithPath: pathToEULA).pathExtension
+            
+            // Check if eula file exists
+            if FileManager.default.fileExists(atPath: pathToEULA) {
+            
+                do {
+                // Get Plain Text Contents
+                if fileExtension == "txt" {
+                    let eula = try NSString(contentsOfFile: pathToEULA, encoding: String.Encoding.utf8.rawValue)
+                    print(pathToEULA)
+                    eulaContent.string = eula as String
+                
+                // Get Rich Text Contents
+                } else if fileExtension == "rtf" {
+                    // Get the contents
+                    let eula = NSMutableAttributedString(path: pathToEULA, documentAttributes: nil)
+                    print(pathToEULA)
+                    eulaContent.textStorage?.setAttributedString(eula!)
+
+                }
             }
             catch let error as NSError {
                 print("No terms file found: \(error)")
-                eulaContent.string = "Lorem Ipsum"
+                eulaContent.string = defaultEULA
             }
-
+            
         } else {
             // set the EULA text to a placeholder
-            
             eulaContent.string = defaultEULA
+        }
+        }
+        
+        // Get the EULA Main Title Window from Preferences file
+        if let EULAMainTitle = UserDefaults.standard.string(forKey: "EULAMainTitle"){
+            eulaTitle.stringValue = EULAMainTitle
+        } else {
+            print ("No EULA Title in Preferences file")
+        }
+        
+        // Get the EULA Subtitle Window from Preferences file
+        if let EULASubTitle = UserDefaults.standard.string(forKey: "EULASubTitle"){
+            eulaSubTitle.stringValue = EULASubTitle
+        } else {
+            print ("No EULA Subtitle in Preferences file")
         }
     }
 
@@ -70,6 +103,35 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
             print ("BOM file create")
         }
     }
+    
+    func getSystemUUID() -> String? {
+        let dev = IOServiceMatching("IOPlatformExpertDevice")
+        let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, dev)
+        let serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformUUIDKey as CFString, kCFAllocatorDefault, 0)
+        IOObjectRelease(platformExpert)
+        let ser: CFTypeRef = serialNumberAsCFString!.takeUnretainedValue()
+        if let result = ser as? String {
+            return result
+        }
+        return nil
+    }
+    
+    func getSystemSerial() -> String? {
+        let dev = IOServiceMatching("IOPlatformExpertDevice")
+        let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, dev)
+        let serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformSerialNumberKey as CFString, kCFAllocatorDefault, 0)
+        IOObjectRelease(platformExpert)
+        let ser: CFTypeRef = serialNumberAsCFString!.takeUnretainedValue()
+        if let result = ser as? String {
+            return result
+        }
+        return nil
+    }
+    
+
+    //
+    // Button Functions
+    //
     
     @IBAction func agreeButton(_ sender: Any) {
         if continueButton.isEnabled == false {
@@ -88,35 +150,55 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
     }
     
     @IBAction func continueButtonAction(_ sender: Any) {
-        if let PathToPlistFileValue = UserDefaults.standard.string(forKey: "PathToPlistFile"){
-            plistPath = "\(PathToPlistFileValue)DEPNotify.plist"
-        } else {
-             plistPath = PathToPlistDefault
-        }
+        // EULA Domain Keys
+        let eulaDomainKey = "EULA Agreed"
         
+        // Get EULA Acceptance
+        let userHasAgreedToEULA = true
+        
+        // Get System wide UUID and Serial Number
+        let systemUUIDValue = getSystemUUID()
+        let systemSerialValue = getSystemSerial()
+        
+        // Get current time and date to create a timestamp
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-mm-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let LastRegistrationDate = dateFormatter.string(from: Date())
+        print (LastRegistrationDate)
+        
+        
+        // If User input plist file exists append content
         if FileManager.default.fileExists(atPath: plistPath) {
             let plistContent = NSMutableDictionary(contentsOfFile: plistPath)!
-            plistContent.setValue(true, forKey: "EULA Agreed")
+            
+            plistContent.setValue(userHasAgreedToEULA, forKey: eulaDomainKey)
+            plistContent.setValue(systemSerialValue!, forKey: "Computer Serial")
+            plistContent.setValue(systemUUIDValue!, forKey: "Computer UUID")
+            plistContent.setValue(LastRegistrationDate, forKey: "Registration Date")
+            
             plistContent.write(toFile: plistPath, atomically: true)
             print("Is Plist file created: Yes")
             writeBomFile()
             self.view.window?.close()
         }
-        else {
             
-            let dict : [String: Any] = [
-                "EULA Agreed": true,
+        else {
+            // Else create a new user input plist file
+            let userInputDictionary : [String: Any] = [
+                eulaDomainKey: userHasAgreedToEULA,
+                "Computer Serial": systemSerialValue!,
+                "Computer UUID": systemUUIDValue!,
+                "Registration Date": LastRegistrationDate,
+                
                 ]
-            let someData = NSDictionary(dictionary: dict)
-            let isWritten = someData.write(toFile: plistPath, atomically: true)
-            print("Is Plist file created: \(isWritten)")
+            let dataToWrite = NSDictionary(dictionary: userInputDictionary)
+            let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
+            print("Is Plist file created: \(dataWritten)")
             writeBomFile()
             self.view.window?.close()
-            if UserDefaults.standard.bool(forKey: "quitSuccessiveEULA") {
-                NSApp.terminate(self)
-            }
-
         }
+     
     }
     
 }

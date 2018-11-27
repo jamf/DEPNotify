@@ -131,7 +131,7 @@ class TrackProgress: NSObject {
                         static var failedReason = "Unable to determine..."
                     }
                     
-                    let actions = ["Installing", "Downloading", "Successfully installed", "failed", "Error:", "FileVault", "Encrypt", "Encryption", "DEPNotify Quit"]
+                    let actions = ["Installing", "Executing Policy", "Downloading", "Successfully installed", "failed", "Error:", "FileVault", "Encrypt", "Encryption", "DEPNotify Quit"]
                     
                     // Reads a file and returns the lines -- used to get the item and reason an install failed.
                     func readFile(path: String) -> Array<String> {
@@ -173,7 +173,19 @@ class TrackProgress: NSObject {
                                 
                                 if !(installItem.isEmpty) {
                                     print("Installing:  \(installItem)")
-                                    statusText = "Installing:  \(installItem)"
+                                    statusText = "Installing: \(installItem)"
+                                }
+                            
+                            case line.range(of: "Executing Policy") != nil:
+                                let lineInstallItem = line.components(separatedBy: "]: Executing Policy ")
+                                let getInstallItem = lineInstallItem[1]
+                                let pattern = "\\[.*?\\]\\s"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
+                                let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+                                let installItem = removeRegex.stringByReplacingMatches(in: getInstallItem, options: [], range: NSRange(location: 0, length: getInstallItem.count), withTemplate: "")
+                                
+                                if !(installItem.isEmpty) {
+                                    print("Getting:  \(installItem)")
+                                    statusText = "Getting: \(installItem)"
                                 }
                                 
                             case line.range(of: "Successfully installed") != nil:
@@ -185,7 +197,7 @@ class TrackProgress: NSObject {
                                 
                                 if !(installedItem.isEmpty) {
                                     print("Successfully installed:  \(installedItem)")
-                                    statusText = "Successfully installed:  \(installedItem)"
+                                    statusText = "Successfuly installed: \(installedItem)"
                                 }
                                 
                             case line.range(of: "failed") != nil:
@@ -220,13 +232,13 @@ class TrackProgress: NSObject {
                                 
                                 if !(errorItem.isEmpty) {
                                     print("Error:  \(errorItem)")
-                                    statusText = "Error installing:  \(errorItem)"
+                                    statusText = "Error installing: \(errorItem)"
                                 }
                                 
                             case (action.range(of: "FileVault") != nil) || (action.range(of: "Encrypt") != nil) || (action.range(of: "Encryption") != nil):
                                 if (globalVariables.fileVaultState == "Disabled") {
                                     statusText = "Configuring for FileVault Encryption..."
-                                    command = "Alert:  FileVault has been enabled on this machine and a reboot will be required to start the encryption process."
+                                    command = "FileVault:  FileVault has been enabled on this machine and a reboot will be required to start the encryption process."
                                     globalVariables.fileVaultState = "Enabled"
                                 }
                                 

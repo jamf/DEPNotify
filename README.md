@@ -189,6 +189,22 @@ This will cause all status updates to be sent to the Notification Center as well
 
 *Example:* `Command: NotificationOn:`
 
+### **Video:** 
+Plays a video from a stream or local source. DEPNotify automatically detects if it’s a local or http video. (Video formats accepted .m4v, .mp4, .m3u8)
+
+*Example:* `Command: Video: https://example.com/awesome_video.mp4`  
+*Example:* `Command: Video: /var/tmp/awesome_video.mp4`
+
+### **YouTube:** 
+Plays a youtube video in DEPNotify.
+
+*Example:* `Command: YouTube: <youtube_id_here>`
+
+### **Website:** 
+Loads a website in DEPNotify.
+
+*Example:* `Command: Website: https://apple.com`
+
 ### **WindowStyle:** 
 This command has a few modifiers to it:
     * `Activate` This will force the DEPNotify window to the front of all other windows.

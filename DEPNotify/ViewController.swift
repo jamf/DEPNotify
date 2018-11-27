@@ -5,9 +5,16 @@
 //  Created by Joel Rennich on 2/16/17.
 //  Copyright © 2017 Orchard & Grove Inc. All rights reserved.
 //
+//  Continue Button, Video, Image and Web modifications added by Federico Deis, Slack: @fgd
+//  FileVault Alert icon and dialog modifications added by Federico Deis, Slack: @fgd
+//  Bom files added by Federico Deis, Slack: @fgd
 
 import Cocoa
 import Foundation
+import WebKit
+import AVKit
+import AVFoundation
+
 
 private var statusContext = 0
 private var commandContext = 1
@@ -15,8 +22,15 @@ private var commandContext = 1
 var background: Background?
 
 var enableContinueButton =  NSNotification.Name(rawValue: "menu.nomad.DEPNotify.reenableContinue")
+var resetContinueButonActionValue = NSNotification.Name(rawValue: "menu.nomad.DEPNotify.resetContinue")
 
-class ViewController: NSViewController {
+var buttonAction = ""
+var conditional = ""
+
+var alertMessage = ""
+var contentToPass = ""
+
+class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDelegate {
     
 
     @IBOutlet weak var MainTitle: NSTextField!
@@ -44,6 +58,17 @@ class ViewController: NSViewController {
     var logo: NSImage?
     var maintextImage: NSImage?
     var notificationImage: NSImage?
+    var fileVaultAlertIcon = NSImage(named: NSImage.Name(rawValue: "FileVault"))
+    
+    // Preparing the web view
+    let wkWebView = WKWebView(frame: CGRect(x: 0, y: 122, width: 700, height: 328))
+    var myRequest = ""
+    
+    // Preparing the video view
+    let myVideoPlayerView = AVPlayerView(frame: CGRect(x: 0, y: 122, width: 700, height: 328)  )
+    
+    // Video file URL
+    var pathToVideo = "/var/tmp/sample.mp4"
     
     @IBOutlet weak var test: NSImageView!
     
@@ -55,24 +80,24 @@ class ViewController: NSViewController {
     
     let myWorkQueue = DispatchQueue(label: "menu.nomad.DEPNotify.background_work_queue", attributes: [])
     
-    var PathToPlistDefault = "/Users/Shared/DEPNotify.plist"
+    var pathToPlistDefault = "/Users/Shared/UserInput.plist"
     var plistPath = ""
     
-    // Variable to see Mac Registration Window
-    var continueButtonTitle = "Continue"
-    var buttonAction = "Continue"
+    // Variables to set Continue Button action
+    var continueButtonTitle = "Continue" // Label of the continue button
+    var buttonAction = "" // Variable for the action of the continue button
+
+    // Variablet to set Status Text alignment
+    var defaultStatusTextAlignment = "center"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // notification listeners
-        
         NotificationCenter.default.addObserver(self, selector: #selector(enableContinue), name: enableContinueButton, object: nil)
-
-        //Set the background color to white
-        self.view.wantsLayer = true
-        //self.view.layer?.backgroundColor = CGColor.white
-
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(resetContinueButtonActionVariable), name: resetContinueButonActionValue, object: nil)
+        
         //var isOpaque = false
         ProgressBar.startAnimation(nil)
         
@@ -93,11 +118,40 @@ class ViewController: NSViewController {
             return $0
         }
         
+        // Initialize UserInput plist file
         iniPlistFile()
         continueButton.title = continueButtonTitle
+        
+        // Set Status Text Alignment
+        StatusText.alignment = .center
+        if let statusTextAlignmentValue = UserDefaults.standard.string( forKey: "statusTextAlignment") {
+            do {
+                if statusTextAlignmentValue == "left" {
+                    StatusText.alignment = .left
+                } else if statusTextAlignmentValue == "center" {
+                    StatusText.alignment = .center
+                } else if statusTextAlignmentValue == "right" {
+                    StatusText.alignment = .right
+                }
+            }
+        }
+        
+        
+        // Check if Help Buble Title is present, otherwise hide help button
+        if let getHelpBubbleTitle = UserDefaults.standard.string(forKey: "helpBubbleTitle"){
+            print ("Help title found in preferences file. Loading it.")
+            helpButton.isHidden = false
+        } else {
+            helpButton.isHidden = true
+        }
+        
     }
     
     override func viewDidAppear() {
+        
+        // Set Dark Mode safe Main Window background color to white
+        self.view.window?.backgroundColor = NSColor.controlBackgroundColor
+        
         //Customize the window's title bar
         let window = self.view.window
         
@@ -147,6 +201,7 @@ class ViewController: NSViewController {
             if let newValue = change?[.newKey] {
                 print("Command observed")
                 print(newValue)
+                buttonAction = ""
                 processCommand(command: newValue as! String)
             } else {
                 super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -158,6 +213,63 @@ class ViewController: NSViewController {
     func processCommand(command: String) {
         
         switch command.components(separatedBy: " ").first! {
+        
+        case "Video:" :
+            let videoURL = command.replacingOccurrences(of: "Video: ", with: "")
+            if (videoURL.hasPrefix("http")) { // If the URL provided is HTTP then stream
+                self.view.addSubview(myVideoPlayerView)
+                let myURL = URL(string: videoURL)
+                let myPlayer = AVPlayer(url: myURL!)
+                myVideoPlayerView.player = myPlayer
+                myVideoPlayerView.controlsStyle = AVPlayerViewControlsStyle.none
+                // Loop Video
+                NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: myPlayer.currentItem, queue: nil)
+                { notification in
+                    let timer = CMTimeMake(5, 100);
+                    myPlayer.seek(to: timer)
+                    self.myVideoPlayerView.player?.play()
+                }
+                myVideoPlayerView.player?.play()
+                
+            } else { // if the URL is local then load
+                self.view.addSubview(myVideoPlayerView)
+                let myURL = NSURL(fileURLWithPath: videoURL)
+                let myPlayer = AVPlayer(url: myURL as URL)
+                myVideoPlayerView.player = myPlayer
+                myVideoPlayerView.controlsStyle = AVPlayerViewControlsStyle.none
+                // Loop Video
+                NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: myPlayer.currentItem, queue: nil)
+                { notification in
+                    let timer = CMTimeMake(5, 100);
+                    myPlayer.seek(to: timer)
+                    self.myVideoPlayerView.player?.play()
+                }
+                myVideoPlayerView.player?.play()
+            }
+
+        case "YouTube:" :
+            let youTubeID = command.replacingOccurrences(of: "YouTube: ", with: "")
+            self.view.addSubview(wkWebView)
+            let youtubeURL = URL(string: "https://www.youtube.com/embed/\(youTubeID)?autoplay=1&controls=0&showinfo=0")
+            //let myURL = URL(string: youtubeURL!)
+            let myRequest = URLRequest(url: youtubeURL!)
+            wkWebView.load(myRequest)
+            
+        case "Website:" :
+            let webSiteURL = command.replacingOccurrences(of: "Website: ", with: "")
+            self.view.addSubview(wkWebView)
+            
+            wkWebView.allowsBackForwardNavigationGestures = false
+            let myURL = URL(string:webSiteURL)
+            let myRequest = URLRequest(url: myURL!)
+            wkWebView.load(myRequest)
+            
+        case "FileVault:" :
+            let alertController = NSAlert()
+            alertController.icon = fileVaultAlertIcon
+            alertController.messageText = command.replacingOccurrences(of: "FileVault: ", with: "")
+            alertController.addButton(withTitle: "Ok")
+            alertController.beginSheetModal(for: NSApp.windows[0])
             
         case "Alert:" :
             let alertController = NSAlert()
@@ -165,42 +277,44 @@ class ViewController: NSViewController {
             alertController.addButton(withTitle: "Ok")
             alertController.beginSheetModal(for: NSApp.windows[0])
             
-        // Puts a Button at the bottom of the screen to Quit DEPNotify
+        // Puts a Button at the bottom of the window to Quit DEPNotify
         case "ContinueButton:" :
             let continueButtonTitle = command.replacingOccurrences(of: "ContinueButton: ", with: "")
-            continueButton.isHighlighted = true
             continueButton.title = continueButtonTitle
+            //continueButton.isHighlighted = true
             continueButton.isHidden = false
             buttonAction = "Continue"
         
-        // Puts a Button at the bottom of the screen to produce a Registration Dialog
+        // Puts a Button at the bottom of the window to display a Registration panel
         case "ContinueButtonRegister:" :
             let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonRegister: ", with: "")
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
-            continueButton.isHighlighted = true
+            //continueButton.isHighlighted = true
             buttonAction = "Register"
             
-        // Puts a Button at the bottom of the screen to produce an End User Level Agreement
+        // Puts a Button at the bottom of the window to display an EULA panel
         case "ContinueButtonEULA:" :
             let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonEULA: ", with: "")
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
-            continueButton.isHighlighted = true
+            //continueButton.isHighlighted = true
             buttonAction  = "EULA"
-            
+        
+        // Puts a Button at the bottom of the window to restart the Mac
         case "ContinueButtonRestart:" :
             let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonRestart: ", with: "")
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
-            continueButton.isHighlighted = true
+            //continueButton.isHighlighted = true
             buttonAction = "Restart"
-            
+
+        // Puts a Button at the bottom of the window to logout from the Mac
         case "ContinueButtonLogout:" :
             let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonLogout: ", with: "")
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
-            continueButton.isHighlighted = true
+            //continueButton.isHighlighted = true
             buttonAction = "Logout"
 
         case "Determinate:" :
@@ -276,19 +390,24 @@ class ViewController: NSViewController {
             self.quitSession()
             
         case "MainText:":
-            // Need to do two replacingOccurrences since we are replacing with different values
-            
             MainText.isHidden = false
             MainTitle.isHidden = false
             logoView.isHidden = false
-            
+
+            // Need to do two replacingOccurrences since we are replacing with different values
             let newlinecommand = command.replacingOccurrences(of: "\\n", with: "\n")
             MainText.stringValue = newlinecommand.replacingOccurrences(of: "MainText: ", with: "")
             
+            // Unload Subviews
+            wkWebView.stopLoading(myRequest)
+            wkWebView.removeFromSuperview()
+            self.myVideoPlayerView.player?.pause()
+            myVideoPlayerView.removeFromSuperview()
+            
+            
+            
             // Remove the image if there is one
-            
             ImageCell.image = nil
-            
             //ImageCell.image = NSImage.init(byReferencingFile: "")
             
         case "MainTextImage:" :
@@ -298,10 +417,15 @@ class ViewController: NSViewController {
             ImageView.imageScaling = .scaleProportionallyUpOrDown
             ImageView.imageAlignment = .alignCenter
             
+            // Unload Subviews
+            wkWebView.stopLoading(myRequest)
+            wkWebView.removeFromSuperview()
+            self.myVideoPlayerView.player?.pause()
+            myVideoPlayerView.removeFromSuperview()
             
             MainText.isHidden = true
-            MainTitle.isHidden = true
-            logoView.isHidden = true
+            //MainTitle.isHidden = true
+            //logoView.isHidden = true
             
         case "MainTitle:" :
             // Need to do two replacingOccurrences since we are replacing with different values
@@ -309,12 +433,17 @@ class ViewController: NSViewController {
             MainTitle.stringValue = newlinecommand.replacingOccurrences(of: "MainTitle: ", with: "")
             ImageCell.image = NSImage.init(byReferencingFile: "")
             
+            // Unload Web subview
+            wkWebView.stopLoading(myRequest)
+            wkWebView.removeFromSuperview()
+            self.myVideoPlayerView.player?.pause()
+            myVideoPlayerView.removeFromSuperview()
+            
         case "Notification:" :
             sendNotification(text: command.replacingOccurrences(of: "Notification: ", with: ""))
             
         case "NotificationImage:" :
             notificationImage = NSImage.init(byReferencingFile: command.replacingOccurrences(of: "NotificationImage: ", with: ""))
-            
         case "NotificationOn:" :
             notify = true
             
@@ -350,13 +479,13 @@ class ViewController: NSViewController {
             NSApp.terminate(self)
             
         case "Quit:" :
-            let alertController = NSAlert()
-            alertController.messageText = command.replacingOccurrences(of: "Quit: ", with: "")
-            alertController.addButton(withTitle: "Quit")
-            alertController.beginSheetModal(for: NSApp.windows[0]) { response in
-                NSApp.terminate(self)
-            }
-            
+            alertMessage = command.replacingOccurrences(of: "Quit: ", with: "")
+            contentToPass = alertMessage
+
+            // Performe segue to Alert View Controller
+            self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: "alertSegue"), sender: self)
+
+        
         case "QuitKey:" :
             let quitKeyTemp = command.replacingOccurrences(of: "QuitKey: ", with: "")
             
@@ -458,7 +587,6 @@ class ViewController: NSViewController {
         if killCommandFile {
             tracker.killCommandFile()
         }
-        
     }
 
     func sendNotification(text: String) {
@@ -474,87 +602,84 @@ class ViewController: NSViewController {
         NSUserNotificationCenter.default.deliver(notification)
     }
 
+    // Init User input Plist file
     func iniPlistFile() {
-        // Check the Path to the Plist File is already defined in preferences
-        if let PathToPlistFileValue = UserDefaults.standard.string(forKey: "PathToPlistFile"){
-            plistPath = "\(PathToPlistFileValue)DEPNotify.plist"
+       // Check the Path to the Plist File is already defined in preferences
+        if let pathToPlistFileValue = UserDefaults.standard.string(forKey: "pathToPlistFile"){
+            plistPath = pathToPlistFileValue
         } else {
-            plistPath = PathToPlistDefault
+            plistPath = pathToPlistDefault
         }
         // If Plist File exists, erase it
         if FileManager.default.fileExists(atPath: plistPath) {
             do {
                     try FileManager.default.removeItem(atPath: plistPath)
+                print("Removing plist file")
             }
         catch {
-            print ("No Plist File to Initialize")
+            print ("Error: No Plist File to Initialize")
+            print (plistPath)
+            
+            }
         }
-    }
     }
     
     //MARK: Notification actions
     
     @objc func enableContinue() {
-        continueButton.isHighlighted = true
+        //continueButton.isHighlighted = true
         continueButton.isEnabled = true
         continueButton.isHidden = false
+        continueButton.setNextState()
     }
 
+    @objc func resetContinueButtonActionVariable() {
+        //Reset Continue Button Action
+        buttonAction = ""
+        print ("Reseting ContinueButtonAction")
+    }
+    
     @IBAction func HelpClick(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: helpURL)!)
+        // HelpClick will not display a pop up window customized
+        // via DEPNotify preferences file
+        //NSWorkspace.shared.open(URL(string: helpURL)!) //Uncomment this line to call help URL
     }
 
-    // Continue Button Action
-    @IBAction func continueButton(_ sender: Any) {
-        let conditional = buttonAction
-        print (conditional)
-
-        // Open the Register ViewController
-        if conditional == "Register" {
-            do {
-                let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
-                let myViewController = storyBoard.instantiateController(withIdentifier: "RegisterViewController") as! NSViewController
-                self.presentAsSheet(myViewController)
-                continueButton.isHidden = true
-            }
-        }
-
-        // Open the EULA ViewController
-        else if conditional == "EULA" {
-            do {
-                let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
-                let myViewController = storyBoard.instantiateController(withIdentifier: "EULA") as! NSViewController
-                self.presentAsSheet(myViewController)
-                continueButton.isHidden = true
-            }
-        }
-
-        // Restart computer
-        else if conditional == "Restart" {
-            do {
+    
+    // Continue Button Actions
+    
+    @IBAction func continueButton(_ sender: NSButton) {
+        
+        let conditional = buttonAction // Set a conditional based on the continue button action sent by the user
+        print ("Conditonal: \(conditional)")
+        continueButton.isHidden = true // Hide Continue Button
+        
+        // Start switch matching to display the correct window
+        switch conditional {
+        case "Register" :
+                let storyBoard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "RegistrationViewController")) as! NSViewController
+                self.presentViewControllerAsSheet(myViewController)
+        case "EULA" :
+                let storyBoard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EULAViewController")) as! NSViewController
+                self.presentViewControllerAsSheet(myViewController)
+        case "Restart" :
                 let bomFile = "/var/tmp/com.depnotify.provisioning.restart"
                 FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
                 print ("BOM file create")
                 self.reboot()
                 NSApp.terminate(self)
-            }
-        }
-
-        // Logout User
-        else if conditional == "Logout" {
-            do {
+        case "Logout" :
+                let bomFile = "/var/tmp/com.depnotify.provisioning.logout"
+                FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
+                print ("BOM file create")
                 self.quitSession()
-            }
-        }
-
-        // Just terminate DEPNotify gracefully
-        else {
-            do {
+        default :
                 let bomFile = "/var/tmp/com.depnotify.provisioning.done"
                 FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
-                    print ("BOM file create")
-            NSApp.terminate(self)
-            }
+                print ("BOM file create")
+                NSApp.terminate(self)
         }
     }
     
@@ -563,10 +688,20 @@ class ViewController: NSViewController {
     override func keyDown(with event: NSEvent) {
         
         switch event.modifierFlags.intersection(NSEvent.ModifierFlags.deviceIndependentFlagsMask) {
-        case [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.control] where event.charactersIgnoringModifiers == quitKey:
+        case [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.control] where event.charactersIgnoringModifiers == "quitKey":
             NSApp.terminate(nil)
         default:
             break
+        }
+    }
+
+    // Function to pass data to Alert View Controller
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if (segue.identifier!.rawValue == "alertSegue") {
+            if let myViewController = segue.destinationController as? AlertViewController {
+                let datatoPass = contentToPass
+                myViewController.messagePass = datatoPass
+            }
         }
     }
 }
@@ -582,10 +717,11 @@ class WindowController: NSWindowController {
             self.window?.center()
             self.window?.isMovable = false
             
-            background = storyboard?.instantiateController(withIdentifier: "Background") as? Background
+            background = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "Background")) as? Background
             background?.showWindow(self)
             background?.sendBack()
             NSApp.windows[0].level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))
         }
     }
+
 }

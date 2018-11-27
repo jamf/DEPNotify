@@ -1,3 +1,21 @@
+# [1.2.0] - Unreleased
+
+**Changed:**
+
+* Jamf log doesn't show Alert window when FileVault is enabled -@fgd (Do we want to keep this change? -clayton)
+
+**Fixed:**
+
+**Added:**
+
+* "Video:" plays a video from a stream or local source. DEPNotify automatically detects if it’s a local or http video. (Video formats accepted .m4v, .mp4, .m3u8) Video Size is 700px x 328px -@fgd
+* "YouTube" plays a youtube video in DEPNotify. Video Size is 700px x 328px -@fgd
+* "Website" loads a webpage in DEPNotify. Size is 700px x 328px -@fgd
+* Add "LastRegistrationDate" key to DEPNotify.plist -@fgd
+* Handle display of "Executing Policy" inside jamf log -@fgd
+* Add "com.depnotify.provisioning.logout" bom file on logout action -@fgd
+
+
 # [1.1.0] - May 19, 2018
 
 **Changed:**
@@ -71,3 +89,5 @@
 [1.0.2]: https://gitlab.com/Mactroll/DEPNotify/tags/1.0.2
 [1.0.3]: https://gitlab.com/Mactroll/DEPNotify/tags/1.0.3
 [1.0.4]: https://gitlab.com/Mactroll/DEPNotify/tags/1.0.4
+[1.1.0]: https://gitlab.com/Mactroll/DEPNotify/tags/1.1.0
+[1.2.0]: https://gitlab.com/Mactroll/DEPNotify/tags/1.2.0

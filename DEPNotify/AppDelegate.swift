@@ -28,14 +28,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        }
 
         // wait until the Dock is running. We should do this via KVO, but it's not all there in Swift yet
-
+        
         var dockRunning = 0
         let ws = NSWorkspace.shared
 
         while dockRunning == 0 {
             print("Waiting for the Dock")
             dockRunning = ws.runningApplications.filter({ $0.bundleIdentifier == "com.apple.dock" }).count
-            RunLoop.main.run(mode: RunLoop.Mode.default, before: Date.distantFuture)
+            RunLoop.main.run(mode: RunLoopMode.defaultRunLoopMode, before: Date.distantFuture)
         }
     }
 
