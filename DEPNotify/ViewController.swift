@@ -138,13 +138,12 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         
         
         // Check if Help Buble Title is present, otherwise hide help button
-        if let getHelpBubbleTitle = UserDefaults.standard.string(forKey: "helpBubbleTitle"){
-            print ("Help title found in preferences file. Loading it.")
+        if UserDefaults.standard.object(forKey: "helpBubble") != nil {
+        print ("Help title found in preferences file. Loading it.")
             helpButton.isHidden = false
         } else {
             helpButton.isHidden = true
         }
-        
     }
     
     override func viewDidAppear() {
@@ -377,14 +376,9 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             killCommandFile = true
             
         case "Logout:":
-            let alertController = NSAlert()
-            alertController.messageText = command.replacingOccurrences(of: "Logout: ", with: "")
-            alertController.addButton(withTitle: "Logout")
-            //alertController.addButton(withTitle: "Quit")
-            alertController.beginSheetModal(for: NSApp.windows[0]) { response in
-                self.quitSession()
-                NSApp.terminate(self)
-            }
+            alertMessage = command //.replacingOccurrences(of: "Logout: ", with: "")
+            contentToPass = alertMessage
+            self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: "alertSegue"), sender: self)
             
         case "LogoutNow:":
             self.quitSession()
@@ -479,10 +473,8 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             NSApp.terminate(self)
             
         case "Quit:" :
-            alertMessage = command.replacingOccurrences(of: "Quit: ", with: "")
+            alertMessage = command //.replacingOccurrences(of: "Quit: ", with: "")
             contentToPass = alertMessage
-
-            // Performe segue to Alert View Controller
             self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: "alertSegue"), sender: self)
 
         

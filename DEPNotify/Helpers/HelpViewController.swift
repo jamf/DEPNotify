@@ -22,21 +22,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tincidunt ex a
     override func viewDidLoad() {
         
         // Look for content in preferences file
-        if let getTitle = UserDefaults.standard.string(forKey: "helpBubbleTitle"){
-            print ("Help title found in preferences file. Loading it.")
-            helpTitle.stringValue = getTitle
-        } else {
-            print ("No Help Title in Preferences file, turning to defaults")
-            helpTitle.stringValue = "Need any help?"
-        }
         
-        // Get the EULA Subtitle Window from Preferences file
-        if let getContent = UserDefaults.standard.string(forKey: "helpBubbleBody"){
-            print ("Help content found in preferences file. Loading it.")
-            helpContent.stringValue = getContent
-        } else {
-            print ("No Help Content in Preferences file. turning to defaults")
-            helpContent.stringValue = defaultContent
+        if UserDefaults.standard.object(forKey: "helpBubble") != nil {
+        let getHelpBubble = UserDefaults.standard.object(forKey: "helpBubble") as? [String] ?? [String]()
+        
+        helpTitle.stringValue = getHelpBubble[0]
+        helpContent.stringValue = getHelpBubble[1]
         }
     }
 }

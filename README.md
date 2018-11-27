@@ -287,8 +287,7 @@ Main window configurations modify the look, feel, and some of the underlying loc
 | Key | Type | Description | Example |
 | --- | ---- | ----------- | ------- |
 | statusTextAlignment | String | Sets the main screen status text alignment under the progress bar. Can be left, center or right | defaults write menu.nomad.DEPNotify	statusTextAlignment left |
-| helpBubbleTitle | String | Sets the main screen help bubble title | defaults write menu.nomad.DEPNotify helpBubbleTitle "My Title" |
-| helpBubbleBody | String | Sets the main screen help bubble body text | defaults write menu.nomad.DEPNotify helpBubbleBody "Here is how can I help you" |
+| helpBubble | Array | Sets the title and text of the help bubble | defaults write menu.nomad.depnotify helpBubble -array "Title" "Content" |
 | pathToPlistFile | String | Sets the UserInput.plist file location. This file is used for responses from EULA and registration windows | defaults write menu.nomad.DEPNotify pathToPlistFile "/My/Path/myplistfile.plist" |
 
 ## EULA Window Configuration
