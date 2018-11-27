@@ -102,39 +102,39 @@ This will replace the very fancy DEPNotify logo, created by Erik Gomez, with a v
 
 *Example:* `Command: Image: /tmp/logo.png`
 
-#### **KillCommandFile:**
+#### KillCommandFile:
 This command will tell DEPNotify to remove the command file from the filesystem when DEPNotify is quit. Keep in mind file permissions to ensure that the file can actually be removed by DEPNotify.
 
 *Example:* `Command: KillCommandFile:`
 
-#### **MainText:**
+#### MainText:
 This command will change the main body of text in the application.
 
 *Example:* `Command: MainText: Something about how amazing the DEP process you've created is.`
 *Example w/ New Lines:* `Command: MainText: Something about how amazing the DEP process you've created is. \n \n It really is amazing.`
 
-#### **MainTextImage:**
+#### MainTextImage:
 This command will change the main body to an icon of your choosing
 
 *Example:* `Command: MainTextImage: /tmp/logo.png`
 
-#### **MainTitle:**
+#### MainTitle:
 This command will change the main title of text in the application.
 
 *Example:* `Command: MainTitle: Something about how amazing the DEP process you've created is.`
 
-#### **Video:**
+#### Video:
 Plays a video from a stream or local source. DEPNotify automatically detects if it’s a local or http video. (Video formats accepted .m4v, .mp4, .m3u8)
 
 *Example:* `Command: Video: https://example.com/awesome_video.mp4`  
 *Example:* `Command: Video: /var/tmp/awesome_video.mp4`
 
-#### **Website:**
+#### Website:
 Loads a website in DEPNotify.
 
 *Example:* `Command: Website: https://apple.com`
 
-#### **WindowStyle:**
+#### WindowStyle:
 This command has a few modifiers to it:
     * `Activate` This will force the DEPNotify window to the front of all other windows.
     * `ActivateOnStep` This will force the window to the front for each new progress bar step, so that you don't have to issue the Activate command each time.
@@ -142,12 +142,12 @@ This command has a few modifiers to it:
 
 *Example:* `Command: WindowStyle: NotMovable`
 
-#### **WindowTitle:**
+#### WindowTitle:
 This will change the title of the DEPNotify window.
 
 *Example:* `Command: WindowTitle: My Great DEP Notification App`
 
-#### **YouTube:**
+#### YouTube:
 Plays a youtube video in DEPNotify.
 
 *Example:* `Command: YouTube: <youtube_id_here>`
@@ -156,37 +156,37 @@ Plays a youtube video in DEPNotify.
 
 Below are commands allow for user interactions like EULA screen or registration screen. There are also commands for modifying the "progress" bar.
 
-#### **ContinueButtonRegister:**
+#### ContinueButtonRegister:
 This places a Continue button at the bottom of the screen that that calls the Registration window. Creates a bom file `/var/tmp/com.depnotify.registration.done` on successful completion.
 
 *Example:* `Command: ContinueButtonRegister: <Button Label>`
 
-#### **ContinueButtonEULA:**
+#### ContinueButtonEULA:
 This places a Continue button at the bottom of the screen to display a URLA or other agreement you need the user to agree to. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
 
 *Example:* `Command: ContinueButtonEULA: <Button Label>`
 
-#### **Determinate:**
+#### Determinate:
 This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
 
 *Example:* `Command: Determinate: 5`
 
-#### **DeterminateManual:**
+#### DeterminateManual:
 This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, you will need to manually tell DEPNotify when to update instead of relying on status updates or information from the various log files. This allows you to create a progress bar independent of status updates.
 
 *Example:* `Command: DeterminateManual: 5`
 
-#### **DeterminateManualStep:**
+#### DeterminateManualStep:
 When in `DeterminateManual` mode this will advance the progress bar by one step, or by the number following the verb.
 
 *Example:* `Command: DeterminateManualStep: 2`
 
-#### **DeterminateOff:**
+#### DeterminateOff:
 Disables a deterministic state for the progress bar. Note that the steps already occurred in the bar will remain, allowing you to move between a deterministic behavior and non-deterministic without loosing your place.
 
 *Example:* `Command: DeterminateOff:`
 
-#### **DeterminateOffReset:**
+#### DeterminateOffReset:
 After turning off the deterministic state of the progress bar, you need to reset it the count to 0.
 
 *Example:* `Command: DeterminateOffReset:`
@@ -195,22 +195,22 @@ After turning off the deterministic state of the progress bar, you need to reset
 
 Below are commands for dropdown alerts and notification center alerts for end users.
 
-#### **Alert:**
+#### Alert:
 This creates an alert sheet on the DEPNotify window with an "Ok" button to allow the user to clear the alert. The text that follows the `Alert:` will be the contents to the alert.
 
 *Example:* `Command: Alert: The installation is now finished`
 
-#### **Notification:**
+#### Notification:
 This will issue a notification to the Mac's notification center and display it.
 
 *Example:* `Command: Notification: Please look at this notification.`
 
-#### **NotificationImage:**
+#### NotificationImage:
 This sets an image to use for the user notifications. Keep in mind that this may not be what you are looking for. After setting this notifications will still have the DEP Notify icon in them, but will also have the image set with this command.
 
 *Example:* `Command: NotificationImage: /tmp/image.png`
 
-#### **NotificationOn:**
+#### NotificationOn:
 This will cause all status updates to be sent to the Notification Center as well. It takes no modifiers.
 
 *Example:* `Command: NotificationOn:`
@@ -219,52 +219,52 @@ This will cause all status updates to be sent to the Notification Center as well
 
 Below are commands that can be used to quit, logout, or restart the Mac after workflows are completed.
 
-#### **ContinueButton:**
+#### ContinueButton:
 This places a Continue button at the bottom of the screen that quits DEPNotify. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
 
 *Example:* `Command: ContinueButton: <Button Label>`
 
-#### **ContinueButtonLogout:**
+#### ContinueButtonLogout:
 This places a Continue button at the bottom of the screen that will perform a logout of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
 
 *Example:* `Command: ContinueButtonLogout: <Button Label>`
 
-#### **ContinueButtonRestart:**
+#### ContinueButtonRestart:
 This places a Continue button at the bottom of the screen that will perform a soft restart of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.restart` on successful completion.
 
 *Example:* `Command: ContinueButtonRestart: <Button Label>`
 
-#### **Logout:**
+#### Logout:
 This will show a sheet dialog and then log the user out when the "Logout" is clicked. This is commonly used to log the user out and initiate a FileVault encryption process.
 
 *Example:* `Command: Logout: Please logout now to start disk encryption.`
 
-#### **LogoutNow:**
+#### LogoutNow:
 Executes an immediate logout of the user session without waiting until the user responds to the alert  
 
 *Example:* `Command: LogoutNow:`
 
-#### **Quit**
+#### Quit
 The first of two ways to quit DEPNotify. This option takes no modifiers and will immediately quit the application. Note there is no `:` on this command.
 
 *Example:* `Command: Quit`
 
-#### **Quit:**
+#### Quit:
 The second way to quit the application. This method will allow you to show a dialog with text of your choosing. The user will then be able to dismiss the dialog to quit the application.
 
 *Example:* `Command: Quit: Thanks for using this app.`
 
-#### **QuitKey:**
+#### QuitKey:
 This will change the default key to quit DEPNotify. By default this is the "x" key with the command and control keys held down. Settign `QuitKey:` allows you to change "x" to any other single character. Note: you are unable to modify the requirement for the command and control keys.
 
 *Example:* `Command: QuitKey: j`
 
-#### **Restart:**
+#### Restart:
 This will cause the machine to begin the restart process. The user will get a notification to accept with the text following the command.
 
 *Example:* `Command: Restart: Your session will end now.`
 
-#### **Restartnow:**
+#### Restartnow:
 This will cause a restart event without requiring the user to accept.
 
 *Example:* `Command: RestartNow:`
@@ -273,7 +273,7 @@ This will cause a restart event without requiring the user to accept.
 
 Below commands have been removed from the product as newer methods have been added.
 
-#### **Help: (deprecated)**
+#### Help: (deprecated)
 
 *This command was removed in version X.X.X and changed to a help bubble that is configured by plist.*
 
