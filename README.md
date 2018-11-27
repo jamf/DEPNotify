@@ -372,15 +372,17 @@ This are very simple. Just echo set `Status:` followed by the text of your statu
 
 # Default File Locations
 
-* DEPNotify.app: `/Applications/Utilities/DEPNotify.app`
-* Configuration and Control File: `/var/tmp/depnotify.log`
-* Configuration plist: `/Users/username/Library/Preferences/menu.nomad.DEPNotify.plist`
-* EULA and Registration responses: `/Users/Shared/UserInput.plist`
-* Completion BOM file: `/var/tmp/com.depnotify.provisioning.done`
-* Restart BOM file: `/var/tmp/com.depnotify.provisioning.restart`
-* EULA BOM file: `/var/tmp/com.depnotify.agreement.done`
-* Registration BOM file: `/var/tmp/com.depnotify.registration.done`
-* EULA text file: `/Users/Shared/eula.txt`
+| File Name | Description | Default Path |
+| --------- | ----------- | ------------ |
+| DEPNotify.app | Main app for project that is called to give a clean user experience | /Applications/Utilities/DEPNotify.app |
+| depnotify.log | Configuration and control file that is written to as device progresses thru setup | /var/tmp/depnotify.log |
+| menu.nomad.DEPNotify.plist | Newer configuration plist with additional configuration options | /Users/username/Library/Preferences/menu.nomad.DEPNotify.plist |
+| UserInput.plist | EULA and registration window saved user responses | /Users/Shared/UserInput.plist |
+| com.depnotify.provisioning.done | Successful completion of DEPNotify BOM file | /var/tmp/com.depnotify.provisioning.done |
+| com.depnotify.provisioning.restart | Successful completion of DEPNotify and required reboot BOM file | /var/tmp/com.depnotify.provisioning.restart |
+| com.depnotify.agreement.done | Successful user agreement to the EULA window | /var/tmp/com.depnotify.agreement.done |
+| com.depnotify.registration.done | Successful user agreement to the registration window | /var/tmp/com.depnotify.registration.done |
+| eula.txt | Text file of the EULA terms and conditions that are presented to the end user during EULA acceptance | /Users/Shared/eula.txt |
 
 # Workflow
 
