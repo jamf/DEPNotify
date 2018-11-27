@@ -18,17 +18,17 @@ DEPNotify is a small light weight notification app that was designed to let your
 * [**Changelog**](#changelog)
 * [**Notes**](#notes)
 
-## Download
+# Download
 
 Get the latest version, visit our tags: [DEPNotify tags](https://gitlab.com/Mactroll/DEPNotify/tags)
 
-## Basic Usage
+# Basic Usage
 
 DEPNotify is completely controlled via echoing text to its control file. By default this is `/var/tmp/depnotify.log` but can be changed with the [`-path`](#-path) flag.
 
 The application then reacts to `Command:` and `Status:` lines written to the control file.
 
-## Application Flags
+# Application Flags
 
 Application flags augment default settings or alert DEPNotify of different management software solutions to pull information from.
 
@@ -42,7 +42,7 @@ This flag will create a full screen behind the DEPNotify screen to focus the use
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -fullScreen`
 
-### MDM Specific Flags
+## MDM Specific Flags
 
 #### `-filewave`
 This has DEP Notify read in the FileWave log at `/var/log/fwcld.log` and then update the status line in the DEP Notify window with any downloads and installations.
@@ -77,7 +77,7 @@ This has DEP Notify read in the Munki log at `/Library/Managed Installs/Logs/Man
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -munki`
 
-## Default File Locations
+# Default File Locations
 
 * DEPNotify.app: `/Applications/Utilities/DEPNotify.app`
 * Configuration and Control File: `/var/tmp/depnotify.log`
@@ -89,11 +89,11 @@ This has DEP Notify read in the Munki log at `/Library/Managed Installs/Logs/Man
 * Registration BOM file: `/var/tmp/com.depnotify.registration.done`
 * EULA text file: `/Users/Shared/eula.txt`
 
-## Commands
+# Commands
 
 DEPNotify responds to a number of commands. All are prefaced with `Command:` and then the verb. Most are then followed by some text or other attribute.
 
-### Main Window Configuration
+## Main Window Configuration
 
 Below are commands that will modify the main window properties, text, or associated images.
 
@@ -152,7 +152,7 @@ Plays a youtube video in DEPNotify.
 
 *Example:* `Command: YouTube: <youtube_id_here>`
 
-### Interaction
+## Interaction
 
 Below are commands allow for user interactions like EULA screen or registration screen. There are also commands for modifying the "progress" bar.
 
@@ -191,7 +191,7 @@ After turning off the deterministic state of the progress bar, you need to reset
 
 *Example:* `Command: DeterminateOffReset:`
 
-### Notification
+## Notification
 
 Below are commands for dropdown alerts and notification center alerts for end users.
 
@@ -215,7 +215,7 @@ This will cause all status updates to be sent to the Notification Center as well
 
 *Example:* `Command: NotificationOn:`
 
-### Completion
+## Completion
 
 Below are commands that can be used to quit, logout, or restart the Mac after workflows are completed.
 
@@ -269,7 +269,7 @@ This will cause a restart event without requiring the user to accept.
 
 *Example:* `Command: RestartNow:`
 
-### Deprecated Commands
+## Deprecated Commands
 
 Below commands have been removed from the product as newer methods have been added.
 
@@ -281,13 +281,13 @@ This will show a help button in the lower right corner of the DEPNotify window. 
 
 *Example:* `Command: Help: http://www.apple.com/support`
 
-## Status Updates
+# Status Updates
 
 This are very simple. Just echo set `Status:` followed by the text of your status. If you've set `NotificationOn:` the status will also be sent as a notification. Also, if you have `Determinate:` set, each time you send a status the process bar will increment by one.
 
 *Example:* `Status: Reticulating splines...`
 
-## Registration and EULA Windows
+# Registration and EULA Windows
 
 You customize the registration and EULA windows using preferences keys. The registration window accepts user input from two text input fields and two pop up menus. You can customize which fields make it to the registration window by setting the fields labels. e.g. if you want to have only one text input field and two pop up menus, just create the keys for the corresponding labels in the preferences file.
 
@@ -330,7 +330,7 @@ defaults write menu.nomad.DEPNotify key value
 | checkForSensitiveInformation | Bool   | Set visibility of Sensitive Information button                                                            | defaults write menu.nomad.DEPNotify checkForSensitiveInformation -bool true             |
 | quitSuccessiveEULA           | Bool   | Set key to quit after EULA accepted and plist written                                                     | defaults write menu.nomad.DEPNotify quitSuccessiveEULA -bool true                       |
 
-## Workflow
+# Workflow
 
 While every DEP workflow is different, here's a simple method of using DEPNotify with a DEP process.
 
@@ -341,7 +341,7 @@ While every DEP workflow is different, here's a simple method of using DEPNotify
 * Quit DEPNotify when you're done either with `Quit` or `Quit:`
 * Remove DEPNotify
 
-## Advanced Workflows
+# Advanced Workflows
 
 * **Using Filewave argument `-filewave`**
 This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then update the status line in the DEPNotify window with any downloads, installs or complete installs from the Filewave log. Progress bar will move depending on how many installs or filesets being deployed. Note there is nothing special you need to name your items in Filewave for them to be read.
@@ -351,11 +351,11 @@ This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then upda
 * When the DEPNotify process starts, curl down the Filewave client and install. -create script (stage1)
 * **Recommended** - Energy saver profile - Mac’s sleep in 15min out of box, disrupting the DEP process. (stage1)
 
-## Changelog
+# Changelog
 
 See [CHANGELOG.md](./CHANGELOG.md)
 
-## Notes
+# Notes
 
 * The application is written entirely in Swift of the course of a few weeks. It should be fairly easy for anyone with basic to moderate knowledge of Swift to enhance this as you see fit.
 * DEPNotify was specifically designed to show some notifications to a user while the DEP process completes. The goal was to not block the user from experiencing their new machine. If you would like a more elaborate process, please look at projects like SplashBuddy.
