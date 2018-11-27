@@ -1,4 +1,4 @@
-# DEPNotify
+identify# DEPNotify
 
 ![DEPNotify Logo](https://gitlab.com/Mactroll/DEPNotify/raw/master/DEPNotify/Assets.xcassets/DEPNotify.imageset/depnotify_512.png)
 
@@ -17,6 +17,9 @@ DEPNotify is a small light weight notification app that was designed to let your
   * [**Completion**](#completion)
 * [**Status Updates**](#status-updates)
 * [**DEPNotify Plist**](#depnotify-plist)
+  * [**Main Window Configuration**](#main-window-configuration)
+  * [**EULA Window Configuration**](#eula-window-configuration)
+  * [**Registration Window Configuration**](#registration-window-configuration)
 * [**Workflow**](#workflow)
 * [**Advanced Workflows**](#advanced-workflows)
 * [**Changelog**](#changelog)
@@ -297,6 +300,8 @@ For more functionality and advanced workflows, additional options are slowly bei
 
 ## Main Window Configuration
 
+Main window configurations modify the look, feel, and some of the underlying locations of files.
+
 | Key | Type | Description | Example |
 | --- | ---- | ----------- | ------- |
 | statusTextAlignment | String | Sets the main screen status text alignment under the progress bar. Can be left, center or right | defaults write menu.nomad.DEPNotify	statusTextAlignment left |
@@ -306,6 +311,8 @@ For more functionality and advanced workflows, additional options are slowly bei
 
 ## EULA Window Configuration
 
+The EULA window adds a button the end user must press to activate a dropdown that the user can read and then accept some terms of agreement to use the computer.
+
 | Key | Type | Description | Example |
 | --- | ---- | ----------- | ------- |
 | EULAMainTitle | String | Sets EULA main title | defaults write menu.nomad.DEPNotify EULAMainTitle "End User Level Agreement" |
@@ -314,6 +321,8 @@ For more functionality and advanced workflows, additional options are slowly bei
 | quitSuccessiveEULA | Boolean | Allows DEPNotify to quit upon agreeing to the EULA | defaults write menu.nomad.DEPNotify quitSuccessiveEULA -bool true |
 
 ## Registration Window Configuration
+
+Registration window adds a button the end user must press to activate a dropdown that will allow the user to fill in associated data about themselves, the computer, use case for computer, or any other idea you have. A sensitive data box is enabled by default that allow the user to self identify if there is client or other types of secured data on the device.
 
 #### General Settings
 
