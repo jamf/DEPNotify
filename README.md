@@ -1,4 +1,4 @@
-identify# DEPNotify
+# DEPNotify
 
 ![DEPNotify Logo](https://gitlab.com/Mactroll/DEPNotify/raw/master/DEPNotify/Assets.xcassets/DEPNotify.imageset/depnotify_512.png)
 
