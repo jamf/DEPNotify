@@ -42,7 +42,7 @@ This flag will create a full screen behind the DEPNotify screen to focus the use
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -fullScreen`
 
-## MDM Specific Flags
+### MDM Specific Flags
 
 #### `-filewave`
 This has DEP Notify read in the FileWave log at `/var/log/fwcld.log` and then update the status line in the DEP Notify window with any downloads and installations.
@@ -97,7 +97,7 @@ DEPNotify responds to a number of commands. All are prefaced with `Command:` and
 
 Below are commands that will modify the main window properties, text, or associated images.
 
-#### **Image:**
+#### Image:
 This will replace the very fancy DEPNotify logo, created by Erik Gomez, with a very fancy image of your own. Note that DEPNotify should scale the image up or down to fit the space.
 
 *Example:* `Command: Image: /tmp/logo.png`
