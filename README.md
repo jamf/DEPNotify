@@ -4,15 +4,19 @@
 
 DEPNotify is a small light weight notification app that was designed to let your users know what's going on during a DEP enrollment. The app is focused on being very simple to use and easy to deploy.
 
-## Table of Contents
+# Table of Contents
 
 * [**Download**](#download)
 * [**Basic Usage**](#basic-usage)
 * [**Application Flags**](#application-flags)
 * [**Default File Locations**](#default-file-locations)
 * [**Commands**](#commands)
+  * [**Main Window Configuration**](#main-window-configuration)
+  * [**Interaction**](#interaction)
+  * [**Notification**](#notification)
+  * [**Completion**](#completion)
 * [**Status Updates**](#status-updates)
-* [**Registration and EULA Windows**](#registration-and-eula-windows)
+* [**DEPNotify Plist**](#depnotify-plist)
 * [**Workflow**](#workflow)
 * [**Advanced Workflows**](#advanced-workflows)
 * [**Changelog**](#changelog)
@@ -287,48 +291,87 @@ This are very simple. Just echo set `Status:` followed by the text of your statu
 
 *Example:* `Status: Reticulating splines...`
 
-# Registration and EULA Windows
+# DEPNotify Plist
 
-You customize the registration and EULA windows using preferences keys. The registration window accepts user input from two text input fields and two pop up menus. You can customize which fields make it to the registration window by setting the fields labels. e.g. if you want to have only one text input field and two pop up menus, just create the keys for the corresponding labels in the preferences file.
+For more functionality and advanced workflows, additional options are slowly being added into the `menu.nomad.DEPNotify.plist`. This file is able to configure various things like EULA window, registration window, status text alignment, and help bubbles.
 
-You can also set the registration window title and registration button label.
+## Main Window Configuration
 
-You access defaults key via the defaults command using the `menu.nomad.DEPNotify` domain. This file will be written at `~/Library/Preferences/menu.nomad.DEPNotify.plist`
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| statusTextAlignment | String | Sets the main screen status text alignment under the progress bar. Can be left, center or right | defaults write menu.nomad.DEPNotify	statusTextAlignment left |
+| helpBubbleTitle | String | Sets the main screen help bubble title | defaults write menu.nomad.DEPNotify helpBubbleTitle "My Title" |
+| helpBubbleBody | String | Sets the main screen help bubble body text | defaults write menu.nomad.DEPNotify helpBubbleBody "Here is how can I help you" |
+| pathToPlistFile | String | Sets the UserInput.plist file location. This file is used for responses from EULA and registration windows | defaults write menu.nomad.DEPNotify pathToPlistFile "/My/Path/myplistfile.plist" |
 
-DEPNotify gets the EULA contents from a text file, see `pathToEULA` below.
+## EULA Window Configuration
 
-When the registration is complete DEPNotify will write the contents of the input to a file named `DEPNotify.plist` in the default path `/Users/Shared/`. This default path can be changed with the `PathToPlistFile` key.
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| EULAMainTitle | String | Sets EULA main title | defaults write menu.nomad.DEPNotify EULAMainTitle "End User Level Agreement" |
+| EULASubTitle | String | Sets EULA sub title | defaults write menu.nomad.DEPNotify EULASubTitle "Agree to the following terms and conditions to start using this Mac." |
+| pathToEULA | String | Set the path to the EULA text file | defaults write menu.nomad.DEPNotify pathToEULA "/Users/Shared/eula.txt" |
+| quitSuccessiveEULA | Boolean | Allows DEPNotify to quit upon agreeing to the EULA | defaults write menu.nomad.DEPNotify quitSuccessiveEULA -bool true |
 
-Sample EULA window:
-![DEPNotify EULA](./.gitlab/eula_demo.png)
+## Registration Window Configuration
 
-Sample Registration window:
-![DEPNotify EULA](./.gitlab/register_demo.png)
+#### General Settings
 
-**Keys and Values**
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| registrationMainTitle | String | Sets registration main title | defaults write menu.nomad.DEPNotify registrationMainTitle "Please register your Mac" |
+| registrationPicturePath | String | Sets custom image shown on page | defaults write menu.nomad.DEPNotify	registrationPicturePath "/Path/to/picture.jpg" |
+| registrationButtonLabel | String | Sets button label name | defaults write menu.nomad.DEPNotify registrationButtonLabel "Registration" |
 
-You set the keys using the defaults command:
+#### Text Field 1
 
-```bash
-defaults write menu.nomad.DEPNotify key value
-```
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| textField1Label | String | Enables text input 1 and sets custom label | defaults write menu.nomad.DEPNotify	textField1Label "Full name" |
+| textField1Placeholder | String | Enables text input 1 text placeholder | defaults write menu.nomad.DEPNotify	 textField1Placeholder "Placeholder" |
+| textField1IsOptional | Boolean | User can leave text input 1 text field empty | defaults write menu.nomad.DEPNotify	textField1IsOptional -bool true |
+| textField1Bubble | Array | Enables text input 1 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	textField1Bubble -array "Title" "Informative text" |
 
-| Key                          | Key    | Comments                                                                                                  | Example Command                                                                         |
-|------------------------------|--------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| RegisterMainTitle            | String | Sets the main title text on the registration window                                                       | defaults write menu.nomad.DEPNotify RegisterMainTitle 'Register This Mac'               |
-| RegisterButtonLabel          | String | Sets the OK button fo the registration window label                                                       | defaults write menu.nomad.DEPNotify RegisterButtonLabel 'Register'                      |
-| PathToPlistFile              | String | Sets the path where to save the DEPNotify.plist. Make sure there is always a slash at the end of the path | defaults write menu.nomad.DEPNotify PathToPlistFile '/Users/Shared/'                    |
-| UITextFieldUpperPlaceholder  | String | Sets the upper text field placeholder                                                                     | defaults write menu.nomad.DEPNotify UITextFieldUpperPlaceholder 'Upper Placeholder'     |
-| UITextFieldLowerPlaceholder  | String | Sets the lower text field placeholder                                                                     | defaults write menu.nomad.DEPNotify UITextFieldLowerPlaceholder 'Lower Placeholder'     |
-| UIPopUpMenuUpper             | Array  | Sets the upper pop up menu items array                                                                    | defaults write menu.nomad.DEPNotify UIPopUpMenuUpper -array 'London' 'New York' 'Tokio' |
-| UIPopUpMenuLower             | Array  | Sets the lower pop up menu items array                                                                    | defaults write menu.nomad.DEPNotify UIPopUpMenuLower -array 'Item 1' 'Item 2' 'Item 3'  |
-| UITextFieldUpperLabel        | String | Sets the upper text input field label                                                                     | defaults write menu.nomad.DEPNotify UITextFieldUpperLabel 'My ID'                       |
-| UITextFieldLowerLabel        | String | Sets the lower text input field label                                                                     | defaults write menu.nomad.DEPNotify UITextFieldLowerLabel 'Asset Tag'                   |
-| UIPopUpMenuUpperLabel        | String | Sets the upper pop up menu label                                                                          | defaults write menu.nomad.DEPNotify UIPopUpMenuUpperLabel 'City'                        |
-| UIPopUpMenuLowerLabel        | String | Sets the lower pop up menu label                                                                          | defaults write menu.nomad.DEPNotify UIPopUpMenuLowerLabel 'Lower Menu'                  |
-| pathToEULA                   | String | Set the path to the EULA text file                                                                        | defaults write menu.nomad.DEPNotify pathToEULA "/Users/Shared/eula.txt"                 |
-| checkForSensitiveInformation | Bool   | Set visibility of Sensitive Information button                                                            | defaults write menu.nomad.DEPNotify checkForSensitiveInformation -bool true             |
-| quitSuccessiveEULA           | Bool   | Set key to quit after EULA accepted and plist written                                                     | defaults write menu.nomad.DEPNotify quitSuccessiveEULA -bool true                       |
+#### Text Field 2
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| textField2Label | String | Enables text input 2 and sets custom label | defaults write menu.nomad.DEPNotify	textField2Label "Full name" |
+| textField2Placeholder | String | Enables text input 2 text placeholder | defaults write menu.nomad.DEPNotify	 textField2Placeholder "Placeholder" |
+| textField2IsOptional | Boolean | User can leave text input 2 text field empty | defaults write menu.nomad.DEPNotify	textField2IsOptional -bool true |
+| textField2Bubble | Array | Enables text input 2 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	textField2Bubble -array "Title" "Informative text" |
+
+#### Popup Menu 1
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| popupButton1Label | String | Enables popup button 1 and sets custom label | defaults write menu.nomad.DEPNotify	popupButton1Label "Region" |
+| popupButton1Content | Array | Contents of the popup menu 1 | defaults write menu.nomad.DEPNotify popupButton1Content -array "US" "APAC" "Europe" "Americas" |
+| popupMenu1Bubble | Array | Enables popup menu 1 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	popupMenu1Bubble -array "Title" "Informative text" |
+
+#### Popup Menu 2
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| popupButton2Label | String | Enables popup button 2 and sets custom label | defaults write menu.nomad.DEPNotify	popupButton2Label "Region" |
+| popupButton2Content | Array | Contents of the popup menu 2 | defaults write menu.nomad.DEPNotify popupButton2Content -array "US" "APAC" "Europe" "Americas" |
+| popupMenu2Bubble | Array | Enables popup menu 2 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	popupMenu2Bubble -array "Title" "Informative text" |
+
+#### Popup Menu 3
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| popupButton3Label | String | Enables popup button 3 and sets custom label | defaults write menu.nomad.DEPNotify	popupButton3Label "Region" |
+| popupButton3Content | Array | Contents of the popup menu 3 | defaults write menu.nomad.DEPNotify popupButton3Content -array "US" "APAC" "Europe" "Americas" |
+| popupMenu3Bubble | Array | Enables popup menu 3 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	popupMenu3Bubble -array "Title" "Informative text" |
+
+#### Popup Menu 4
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| popupButton4Label | String | Enables popup button 4 and sets custom label | defaults write menu.nomad.DEPNotify	popupButton4Label "Region" |
+| popupButton4Content | Array | Contents of the popup menu 4 | defaults write menu.nomad.DEPNotify popupButton4Content -array "US" "APAC" "Europe" "Americas" |
+| popupMenu4Bubble | Array | Enables popup menu 4 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	popupMenu4Bubble -array "Title" "Informative text" |
 
 # Workflow
 
