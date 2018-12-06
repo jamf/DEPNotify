@@ -15,6 +15,40 @@
 * Handle display of "Executing Policy" inside jamf log -@fgd
 * Add "com.depnotify.provisioning.logout" bom file on logout action -@fgd
 
+# [1.1.3] - Nov 27, 2018
+
+**Changed:**
+* Jamf log doesn't show Alert window when FileVault is enabled -@fgd (Do we want to keep this change? -clayton)
+* Redesigned the Registration Window -@fgd
+* DEPNotify now displays a popup bubble when clicking the help button -@fgd
+* Removed Cancel button in the EULA window. Now the users HAS to click the Action button. -@fgd
+* Registration Window - Text input comliance indicator lights now appear inside the text input field -@fgd
+* Registration Window - Text input comliance indicator lights now disappear when user starts typing -@fgd
+* Most Registration window defaults keys have been changed to reflect new additions -@fgd
+* User input plist file. When customizing the User Input plist path you now have to include a name for the plist file
+
+**Fixed:**
+* "Logout:" Displaying a logout alert no longer displays the EULA window afterwards -@fgd
+* "Quit:" Displaying a Quit alert no longer displays the EULA window afterwards -@fgd
+* Dark Mode now works in Registration and EULA views, and help Bubble -@fgd
+
+**Added:**
+* "Video:" plays a video from a stream or local source. DEPNotify automatically detects if it’s a local or http video. (Video formats accepted .m4v, .mp4, .m3u8) Video Size is 700px x 328px -@fgd
+* "YouTube" plays a youtube video in DEPNotify. Video Size is 700px x 328px -@fgd
+* "Website" loads a webpage in DEPNotify. Size is 700px x 328px -@fgd
+* Add "LastRegistrationDate" key to DEPNotify.plist -@fgd
+* Add "com.depnotify.provisioning.logout" bom file on logout action (Button) -@fgd
+* Add "com.depnotify.provisioning.restart" bom file on restart action (Button) -@fgd
+* Add "com.depnotify.provisioning.done" bom file on Quit (Button) -@fgd
+* Add "com.depnotify.registration.done" bom file after Registration action -@fgd
+* Add "com.depnotify.agreement.done" bom file after EULA action -@fgd
+* Clicking the help button on the main screen now displays a popup window with customizable Title and Content -@fgd
+* Registration Window -@fgd
+    * Added two more popup menus for a total of 2 text fields and 4 popups
+    * Added optional informative popup bubles to each user input option
+    * Checking the Sensitive Information checkbox displays a popup window with several security and privacy compliance options
+    * Added 6 new keys file for security and data compliance to the user input plist
+* Status text can now be aligned to either right, center or left -@fgd
 
 # [1.1.0] - May 19, 2018
 
