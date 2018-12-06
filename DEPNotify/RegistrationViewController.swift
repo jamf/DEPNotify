@@ -35,6 +35,10 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
     @IBOutlet weak var popupButton3: NSPopUpButton!
     @IBOutlet weak var popupButton4: NSPopUpButton!
     
+    // Check for valid regex pattern
+    @IBOutlet weak var hasTextFieldValidPattern: NSTextField!
+    
+
     // Check for sensitive information
     @IBOutlet weak var thisComputerStoresSensitiveInformation: NSButton!
     
@@ -73,7 +77,10 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
     var securityOption4Key = "InfoSec - FFIEC"
     var securityOption5Key = "InfoSec - HIPAA"
     var securityOption6Key = "InfoSec - PCI Data"
-    
+    var textField1RegexPattern = ""
+    var textField2RegexPattern = ""
+    var textField1LabelForRegex = ""
+    var textField2LabelForRegex = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,6 +156,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         
         // Set Text field 1 label
         if let textField1LabelValue = UserDefaults.standard.string(forKey: "textField1Label") {
+            textField1LabelForRegex = textField1LabelValue
             textField1Label.stringValue = textField1LabelValue
             textField1Label.isHidden = false
             textField1.isHidden = false
@@ -159,9 +167,16 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         } else {
             print ("No Text Field 1 to load")
         }
+        
+        // TextField1RegexPattern
+        if let textField1RegexPatternValue = UserDefaults.standard.string(forKey: "textField1RegexPattern") {
+            textField1RegexPattern = textField1RegexPatternValue
+            print("Text Field Regex Pattern 1: \(textField1RegexPattern)")
+        }
 
         // Set Text field 2 label
         if let textField2LabelValue = UserDefaults.standard.string(forKey: "textField2Label") {
+            textField2LabelForRegex = textField2LabelValue
             textField2Label.stringValue = textField2LabelValue
             textField2Label.isHidden = false
             textField2.isHidden = false
@@ -173,6 +188,12 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             print ("No Text Field 2 to load")
         }
     
+        // TextField2RegexPattern
+        if let textField2RegexPattern = UserDefaults.standard.string(forKey: "textField2RegexPattern") {
+            //textField2RegexPattern = textField2RegexPatternValue
+            print("Text Field Regex Pattern 1: \(textField2RegexPattern)")
+        }
+        
         // Set Button 1 label and contents
         if let popupButton1LabelValue = UserDefaults.standard.string(forKey: "popupButton1Label") {
             popupButton1Label.stringValue = popupButton1LabelValue
@@ -339,6 +360,8 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         // Set Field Required Indicator to Hidden
         textField1Required.isHidden = true
         textField2Required.isHidden = true
+        hasTextFieldValidPattern.isHidden = true
+        
         
         // Check if Text Fields are mandatory
         let TextField1IsOptional = UserDefaults.standard.bool(forKey: "textField1IsOptional")
@@ -348,19 +371,41 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         let textField1Value = textField1.stringValue
         let textField2Value = textField2.stringValue
         
+        print("Text Field Regex Pattern 1: \(textField1RegexPattern)")
+        
         // Turn on mandatory fields indicator
         if textField1Value.isEmpty && !textField1.isHidden && !TextField1IsOptional {
             do {
                 textField1Required.isHidden = false
+                NSSound.beep()
+               
                 print("Text Field 1 is empty")
             }
         } else if textField2Value.isEmpty && !textField2.isHidden && !TextField2IsOptional {
             do {
                 textField2Required.isHidden = false
-                print("Text Field 1 is empty")
+                NSSound.beep()
+                
+                print("Text Field 2 is empty")
             }
-        } else {
+        } else if !textField1RegexPattern.isEmpty && !checkRegexPattern(regexPattern: textField1RegexPattern, textToValidate: textField1Value) {
+            hasTextFieldValidPattern.stringValue = "\(textField1LabelForRegex) is not the correct format"
+            hasTextFieldValidPattern.isHidden = false
+            NSSound.beep()
             
+            print("Text Field 1 does not match pattern")
+            
+         
+        } else if !textField2RegexPattern.isEmpty && !checkRegexPattern(regexPattern: textField2RegexPattern, textToValidate: textField2Value) {
+            hasTextFieldValidPattern.stringValue = "\(textField2LabelForRegex) is not the correct format"
+            hasTextFieldValidPattern.isHidden = false
+            NSSound.beep()
+            
+            print("Text Field 2 does not match pattern")
+       
+        
+        } else {
+                
             // Write user input content to UserInput plist file
             writeContentsToPlistFile()
             
@@ -389,24 +434,27 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         
         // Check DEPNotify defaults to get upper and lower input fields regex
        
-        if let textField1Regex = UserDefaults.standard.string(forKey: "TextField1Regex") {
+        if let textField1Regex = UserDefaults.standard.string(forKey: "TextField1CharValidation") {
             let textField1CharacterSet: CharacterSet = CharacterSet(charactersIn: textField1Regex).inverted
             self.textField1.stringValue = (self.textField1.stringValue.components(separatedBy: textField1CharacterSet) as NSArray).componentsJoined(by: "")
             textField1Required.isHidden = true
         } else {
-            let textField1CharacterSet: CharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789-_. ").inverted
+            let textField1CharacterSet: CharacterSet = CharacterSet(charactersIn: "@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789-_. ").inverted
             self.textField1.stringValue = (self.textField1.stringValue.components(separatedBy: textField1CharacterSet) as NSArray).componentsJoined(by: "")
             textField1Required.isHidden = true
+            hasTextFieldValidPattern.isHidden = true
+
         }
 
-        if let textField2Regex = UserDefaults.standard.string(forKey: "TextField2Regex") {
+        if let textField2Regex = UserDefaults.standard.string(forKey: "TextField2CharValidation") {
             let textField2CharacterSet: CharacterSet = CharacterSet(charactersIn: textField2Regex).inverted
             self.textField2.stringValue = (self.textField2.stringValue.components(separatedBy: textField2CharacterSet) as NSArray).componentsJoined(by: "")
             textField2Required.isHidden = true
         } else {
-            let textField2CharacterSet: CharacterSet = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789-_. ").inverted
+            let textField2CharacterSet: CharacterSet = CharacterSet(charactersIn: "@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ0123456789-_. ").inverted
             self.textField2.stringValue = (self.textField2.stringValue.components(separatedBy: textField2CharacterSet) as NSArray).componentsJoined(by: "")
             textField2Required.isHidden = true
+            hasTextFieldValidPattern.isHidden = true
         }
         
     }
@@ -439,6 +487,27 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
             print("Resetting Security Options @\(dataWritten)")
         
+    }
+    
+    func checkRegexPattern(regexPattern: String, textToValidate: String) -> Bool {
+        var returnValue = true
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regexPattern)
+            let nsString = textToValidate as NSString
+            let results = regex.matches(in: textToValidate, range: NSRange(location: 0, length: nsString.length))
+            
+            if results.count == 0
+            {
+                returnValue = false
+            }
+            
+        } catch let error as NSError {
+            print("invalid regex: \(error.localizedDescription)")
+            returnValue = false
+        }
+        
+        return  returnValue
     }
     
     func getSystemUUID() -> String? {
