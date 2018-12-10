@@ -1,27 +1,36 @@
 
 /* Class = "NSTextFieldCell"; title = "Agree to the following terms and conditions to start using this Mac."; ObjectID = "26E-TZ-RPo"; */
-"26E-TZ-RPo.title" = "Acepte estos términos y condiciones para comenzar a usar este Mac.";
+"26E-TZ-RPo.title" = "Agree to the following terms and conditions to start using this Mac.";
 
 /* Class = "NSTextFieldCell"; title = "Registering your Mac..."; ObjectID = "2N9-yl-FVX"; */
-"2N9-yl-FVX.title" = "Registrando su Mac...";
+"2N9-yl-FVX.title" = "Registering your Mac...";
 
 /* Class = "NSTextFieldCell"; title = "Register this Mac!"; ObjectID = "6Em-cR-Irw"; */
-"6Em-cR-Irw.title" = "Registre este Mac!";
+"6Em-cR-Irw.title" = "Register this Mac!";
+
+/* Class = "NSTextFieldCell"; title = "Demo"; ObjectID = "8u4-81-fIe"; */
+"8u4-81-fIe.title" = "Demo";
 
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
 "AYu-sK-qS6.title" = "Main Menu";
 
 /* Class = "NSTextFieldCell"; title = "We are setting up your Mac with a standard suite of software and security settings, including every day apps, configuration profiles and security policies.\n\nThis process could take up to 20 minutes so please don't restart or shutdown your Mac until we are done."; ObjectID = "BNQ-7b-pHr"; */
-"BNQ-7b-pHr.title" = "Estamos configurando su Mac con una suite estándar de software y ajustes de seguridad, incluyendo apps de uso diario, perfiles de configuración y políticas de seguridad.\n\nEste proceso puede toma hasta 20 minutos por lo que por favor no reinicie o apague su computado hasta que hayamos terminado.";
+"BNQ-7b-pHr.title" = "We are setting up your Mac with a standard suite of software and security settings, including every day apps, configuration profiles and security policies.\n\nThis process could take up to 20 minutes so please don't restart or shutdown your Mac until we are done.";
 
 /* Class = "NSMenuItem"; title = "Item 1"; ObjectID = "Dql-Ou-14P"; */
 "Dql-Ou-14P.title" = "Item 1";
 
+/* Class = "NSButtonCell"; title = "This Mac stores sensitive information"; ObjectID = "Hr4-df-sA4"; */
+"Hr4-df-sA4.title" = "This Mac stores sensitive information";
+
 /* Class = "NSWindow"; title = "Welcome to your Mac"; ObjectID = "IQv-IB-iLA"; */
-"IQv-IB-iLA.title" = "Bienvenido a nuevo Macc";
+"IQv-IB-iLA.title" = "Welcome to your Mac";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "J5k-eo-Gj3"; */
 "J5k-eo-Gj3.title" = "Window";
+
+/* Class = "NSTextFieldCell"; title = "What's going on?"; ObjectID = "Jsq-sk-wwI"; */
+"Jsq-sk-wwI.title" = "What's going on?";
 
 /* Class = "NSMenuItem"; title = "Item 2"; ObjectID = "Kor-SF-gGb"; */
 "Kor-SF-gGb.title" = "Item 2";
@@ -36,22 +45,19 @@
 "WAu-Mu-W4i.title" = "Item 2";
 
 /* Class = "NSTextFieldCell"; title = "Starting configuration..."; ObjectID = "Wes-CZ-MzJ"; */
-"Wes-CZ-MzJ.title" = "Iniciando Configuración...";
+"Wes-CZ-MzJ.title" = "Starting configuration...";
 
-/* Class = "NSButtonCell"; title = "This Mac stores sensitive information"; ObjectID = "Wsg-be-yOR"; */
-"Wsg-be-yOR.title" = "Este Mac almacena información sensible";
-
-/* Class = "NSButtonCell"; title = "Continuar"; ObjectID = "Y7g-x8-UaJ"; */
-"Y7g-x8-UaJ.title" = "Continuar";
+/* Class = "NSButtonCell"; title = "Continue"; ObjectID = "Y7g-x8-UaJ"; */
+"Y7g-x8-UaJ.title" = "Continue";
 
 /* Class = "NSButtonCell"; title = "Continue"; ObjectID = "aG4-FN-kFN"; */
-"aG4-FN-kFN.title" = "Continuar";
+"aG4-FN-kFN.title" = "Continue";
 
-/* Class = "NSTextFieldCell"; title = "End User Level Agreement"; ObjectID = "dS2-ZB-9vG"; */
-"dS2-ZB-9vG.title" = "Acuerdo de Nivel de Usuario Final";
+/* Class = "NSTextFieldCell"; title = "End User License Agreement"; ObjectID = "dS2-ZB-9vG"; */
+"dS2-ZB-9vG.title" = "End User License Agreement";
 
 /* Class = "NSButtonCell"; title = "I Agree"; ObjectID = "f4s-jy-BuA"; */
-"f4s-jy-BuA.title" = "Acepto";
+"f4s-jy-BuA.title" = "I Agree";
 
 /* Class = "NSTextFieldCell"; title = "UIPopUpMenuUpper"; ObjectID = "f7F-bE-eLE"; */
 "f7F-bE-eLE.title" = "UIPopUpMenuUpper";
@@ -63,10 +69,10 @@
 "ij0-Gm-mGp.title" = "Item 1";
 
 /* Class = "NSButtonCell"; title = "Register"; ObjectID = "pfx-G8-3O4"; */
-"pfx-G8-3O4.title" = "Registrar";
+"pfx-G8-3O4.title" = "Register";
 
 /* Class = "NSTextFieldCell"; title = "Welcome to your new Mac!"; ObjectID = "uNN-nN-sFa"; */
-"uNN-nN-sFa.title" = "Bienvenido a su nuevo Mac!";
+"uNN-nN-sFa.title" = "Welcome to your new Mac!";
 
 /* Class = "NSTextFieldCell"; title = "UIPopUpMenuLower"; ObjectID = "z4J-WJ-NJb"; */
 "z4J-WJ-NJb.title" = "UIPopUpMenuLower";

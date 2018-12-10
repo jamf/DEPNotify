@@ -4,14 +4,22 @@
 
 DEPNotify is a small light weight notification app that was designed to let your users know what's going on during a DEP enrollment. The app is focused on being very simple to use and easy to deploy.
 
-## Table of Contents
+# Table of Contents
 
 * [**Download**](#download)
 * [**Basic Usage**](#basic-usage)
-* [**Additional Flags**](#additional-flags)
+* [**Application Flags**](#application-flags)
 * [**Commands**](#commands)
+  * [**Main Window Configuration**](#main-window-configuration)
+  * [**Interaction**](#interaction)
+  * [**Notification**](#notification)
+  * [**Completion**](#completion)
+* [**DEPNotify Plist**](#depnotify-plist)
+  * [**Main Window Configuration**](#main-window-configuration)
+  * [**EULA Window Configuration**](#eula-window-configuration)
+  * [**Registration Window Configuration**](#registration-window-configuration)
 * [**Status Updates**](#status-updates)
-* [**Registration and EULA Windows**](#registration-and-eula-windows)
+* [**Default File Locations**](#default-file-locations)
 * [**Workflow**](#workflow)
 * [**Advanced Workflows**](#advanced-workflows)
 * [**Changelog**](#changelog)
@@ -23,20 +31,32 @@ Get the latest version, visit our tags: [DEPNotify tags](https://gitlab.com/Mact
 
 # Basic Usage
 
-DEPNotify is completely controlled via echoing text to it's control file. By default this is `/var/tmp/depnotify.log` but can be changed with the [`-path`](#-path) flag.
+DEPNotify is completely controlled via echoing text to its control file. By default this is `/var/tmp/depnotify.log` but can be changed with the [`-path`](#-path) flag.
 
-The application then reacts to `Command:` and `Status:` lines written to the control file.
+The application then reacts to `Command:` and `Status:` lines written to the control file. Newer features of the app also utilize menu.nomad.DEPNotify.plist that is saved to the current user's home library preferences folder.
 
-# Additional Flags
+# Application Flags
 
-Adding additional log files has to be done with arguments at the command line.
+Application flags augment default settings or alert DEPNotify of different management software solutions to pull information from.
 
-### `-path`
+#### `-path`
 This replaces the default control file located at `/var/tmp/depnotify.log` allowing to select the path with `-path [some path]`.
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -path /private/tmp/setup.txt`
 
-### `-jamf`
+#### `-fullScreen`
+This flag will create a full screen behind the DEPNotify screen to focus the user on the task at hand. By default, DEPNotify launches as a window that can be moved by the end user. Additionally, command-control-x will quit DEPNotify, although this can be modified via the DEPNotify configuration.
+
+*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -fullScreen`
+
+## MDM Specific Flags
+
+#### `-filewave`
+This has DEP Notify read in the FileWave log at `/var/log/fwcld.log` and then update the status line in the DEP Notify window with any downloads and installations.
+
+*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -filewave`
+
+#### `-jamf`
 This has DEP Notify read in the Jamf log at `/var/log/jamf.log` and then update the status line in the DEP Notify window with any installations or policy executions from the Jamf log. Note there is nothing special you need to name your items in Jamf for them to be read.
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -jamf`
@@ -59,137 +79,57 @@ This has DEP Notify read in the Jamf log at `/var/log/jamf.log` and then update 
 
   * If you have Prefixes, Postfixes, or other Patterns in your package names, that you do not want displayed to screen, you can add those into the code as well.
 
-### `-munki`
+#### `-munki`
 This has DEP Notify read in the Munki log at `/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log` and then update the status line in the DEP Notify window with any downloads and installations.
 
 *Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -munki`
-
-### `-filewave`
-This has DEP Notify read in the FileWave log at `/var/log/fwcld.log` and then update the status line in the DEP Notify window with any downloads and installations.
-
-*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -filewave`
-
-### `-fullScreen`
-This flag will create a full screen behind the DEPNotify screen to focus the user on the task at hand. By default command-control-x will quit DEPNotify, although this can be modified via the DEPNotify configuration.
-
-*Example:* `/Applications/DEPNotify.app/Contents/MacOS/DEPNotify -fullScreen`
 
 # Commands
 
 DEPNotify responds to a number of commands. All are prefaced with `Command:` and then the verb. Most are then followed by some text or other attribute.
 
-### **Alert:**
-This creates an alert sheet on the DEPNotify window with an "Ok" button to allow the user to clear the alert. The text that follows the `Alert:` will be the contents to the alert.
+## Main Window Configuration
 
-*Example:* `Command: Alert: The installation is now finished`
+Below are commands that will modify the main window properties, text, or associated images.
 
-### **ContinueButton:**
-This places a Continue button at the bottom of the screen that quits DEPNotify. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
-
-*Example:* `Command: ContinueButton: <Button Label>`
-
-### **ContinueButtonRegister:**
-This places a Continue button at the bottom of the screen that that calls the Registration window. Creates a bom file `/var/tmp/com.depnotify.registration.done` on successful completion.
-
-*Example:* `Command: ContinueButtonRegister: <Button Label>`
-
-### **ContinueButtonEULA:**
-This places a Continue button at the bottom of the screen to display a URLA or other agreement you need the user to agree to. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
-
-*Example:* `Command: ContinueButtonEULA: <Button Label>`
-
-### **ContinueButtonRestart:**
-This places a Continue button at the bottom of the screen that will perform a soft restart of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.restart` on successful completion.
-
-*Example:* `Command: ContinueButtonRestart: <Button Label>`
-
-### **ContinueButtonLogout:** 
-This places a Continue button at the bottom of the screen that will perform a logout of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
-
-*Example:* `Command: ContinueButtonLogout: <Button Label>`
-
-### **Determinate:** 
-This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
-
-*Example:* `Command: Determinate: 5`
-
-### **DeterminateManual:** 
-This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, you will need to manually tell DEPNotify when to update instead of relying on status updates or information from the various log files. This allows you to create a progress bar independent of status updates.
-
-*Example:* `Command: DeterminateManual: 5`
-
-### **DeterminateManualStep:** 
-When in `DeterminateManual` mode this will advance the progress bar by one step, or by the number following the verb.
-
-*Example:* `Command: DeterminateManualStep: 2`
-
-### **DeterminateOff:** 
-Disables a deterministic state for the progress bar. Note that the steps already occurred in the bar will remain, allowing you to move between a deterministic behavior and non-deterministic without loosing your place.
-
-*Example:* `Command: DeterminateOff:`
-
-### **DeterminateOffReset:** 
-After turning off the deterministic state of the progress bar, you need to reset it the count to 0.
-
-*Example:* `Command: DeterminateOffReset:`
-
-### **Help:**  
-This will show a help button in the lower right corner of the DEPNotify window. Pressing the button will open up the path that you specify. Note that this can be both web URLs, such as http://www.apple.com/support, or file paths to local files such as file:///Applications/Chess.app.
-
-*Example:* `Command: Help: http://www.apple.com/support`
-
-### **Image:** 
+#### Image:
 This will replace the very fancy DEPNotify logo, created by Erik Gomez, with a very fancy image of your own. Note that DEPNotify should scale the image up or down to fit the space.
 
 *Example:* `Command: Image: /tmp/logo.png`
 
-### **KillCommandFile:** 
+#### KillCommandFile:
 This command will tell DEPNotify to remove the command file from the filesystem when DEPNotify is quit. Keep in mind file permissions to ensure that the file can actually be removed by DEPNotify.
 
 *Example:* `Command: KillCommandFile:`
 
-### **Logout:** 
-This will show a sheet dialog and then log the user out when the "Logout" is clicked. This is commonly used to log the user out and initiate a FileVault encryption process.
-
-*Example:* `Command: Logout: Please logout now to start disk encryption.`
-
-### **LogoutNow:** 
-Executes an immediate logout of the user session without waiting until the user responds to the alert  
-
-*Example:* `Command: LogoutNow:`
-
-### **MainText:** 
+#### MainText:
 This command will change the main body of text in the application.
 
 *Example:* `Command: MainText: Something about how amazing the DEP process you've created is.`
 *Example w/ New Lines:* `Command: MainText: Something about how amazing the DEP process you've created is. \n \n It really is amazing.`
 
-### **MainTextImage:** 
+#### MainTextImage:
 This command will change the main body to an icon of your choosing
 
 *Example:* `Command: MainTextImage: /tmp/logo.png`
 
-### **MainTitle:** 
+#### MainTitle:
 This command will change the main title of text in the application.
 
 *Example:* `Command: MainTitle: Something about how amazing the DEP process you've created is.`
 
-### **Notification:** 
-This will issue a notification to the Mac's notification center and display it.
+#### Video:
+Plays a video from a stream or local source. DEPNotify automatically detects if it’s a local or http video. (Video formats accepted .m4v, .mp4, .m3u8)
 
-*Example:* `Command: Notification: Please look at this notification.`
+*Example:* `Command: Video: https://example.com/awesome_video.mp4`  
+*Example:* `Command: Video: /var/tmp/awesome_video.mp4`
 
-### **NotificationImage:** 
-This sets an image to use for the user notifications. Keep in mind that this may not be what you are looking for. After setting this notifications will still have the DEP Notify icon in them, but will also have the image set with this command.
+#### Website:
+Loads a website in DEPNotify.
 
-*Example:* `Command: NotificationImage: /tmp/image.png`
+*Example:* `Command: Website: https://apple.com`
 
-### **NotificationOn:** 
-This will cause all status updates to be sent to the Notification Center as well. It takes no modifiers.
-
-*Example:* `Command: NotificationOn:`
-
-### **WindowStyle:** 
+#### WindowStyle:
 This command has a few modifiers to it:
     * `Activate` This will force the DEPNotify window to the front of all other windows.
     * `ActivateOnStep` This will force the window to the front for each new progress bar step, so that you don't have to issue the Activate command each time.
@@ -197,35 +137,231 @@ This command has a few modifiers to it:
 
 *Example:* `Command: WindowStyle: NotMovable`
 
-### **WindowTitle:** 
+#### WindowTitle:
 This will change the title of the DEPNotify window.
 
 *Example:* `Command: WindowTitle: My Great DEP Notification App`
 
-### **Quit** 
+#### YouTube:
+Plays a youtube video in DEPNotify.
+
+*Example:* `Command: YouTube: <youtube_id_here>`
+
+## Interaction
+
+Below are commands allow for user interactions like EULA screen or registration screen. There are also commands for modifying the "progress" bar.
+
+#### ContinueButtonRegister:
+This places a Continue button at the bottom of the screen that that calls the Registration window. Creates a bom file `/var/tmp/com.depnotify.registration.done` on successful completion.
+
+*Example:* `Command: ContinueButtonRegister: <Button Label>`
+
+#### ContinueButtonEULA:
+This places a Continue button at the bottom of the screen to display a URLA or other agreement you need the user to agree to. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
+
+*Example:* `Command: ContinueButtonEULA: <Button Label>`
+
+#### Determinate:
+This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, every status update that you send DEPNotify will increment the bar by one stage.
+
+*Example:* `Command: Determinate: 5`
+
+#### DeterminateManual:
+This makes the progress bar be determinate instead of just a spinny bar. You need to follow this with the number of stages you'd like to have in the bar. Once set, you will need to manually tell DEPNotify when to update instead of relying on status updates or information from the various log files. This allows you to create a progress bar independent of status updates.
+
+*Example:* `Command: DeterminateManual: 5`
+
+#### DeterminateManualStep:
+When in `DeterminateManual` mode this will advance the progress bar by one step, or by the number following the verb.
+
+*Example:* `Command: DeterminateManualStep: 2`
+
+#### DeterminateOff:
+Disables a deterministic state for the progress bar. Note that the steps already occurred in the bar will remain, allowing you to move between a deterministic behavior and non-deterministic without loosing your place.
+
+*Example:* `Command: DeterminateOff:`
+
+#### DeterminateOffReset:
+After turning off the deterministic state of the progress bar, you need to reset it the count to 0.
+
+*Example:* `Command: DeterminateOffReset:`
+
+## Notification
+
+Below are commands for dropdown alerts and notification center alerts for end users.
+
+#### Alert:
+This creates an alert sheet on the DEPNotify window with an "Ok" button to allow the user to clear the alert. The text that follows the `Alert:` will be the contents to the alert.
+
+*Example:* `Command: Alert: The installation is now finished`
+
+#### Notification:
+This will issue a notification to the Mac's notification center and display it.
+
+*Example:* `Command: Notification: Please look at this notification.`
+
+#### NotificationImage:
+This sets an image to use for the user notifications. Keep in mind that this may not be what you are looking for. After setting this notifications will still have the DEP Notify icon in them, but will also have the image set with this command.
+
+*Example:* `Command: NotificationImage: /tmp/image.png`
+
+#### NotificationOn:
+This will cause all status updates to be sent to the Notification Center as well. It takes no modifiers.
+
+*Example:* `Command: NotificationOn:`
+
+## Completion
+
+Below are commands that can be used to quit, logout, or restart the Mac after workflows are completed.
+
+#### ContinueButton:
+This places a Continue button at the bottom of the screen that quits DEPNotify. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
+
+*Example:* `Command: ContinueButton: <Button Label>`
+
+#### ContinueButtonLogout:
+This places a Continue button at the bottom of the screen that will perform a logout of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
+
+*Example:* `Command: ContinueButtonLogout: <Button Label>`
+
+#### ContinueButtonRestart:
+This places a Continue button at the bottom of the screen that will perform a soft restart of the Mac. Creates a bom file `/var/tmp/com.depnotify.provisioning.restart` on successful completion.
+
+*Example:* `Command: ContinueButtonRestart: <Button Label>`
+
+#### Logout:
+This will show a sheet dialog and then log the user out when the "Logout" is clicked. This is commonly used to log the user out and initiate a FileVault encryption process.
+
+*Example:* `Command: Logout: Please logout now to start disk encryption.`
+
+#### LogoutNow:
+Executes an immediate logout of the user session without waiting until the user responds to the alert  
+
+*Example:* `Command: LogoutNow:`
+
+#### Quit
 The first of two ways to quit DEPNotify. This option takes no modifiers and will immediately quit the application. Note there is no `:` on this command.
 
 *Example:* `Command: Quit`
 
-### **Quit:** 
+#### Quit:
 The second way to quit the application. This method will allow you to show a dialog with text of your choosing. The user will then be able to dismiss the dialog to quit the application.
 
 *Example:* `Command: Quit: Thanks for using this app.`
 
-### **QuitKey:** 
+#### QuitKey:
 This will change the default key to quit DEPNotify. By default this is the "x" key with the command and control keys held down. Settign `QuitKey:` allows you to change "x" to any other single character. Note: you are unable to modify the requirement for the command and control keys.
 
 *Example:* `Command: QuitKey: j`
 
-### **Restart:** 
+#### Restart:
 This will cause the machine to begin the restart process. The user will get a notification to accept with the text following the command.
 
 *Example:* `Command: Restart: Your session will end now.`
 
-### **Restartnow:** 
+#### Restartnow:
 This will cause a restart event without requiring the user to accept.
 
 *Example:* `Command: RestartNow:`
+
+## Deprecated Commands
+
+Below commands have been removed from the product as newer methods have been added.
+
+#### Help: (deprecated)
+
+*This command was removed in version X.X.X and changed to a help bubble that is configured by plist.*
+
+This will show a help button in the lower right corner of the DEPNotify window. Pressing the button will open up the path that you specify. Note that this can be both web URLs, such as http://www.apple.com/support, or file paths to local files such as file:///Applications/Chess.app.
+
+*Example:* `Command: Help: http://www.apple.com/support`
+
+# DEPNotify Plist
+
+For more functionality and advanced workflows, additional options are slowly being added into the `menu.nomad.DEPNotify.plist`. This file is able to configure various things like EULA window, registration window, status text alignment, and help bubbles.
+
+## Main Window Configuration
+
+Main window configurations modify the look, feel, and some of the underlying locations of files.
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| statusTextAlignment | String | Sets the main screen status text alignment under the progress bar. Can be left, center or right | defaults write menu.nomad.DEPNotify	statusTextAlignment left |
+| helpBubble | Array | Sets the title and text of the help bubble | defaults write menu.nomad.depnotify helpBubble -array "Title" "Content" |
+| pathToPlistFile | String | Sets the UserInput.plist file location. This file is used for responses from EULA and registration windows | defaults write menu.nomad.DEPNotify pathToPlistFile "/My/Path/myplistfile.plist" |
+
+## EULA Window Configuration
+
+The EULA window adds a button the end user must press to activate a dropdown that the user can read and then accept some terms of agreement to use the computer. The EULA text file can be ether `.txt` or `.rtf` format.
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| EULAMainTitle | String | Sets EULA main title | defaults write menu.nomad.DEPNotify EULAMainTitle "End User Level Agreement" |
+| EULASubTitle | String | Sets EULA sub title | defaults write menu.nomad.DEPNotify EULASubTitle "Agree to the following terms and conditions to start using this Mac." |
+| pathToEULA | String | Set the path to the EULA text file | defaults write menu.nomad.DEPNotify pathToEULA "/Users/Shared/eula.txt" |
+| quitSuccessiveEULA | Boolean | Allows DEPNotify to quit upon agreeing to the EULA | defaults write menu.nomad.DEPNotify quitSuccessiveEULA -bool true |
+
+## Registration Window Configuration
+
+Registration window adds a button the end user must press to activate a dropdown that will allow the user to fill in associated data about themselves, the computer, use case for computer, or any other idea you have. A sensitive data box is enabled by default that allow the user to self identify if there is client or other types of secured data on the device.
+
+#### General Settings
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| registrationMainTitle | String | Sets registration main title | defaults write menu.nomad.DEPNotify registrationMainTitle "Please register your Mac" |
+| registrationPicturePath | String | Sets custom image shown on page | defaults write menu.nomad.DEPNotify	registrationPicturePath "/Path/to/picture.jpg" |
+| registrationButtonLabel | String | Sets button label name | defaults write menu.nomad.DEPNotify registrationButtonLabel "Registration" |
+
+#### Text Field 1
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| textField1Label | String | Enables text input 1 and sets custom label | defaults write menu.nomad.DEPNotify	textField1Label "Full name" |
+| textField1Placeholder | String | Enables text input 1 text placeholder | defaults write menu.nomad.DEPNotify	 textField1Placeholder "Placeholder" |
+| textField1IsOptional | Boolean | User can leave text input 1 text field empty | defaults write menu.nomad.DEPNotify	textField1IsOptional -bool true |
+| textField1Bubble | Array | Enables text input 1 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	textField1Bubble -array "Title" "Informative text" |
+
+#### Text Field 2
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| textField2Label | String | Enables text input 2 and sets custom label | defaults write menu.nomad.DEPNotify	textField2Label "Full name" |
+| textField2Placeholder | String | Enables text input 2 text placeholder | defaults write menu.nomad.DEPNotify	 textField2Placeholder "Placeholder" |
+| textField2IsOptional | Boolean | User can leave text input 2 text field empty | defaults write menu.nomad.DEPNotify	textField2IsOptional -bool true |
+| textField2Bubble | Array | Enables text input 2 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	textField2Bubble -array "Title" "Informative text" |
+
+#### Popup Menu 1
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| popupButton1Label | String | Enables popup button 1 and sets custom label | defaults write menu.nomad.DEPNotify	popupButton1Label "Region" |
+| popupButton1Content | Array | Contents of the popup menu 1 | defaults write menu.nomad.DEPNotify popupButton1Content -array "US" "APAC" "Europe" "Americas" |
+| popupMenu1Bubble | Array | Enables popup menu 1 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	popupMenu1Bubble -array "Title" "Informative text" |
+
+#### Popup Menu 2
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| popupButton2Label | String | Enables popup button 2 and sets custom label | defaults write menu.nomad.DEPNotify	popupButton2Label "Region" |
+| popupButton2Content | Array | Contents of the popup menu 2 | defaults write menu.nomad.DEPNotify popupButton2Content -array "US" "APAC" "Europe" "Americas" |
+| popupMenu2Bubble | Array | Enables popup menu 2 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	popupMenu2Bubble -array "Title" "Informative text" |
+
+#### Popup Menu 3
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| popupButton3Label | String | Enables popup button 3 and sets custom label | defaults write menu.nomad.DEPNotify	popupButton3Label "Region" |
+| popupButton3Content | Array | Contents of the popup menu 3 | defaults write menu.nomad.DEPNotify popupButton3Content -array "US" "APAC" "Europe" "Americas" |
+| popupMenu3Bubble | Array | Enables popup menu 3 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	popupMenu3Bubble -array "Title" "Informative text" |
+
+#### Popup Menu 4
+
+| Key | Type | Description | Example |
+| --- | ---- | ----------- | ------- |
+| popupButton4Label | String | Enables popup button 4 and sets custom label | defaults write menu.nomad.DEPNotify	popupButton4Label "Region" |
+| popupButton4Content | Array | Contents of the popup menu 4 | defaults write menu.nomad.DEPNotify popupButton4Content -array "US" "APAC" "Europe" "Americas" |
+| popupMenu4Bubble | Array | Enables popup menu 4 information bubble and sets custom content | defaults write menu.nomad.DEPNotify	popupMenu4Bubble -array "Title" "Informative text" |
 
 # Status Updates
 
@@ -233,48 +369,19 @@ This are very simple. Just echo set `Status:` followed by the text of your statu
 
 *Example:* `Status: Reticulating splines...`
 
-# Registration and EULA Windows
+# Default File Locations
 
-You customize the registration and EULA windows using preferences keys. The registration window accepts user input from two text input fields and two pop up menus. You can customize which fields make it to the registration window by setting the fields labels. e.g. if you want to have only one text input field and two pop up menus, just create the keys for the corresponding labels in the preferences file.
-
-You can also set the registration window title and registration button label.
-
-You access defaults key via the defaults command using the `menu.nomad.DEPNotify` domain. This file will be written at `~/Library/Preferences/menu.nomad.DEPNotify.plist`
-
-DEPNotify gets the EULA contents from a text file, see `pathToEULA` below.
-
-When the registration is complete DEPNotify will write the contents of the input to a file named `DEPNotify.plist` in the default path `/Users/Shared/`. This default path can be changed with the `PathToPlistFile` key.
-
-Sample EULA window:
-![DEPNotify EULA](./.gitlab/eula_demo.png)
-
-Sample Registration window:
-![DEPNotify EULA](./.gitlab/register_demo.png)
-
-**Keys and Values**
-
-You set the keys using the defaults command:
-
-```bash
-defaults write menu.nomad.DEPNotify key value
-```
-
-| Key                          | Key    | Comments                                                                                                  | Example Command                                                                         |
-|------------------------------|--------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| RegisterMainTitle            | String | Sets the main title text on the registration window                                                       | defaults write menu.nomad.DEPNotify RegisterMainTitle 'Register This Mac'               |
-| RegisterButtonLabel          | String | Sets the OK button fo the registration window label                                                       | defaults write menu.nomad.DEPNotify RegisterButtonLabel 'Register'                      |
-| PathToPlistFile              | String | Sets the path where to save the DEPNotify.plist. Make sure there is always a slash at the end of the path | defaults write menu.nomad.DEPNotify PathToPlistFile '/Users/Shared/'                    |
-| UITextFieldUpperPlaceholder  | String | Sets the upper text field placeholder                                                                     | defaults write menu.nomad.DEPNotify UITextFieldUpperPlaceholder 'Upper Placeholder'     |
-| UITextFieldLowerPlaceholder  | String | Sets the lower text field placeholder                                                                     | defaults write menu.nomad.DEPNotify UITextFieldLowerPlaceholder 'Lower Placeholder'     |
-| UIPopUpMenuUpper             | Array  | Sets the upper pop up menu items array                                                                    | defaults write menu.nomad.DEPNotify UIPopUpMenuUpper -array 'London' 'New York' 'Tokio' |
-| UIPopUpMenuLower             | Array  | Sets the lower pop up menu items array                                                                    | defaults write menu.nomad.DEPNotify UIPopUpMenuLower -array 'Item 1' 'Item 2' 'Item 3'  |
-| UITextFieldUpperLabel        | String | Sets the upper text input field label                                                                     | defaults write menu.nomad.DEPNotify UITextFieldUpperLabel 'My ID'                       |
-| UITextFieldLowerLabel        | String | Sets the lower text input field label                                                                     | defaults write menu.nomad.DEPNotify UITextFieldLowerLabel 'Asset Tag'                   |
-| UIPopUpMenuUpperLabel        | String | Sets the upper pop up menu label                                                                          | defaults write menu.nomad.DEPNotify UIPopUpMenuUpperLabel 'City'                        |
-| UIPopUpMenuLowerLabel        | String | Sets the lower pop up menu label                                                                          | defaults write menu.nomad.DEPNotify UIPopUpMenuLowerLabel 'Lower Menu'                  |
-| pathToEULA                   | String | Set the path to the EULA text file                                                                        | defaults write menu.nomad.DEPNotify pathToEULA "/Users/Shared/eula.txt"                 |
-| checkForSensitiveInformation | Bool   | Set visibility of Sensitive Information button                                                            | defaults write menu.nomad.DEPNotify checkForSensitiveInformation -bool true             |
-| quitSuccessiveEULA           | Bool   | Set key to quit after EULA accepted and plist written                                                     | defaults write menu.nomad.DEPNotify quitSuccessiveEULA -bool true                       |
+| File Name | Description | Default Path |
+| --------- | ----------- | ------------ |
+| DEPNotify.app | Main app for project that is called to give a clean user experience | /Applications/Utilities/DEPNotify.app |
+| depnotify.log | Configuration and control file that is written to as device progresses thru setup | /var/tmp/depnotify.log |
+| menu.nomad.DEPNotify.plist | Newer configuration plist with additional configuration options | /Users/username/Library/Preferences/menu.nomad.DEPNotify.plist |
+| UserInput.plist | EULA and registration window saved user responses | /Users/Shared/UserInput.plist |
+| com.depnotify.provisioning.done | Successful completion of DEPNotify BOM file | /var/tmp/com.depnotify.provisioning.done |
+| com.depnotify.provisioning.restart | Successful completion of DEPNotify and required reboot BOM file | /var/tmp/com.depnotify.provisioning.restart |
+| com.depnotify.agreement.done | Successful user agreement to the EULA window | /var/tmp/com.depnotify.agreement.done |
+| com.depnotify.registration.done | Successful user agreement to the registration window | /var/tmp/com.depnotify.registration.done |
+| eula.txt | Text file of the EULA terms and conditions that are presented to the end user during EULA acceptance | /Users/Shared/eula.txt |
 
 # Workflow
 
@@ -282,7 +389,7 @@ While every DEP workflow is different, here's a simple method of using DEPNotify
 
 * Install DEPNotify as early on as possible during your DEP process
 * Install a default command file if you'd like, DEPNotify will read an existing command file at the location you specify and then do those actions all at once. This is helpful for setting the logo and the text.
-* Launch DEPNotify
+* Launch DEPNotify. When scripting the opening of DEPNotify, best practice is to use `sudo -u $currentUser open -a /path/to/DEPNotify.app --args -flags`
 * As you complete actions for the user write the status updates, or other changes, to the command file. `echo "Command: Quit: The process is now complete." >> /var/tmp/depnotify.log` is one example of doing this.
 * Quit DEPNotify when you're done either with `Quit` or `Quit:`
 * Remove DEPNotify
@@ -293,7 +400,7 @@ While every DEP workflow is different, here's a simple method of using DEPNotify
 This has DEP Notify read in the Filewave log at /var/log/fwcld.log and then update the status line in the DEPNotify window with any downloads, installs or complete installs from the Filewave log. Progress bar will move depending on how many installs or filesets being deployed. Note there is nothing special you need to name your items in Filewave for them to be read.
 
 * Create LaunchAgent to open DEPNotify with argument `-filewave` (stage1)
-* Create LaunchDaemon and script watching for the DEPNotify process to start. 
+* Create LaunchDaemon and script watching for the DEPNotify process to start.
 * When the DEPNotify process starts, curl down the Filewave client and install. -create script (stage1)
 * **Recommended** - Energy saver profile - Mac’s sleep in 15min out of box, disrupting the DEP process. (stage1)
 
