@@ -70,9 +70,9 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="OuP-hY-kcg">
-                                <rect key="frame" x="86" y="122" width="528" height="152"/>
+                                <rect key="frame" x="86" y="124" width="528" height="154"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="152" id="tnA-1k-wma"/>
+                                    <constraint firstAttribute="height" constant="154" id="tnA-1k-wma"/>
                                 </constraints>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="BNQ-7b-pHr">
                                     <font key="font" metaFont="system"/>
@@ -144,7 +144,7 @@ DQ
                             <constraint firstItem="OuP-hY-kcg" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="LX4-7K-oB5"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="S7k-po-3Vp" secondAttribute="centerX" id="Mw4-61-dtH"/>
                             <constraint firstItem="S7k-po-3Vp" firstAttribute="top" secondItem="ybm-7R-2cn" secondAttribute="bottom" constant="20" id="MxK-sl-gAb"/>
-                            <constraint firstItem="PdX-76-P6c" firstAttribute="top" secondItem="OuP-hY-kcg" secondAttribute="bottom" constant="18" id="O1Y-qe-1Yw"/>
+                            <constraint firstItem="PdX-76-P6c" firstAttribute="top" secondItem="OuP-hY-kcg" secondAttribute="bottom" constant="20" id="O1Y-qe-1Yw"/>
                             <constraint firstItem="AnR-P2-Lqa" firstAttribute="top" secondItem="S7k-po-3Vp" secondAttribute="bottom" constant="-1" id="QRW-Oo-Rqs"/>
                             <constraint firstItem="OuP-hY-kcg" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="88" id="RZc-w4-2xk"/>
                             <constraint firstItem="XoJ-GQ-tx3" firstAttribute="centerX" secondItem="PdX-76-P6c" secondAttribute="centerX" id="S1v-ZT-Cwn"/>
@@ -241,7 +241,7 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="340" height="220"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FnO-Lq-0ss">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FnO-Lq-0ss">
                                 <rect key="frame" x="81" y="171" width="178" height="29"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="What's going on?" id="Jsq-sk-wwI">
                                     <font key="font" metaFont="systemThin" size="24"/>
@@ -249,21 +249,28 @@ DQ
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0f-dK-pjI">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w0f-dK-pjI">
                                 <rect key="frame" x="20" y="20" width="302" height="134"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="134" id="o8A-hN-6dh"/>
+                                </constraints>
                                 <textFieldCell key="cell" allowsUndo="NO" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="8u4-81-fIe">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <box verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="k5i-EB-uN5">
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="k5i-EB-uN5">
                                 <rect key="frame" x="83" y="160" width="174" height="5"/>
                             </box>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="k5i-EB-uN5" firstAttribute="top" secondItem="FnO-Lq-0ss" secondAttribute="bottom" constant="8" symbolic="YES" id="6cz-Ja-UOi"/>
+                            <constraint firstAttribute="trailing" secondItem="w0f-dK-pjI" secondAttribute="trailing" constant="20" symbolic="YES" id="HhG-ub-bh8"/>
+                            <constraint firstItem="w0f-dK-pjI" firstAttribute="leading" secondItem="TEg-4f-znb" secondAttribute="leading" constant="22" id="eAP-ME-UTW"/>
+                            <constraint firstItem="k5i-EB-uN5" firstAttribute="top" secondItem="TEg-4f-znb" secondAttribute="top" constant="57" id="eZU-JT-Zeh"/>
                             <constraint firstItem="k5i-EB-uN5" firstAttribute="width" secondItem="FnO-Lq-0ss" secondAttribute="width" id="gPP-KA-Umt"/>
+                            <constraint firstItem="w0f-dK-pjI" firstAttribute="top" secondItem="k5i-EB-uN5" secondAttribute="bottom" constant="8" symbolic="YES" id="o0M-es-FOK"/>
                             <constraint firstItem="FnO-Lq-0ss" firstAttribute="centerX" secondItem="TEg-4f-znb" secondAttribute="centerX" id="v8V-gV-7wm"/>
                             <constraint firstItem="k5i-EB-uN5" firstAttribute="centerX" secondItem="TEg-4f-znb" secondAttribute="centerX" id="vOY-aI-4ie"/>
                         </constraints>
@@ -374,26 +381,26 @@ Gw
                                 <rect key="frame" x="20" y="61" width="600" height="267"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="KC3-Iu-etL">
-                                    <rect key="frame" x="1" y="1" width="583" height="265"/>
+                                    <rect key="frame" x="1" y="1" width="598" height="265"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView ambiguous="YES" editable="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" id="6Fj-1A-uEj">
-                                            <rect key="frame" x="0.0" y="0.0" width="583" height="265"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="598" height="265"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="583" height="265"/>
+                                            <size key="minSize" width="598" height="265"/>
                                             <size key="maxSize" width="643" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="f5m-Rd-xkG">
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="f5m-Rd-xkG">
                                     <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="85b-Hd-Opy">
-                                    <rect key="frame" x="584" y="1" width="15" height="265"/>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="85b-Hd-Opy">
+                                    <rect key="frame" x="583" y="1" width="16" height="265"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -481,7 +488,7 @@ DQ
                                     <action selector="registationCompleteAction:" target="X7W-kI-KNI" id="qoV-15-GHv"/>
                                 </connections>
                             </button>
-                            <button focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xif-DD-kyc">
+                            <button hidden="YES" focusRingType="none" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xif-DD-kyc">
                                 <rect key="frame" x="310" y="83" width="16" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Miscellaneous-Apple-ToolbarInfo" imagePosition="only" alignment="center" focusRingType="none" imageScaling="proportionallyUpOrDown" inset="2" id="Loc-ZN-Asf">
@@ -492,7 +499,7 @@ DQ
                                     <action selector="sensitiveInformationBubbleAction:" target="X7W-kI-KNI" id="0pS-Kk-REU"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vqw-qm-yTY">
+                            <button hidden="YES" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vqw-qm-yTY">
                                 <rect key="frame" x="30" y="75" width="284" height="18"/>
                                 <buttonCell key="cell" type="check" title="This computer stores sensitive information." bezelStyle="regularSquare" imagePosition="left" inset="2" id="xkk-lg-C1v">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -796,7 +803,8 @@ DQ
                         <outlet property="textField2Bubble" destination="Ga9-vS-sd0" id="BAC-j9-LOe"/>
                         <outlet property="textField2Label" destination="zhk-Ha-CmN" id="ga3-gK-M2f"/>
                         <outlet property="textField2Required" destination="BOQ-F8-NYa" id="yJQ-cK-ptX"/>
-                        <outlet property="thisComputerStoresSensitiveInformation" destination="vqw-qm-yTY" id="weM-yh-RtQ"/>
+                        <outlet property="thisComputerStoresSensitiveInformation" destination="vqw-qm-yTY" id="7PO-CZ-DPq"/>
+                        <outlet property="thisComputerStoresSensitiveInformationBuble" destination="xif-DD-kyc" id="DHK-zk-BTd"/>
                         <outlet property="view" destination="0rd-4s-Ada" id="UAw-kF-Whi"/>
                         <segue destination="5iA-ht-cIo" kind="popover" identifier="textField1BubbleSegue" popoverAnchorView="oDx-7T-NyH" popoverBehavior="t" preferredEdge="maxX" id="CX1-ZF-byo"/>
                         <segue destination="5iA-ht-cIo" kind="popover" identifier="textField2BubbleSegue" popoverAnchorView="Ga9-vS-sd0" popoverBehavior="t" preferredEdge="maxX" id="Wex-Ls-Jf4"/>
@@ -819,7 +827,7 @@ DQ
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KIa-TF-IGm">
-                                <rect key="frame" x="18" y="115" width="107" height="24"/>
+                                <rect key="frame" x="18" y="115" width="112" height="24"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="What's this?" id="sx5-Qi-As9">
                                     <font key="font" metaFont="system" size="20"/>
                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -827,7 +835,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="cgW-SU-6j3">
-                                <rect key="frame" x="20" y="104" width="103" height="5"/>
+                                <rect key="frame" x="20" y="104" width="108" height="5"/>
                             </box>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yb4-35-yVA">
                                 <rect key="frame" x="18" y="20" width="204" height="77"/>
@@ -973,6 +981,6 @@ DQ
         <image name="mbpWhiteTick" width="5000" height="3000"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WUa-d5-E09"/>
+        <segue reference="mLM-6e-5Dz"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -102,7 +102,7 @@ class TrackProgress: NSObject {
         var dataReady : NSObjectProtocol!
         dataReady = NotificationCenter.default.addObserver(forName: Process.didTerminateNotification,
                                                            object: pipe.fileHandleForReading, queue: nil) { notification -> Void in
-                                                            print("Task terminated!")
+                                                            NSLog("Task terminated!")
                                                             NotificationCenter.default.removeObserver(dataReady)
         }
         
@@ -141,7 +141,7 @@ class TrackProgress: NSObject {
                             let lines:Array<String> =  NSString(string: trimmed).components(separatedBy: .newlines)
                             return lines
                         } catch {
-                            print("Unable to read file: \(path)");
+                            NSLog("Unable to read file: \(path)");
                             return [String]()
                         }
                     }
@@ -154,13 +154,13 @@ class TrackProgress: NSObject {
                             case line.range(of: "Downloading") != nil:
                                 let lineDownloadingItem = line.components(separatedBy: "CasperShare/")
                                 let getDownloadingItem = lineDownloadingItem[1]
-                                print(getDownloadingItem)
+                                NSLog(getDownloadingItem)
                                 let pattern = "(%20)"  // If you have prefixes on packages that you'd like to remove, you can add the pattern here, like so:  "(%20)|(Prefix.Postfix)|(ExStr)"
                                 let removeRegex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
                                 let downloadingItem = removeRegex.stringByReplacingMatches(in: getDownloadingItem, options: [], range: NSRange(location: 0, length: getDownloadingItem.count), withTemplate: "")
                                 
                                 if !(downloadingItem.isEmpty) {
-                                    print("Downloading:  \(downloadingItem)")
+                                    NSLog("Downloading:  \(downloadingItem)")
                                     statusText = "Downloading:  \(downloadingItem)"
                                 }
                                 
@@ -172,7 +172,7 @@ class TrackProgress: NSObject {
                                 let installItem = removeRegex.stringByReplacingMatches(in: getInstallItem, options: [], range: NSRange(location: 0, length: getInstallItem.count), withTemplate: "")
                                 
                                 if !(installItem.isEmpty) {
-                                    print("Installing:  \(installItem)")
+                                    NSLog("Installing:  \(installItem)")
                                     statusText = "Installing: \(installItem)"
                                 }
                             
@@ -184,7 +184,7 @@ class TrackProgress: NSObject {
                                 let installItem = removeRegex.stringByReplacingMatches(in: getInstallItem, options: [], range: NSRange(location: 0, length: getInstallItem.count), withTemplate: "")
                                 
                                 if !(installItem.isEmpty) {
-                                    print("Getting:  \(installItem)")
+                                    NSLog("Getting:  \(installItem)")
                                     statusText = "Getting: \(installItem)"
                                 }
                                 
@@ -196,7 +196,7 @@ class TrackProgress: NSObject {
                                 let installedItem = removeRegex.stringByReplacingMatches(in: getInstalledItem, options: [], range: NSRange(location: 0, length: getInstalledItem.count), withTemplate: "")
                                 
                                 if !(installedItem.isEmpty) {
-                                    print("Successfully installed:  \(installedItem)")
+                                    NSLog("Successfully installed:  \(installedItem)")
                                     statusText = "Successfuly installed: \(installedItem)"
                                 }
                                 
@@ -208,18 +208,18 @@ class TrackProgress: NSObject {
                                 let getInstalledItem = logLines[lineItemInstalled].components(separatedBy: "Installing ")
                                 if (logLines[lineFailedReason].range(of: "Cannot install on volume / because it is disabled.") != nil) {
                                     var getFailedReason = logLines[lineFailedReason].components(separatedBy: "installer: ")
-                                    print(getFailedReason)
+                                    NSLog("\(getFailedReason)")
                                     globalVariables.failedReason = getFailedReason[1]
-                                    print(globalVariables.failedReason)
+                                    NSLog(globalVariables.failedReason)
                                 }
                                 else {
                                     let getFailedReason = logLines[lineFailedItem!].components(separatedBy: "installer: ")
-                                    print(getFailedReason)
+                                    NSLog("\(getFailedReason)")
                                     globalVariables.failedReason = getFailedReason[1]
-                                    print(globalVariables.failedReason)
+                                    NSLog(globalVariables.failedReason)
                                 }
                                 if !(getInstalledItem[1].isEmpty) {
-                                    print("Failed to install:  \(getInstalledItem[1])  Reason:  \(globalVariables.failedReason)")
+                                    NSLog("Failed to install:  \(getInstalledItem[1])  Reason:  \(globalVariables.failedReason)")
                                     statusText = "Failed to install:  \(getInstalledItem[1])  Reason:  \(globalVariables.failedReason)"
                                 }
                                 
@@ -231,7 +231,7 @@ class TrackProgress: NSObject {
                                 let errorItem = removeRegex.stringByReplacingMatches(in: getErrorItem, options: [], range: NSRange(location: 0, length: getErrorItem.count), withTemplate: "")
                                 
                                 if !(errorItem.isEmpty) {
-                                    print("Error:  \(errorItem)")
+                                    NSLog("Error:  \(errorItem)")
                                     statusText = "Error installing: \(errorItem)"
                                 }
                                 

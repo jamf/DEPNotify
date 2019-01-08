@@ -57,20 +57,20 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
                 // Get Plain Text Contents
                 if fileExtension == "txt" {
                     let eula = try NSString(contentsOfFile: pathToEULA, encoding: String.Encoding.utf8.rawValue)
-                    print(pathToEULA)
+                    NSLog(pathToEULA)
                     eulaContent.string = eula as String
                 
                 // Get Rich Text Contents
                 } else if fileExtension == "rtf" {
                     // Get the contents
                     let eula = NSMutableAttributedString(path: pathToEULA, documentAttributes: nil)
-                    print(pathToEULA)
+                    NSLog(pathToEULA)
                     eulaContent.textStorage?.setAttributedString(eula!)
 
                 }
             }
             catch let error as NSError {
-                print("No terms file found: \(error)")
+                NSLog("No terms file found: \(error)")
                 eulaContent.string = defaultEULA
             }
             
@@ -84,14 +84,14 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
         if let EULAMainTitle = UserDefaults.standard.string(forKey: "EULAMainTitle"){
             eulaTitle.stringValue = EULAMainTitle
         } else {
-            print ("No EULA Title in Preferences file")
+            NSLog("No EULA Title in Preferences file")
         }
         
         // Get the EULA Subtitle Window from Preferences file
         if let EULASubTitle = UserDefaults.standard.string(forKey: "EULASubTitle"){
             eulaSubTitle.stringValue = EULASubTitle
         } else {
-            print ("No EULA Subtitle in Preferences file")
+            NSLog("No EULA Subtitle in Preferences file")
         }
     }
 
@@ -100,7 +100,7 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
         // Create Registration complete bom file
         do {
             FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
-            print ("BOM file create")
+            NSLog("BOM file create")
         }
     }
     
@@ -165,7 +165,7 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
         dateFormatter.dateFormat = "yyyy-mm-dd HH:mm:ss"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         let LastRegistrationDate = dateFormatter.string(from: Date())
-        print (LastRegistrationDate)
+        NSLog(LastRegistrationDate)
         
         
         // If User input plist file exists append content
@@ -178,7 +178,7 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
             plistContent.setValue(LastRegistrationDate, forKey: "Registration Date")
             
             plistContent.write(toFile: plistPath, atomically: true)
-            print("Is Plist file created: Yes")
+            NSLog("Is Plist file created: Yes")
             writeBomFile()
             self.view.window?.close()
         }
@@ -190,11 +190,10 @@ Ut molestie arcu ligula, et porttitor ex facilisis dapibus. Vivamus molestie lec
                 "Computer Serial": systemSerialValue!,
                 "Computer UUID": systemUUIDValue!,
                 "Registration Date": LastRegistrationDate,
-                
                 ]
             let dataToWrite = NSDictionary(dictionary: userInputDictionary)
             let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
-            print("Is Plist file created: \(dataWritten)")
+            NSLog("Is Plist file created: \(dataWritten)")
             writeBomFile()
             self.view.window?.close()
         }

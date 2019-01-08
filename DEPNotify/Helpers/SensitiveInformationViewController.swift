@@ -49,13 +49,13 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
         
         // Enable/Disable Security Options based on state of Sensitive Information checkbox
         let storeSecurityInformationValue = readPlistFile(securityKeyValue: "StoresSecurityInformation")
-        print("Value: \(storeSecurityInformationValue)")
+        NSLog("Value: \(storeSecurityInformationValue)")
         if storeSecurityInformationValue == false {
-            print("Stores Security Information: false")
+            NSLog("Stores Security Information: false")
             disableSecurityOptions()
             //setStoreSensitiveInformationValuesToFalse()
         } else if storeSecurityInformationValue == true {
-            print("Stores Security Information: true")
+            NSLog("Stores Security Information: true")
             enableSecurityOptions()
         }
         
@@ -117,11 +117,11 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
         case .on:
             let buttonState = true
             writePlistFile(securityKeyValue: securityOption1Key, securityChoiceValue: buttonState)
-            print("on")
+            NSLog("Option Button 1 on")
         case .off:
             let buttonState = false
             writePlistFile(securityKeyValue: securityOption1Key, securityChoiceValue: buttonState)
-            print("off")
+            NSLog("Option Button 1 off")
         default: break
         }
     }
@@ -131,11 +131,11 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
         case .on:
             let buttonState = true
             writePlistFile(securityKeyValue: securityOption2Key, securityChoiceValue: buttonState)
-            print("on")
+            NSLog("Option Button 2 on")
         case .off:
             let buttonState = false
             writePlistFile(securityKeyValue: securityOption2Key, securityChoiceValue: buttonState)
-            print("off")
+            NSLog("Option Button 2 off")
         default: break
         }
     }
@@ -145,11 +145,11 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
         case .on:
             let buttonState = true
             writePlistFile(securityKeyValue: securityOption3Key, securityChoiceValue: buttonState)
-            print("on")
+            NSLog("Option Button 3 on")
         case .off:
             let buttonState = false
             writePlistFile(securityKeyValue: securityOption3Key, securityChoiceValue: buttonState)
-            print("off")
+            NSLog("Option Button 3 off")
         default: break
         }
     }
@@ -159,11 +159,11 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
         case .on:
             let buttonState = true
             writePlistFile(securityKeyValue: securityOption4Key, securityChoiceValue: buttonState)
-            print("on")
+            NSLog("Option Button 4 on")
         case .off:
             let buttonState = false
             writePlistFile(securityKeyValue: securityOption4Key, securityChoiceValue: buttonState)
-            print("off")
+            NSLog("Option Button 5 off")
         default: break
         }
     }
@@ -173,11 +173,11 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
         case .on:
             let buttonState = true
             writePlistFile(securityKeyValue: securityOption5Key, securityChoiceValue: buttonState)
-            print("on")
+            NSLog("Option Button 6 on")
         case .off:
             let buttonState = false
             writePlistFile(securityKeyValue: securityOption5Key, securityChoiceValue: buttonState)
-            print("off")
+            NSLog("Option Button 6 off")
         default: break
         }
     }
@@ -187,11 +187,11 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
         case .on:
             let buttonState = true
             writePlistFile(securityKeyValue: securityOption6Key, securityChoiceValue: buttonState)
-            print("on")
+            NSLog("Option Button on")
         case .off:
             let buttonState = false
             writePlistFile(securityKeyValue: securityOption6Key, securityChoiceValue: buttonState)
-            print("off")
+            NSLog("Option Button off")
         default: break
         }
     }
@@ -207,7 +207,7 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
                         let plistContent = NSMutableDictionary(contentsOfFile: plistPath)!
                         plistContent.setValue(securityChoiceValue, forKey: securityKeyValue)
                         plistContent.write(toFile: plistPath, atomically: true)
-            print("Created Key: \(securityKeyValue)")
+            NSLog("Created Key: \(securityKeyValue)")
                     }
                     else {
                         let userInputDictionary : [String: Any] = [
@@ -215,7 +215,7 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
                             ]
             let dataToWrite = NSDictionary(dictionary: userInputDictionary)
             let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
-            print("Is Plist file created: \(dataWritten)")
+            NSLog("Is Plist file created: \(dataWritten)")
             
         }
     }
@@ -231,13 +231,13 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
             myResult = plistData[securityKeyValue] as! Bool
         }
         catch { // error condition
-            print("Error reading plist: \(error), format: \(format)")
+            NSLog("Error reading plist: \(error), format: \(format)")
             }
         return myResult
     }
     
     func enableSecurityOptions() {
-        print("Enabling checkboxes")
+        NSLog("Enabling checkboxes")
         securityOption1.isEnabled = true
         securityOption2.isEnabled = true
         securityOption3.isEnabled = true
@@ -247,7 +247,7 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
     }
     
     func disableSecurityOptions() {
-        print("Disabling checkboxes")
+        NSLog("Disabling checkboxes")
         securityOption1.isEnabled = false
         securityOption2.isEnabled = false
         securityOption3.isEnabled = false
@@ -267,6 +267,6 @@ class SensitiveInformationViewController: NSViewController, NSTextFieldDelegate,
             ]
         let dataToWrite = NSDictionary(dictionary: userInputDictionary)
         let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
-        print("Is Plist file created: \(dataWritten)")
+        NSLog("Is Plist file created: \(dataWritten)")
     }
 }
