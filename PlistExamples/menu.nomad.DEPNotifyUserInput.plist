@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Additional Popup 3</key>
+	<string>Option 4.3</string>
+	<key>Asset Tag</key>
+	<string>1234</string>
+	<key>Building</key>
+	<string>Minneapolis</string>
+	<key>Computer Name</key>
+	<string>macBook</string>
+	<key>Computer Serial</key>
+	<string>C02N49ZVG083</string>
+	<key>Computer UUID</key>
+	<string>32382E7F-85F1-5A11-85E3-1BCA8B97DBA8</string>
+	<key>Department</key>
+	<string>Professional Services</string>
+	<key>InfoSec - Client Data</key>
+	<false/>
+	<key>InfoSec - FFIEC</key>
+	<false/>
+	<key>InfoSec - Government Regulated Data</key>
+	<false/>
+	<key>InfoSec - HIPAA</key>
+	<false/>
+	<key>InfoSec - PCI Data</key>
+	<false/>
+	<key>InfoSec - Sensitive Personal Information</key>
+	<false/>
+	<key>Registration Date</key>
+	<string>2019-32-09 19:32:17</string>
+</dict>
+</plist>
