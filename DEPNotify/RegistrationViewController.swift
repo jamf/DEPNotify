@@ -41,6 +41,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
 
     // Check for sensitive information
     @IBOutlet weak var thisComputerStoresSensitiveInformation: NSButton!
+    @IBOutlet weak var thisComputerStoresSensitiveInformationBuble: NSButton!
     
     // Registration Window: Required Input
     @IBOutlet weak var textField1Required: NSImageView!
@@ -81,6 +82,8 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
     var textField2RegexPattern = ""
     var textField1LabelForRegex = ""
     var textField2LabelForRegex = ""
+    var textField1Placeholder = ""
+    var textField2Placeholder = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,7 +96,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         }
         
         //
-        // Check if UserInput.plist file exists, otherwise, create it
+        // initialize the user input plist file
         //
         if FileManager.default.fileExists(atPath: plistPath) {
             let plistContent = NSMutableDictionary(contentsOfFile: plistPath)!
@@ -106,7 +109,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             plistContent.setValue(false, forKey: "StoresSecurityInformation")
             
             plistContent.write(toFile: plistPath, atomically: true)
-            print("Is Plist file created: Yes")
+             NSLog("Plist file has been updated")
         } else {
             let userInputDictionary : [String: Any] = [
                 securityOption1Key: false,
@@ -119,8 +122,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 ]
             let dataToWrite = NSDictionary(dictionary: userInputDictionary)
             let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
-            print("Is Plist file created: \(dataWritten)")
-            writeBomFile()
+            NSLog("Plist file has been created")
             self.view.window?.close()
             
         }
@@ -137,7 +139,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             mainImagePlaceholder.imageScaling = .scaleProportionallyUpOrDown
             mainImagePlaceholder.imageAlignment = .alignCenter
         } else {
-            print ("No Custom Picture Found")
+            NSLog("No Registation custom image found. Reverting to default image")
         }
         
         // Set button label
@@ -160,18 +162,25 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             textField1Label.stringValue = textField1LabelValue
             textField1Label.isHidden = false
             textField1.isHidden = false
+            NSLog("Displaying Registration Text Field 1")
+            // Check for placeholder
+            if let textField1LabelPlaceholderValue = UserDefaults.standard.string(forKey: "textField1Placeholder") {
+                textField1.placeholderString = textField1LabelPlaceholderValue
+                NSLog("Displaying Registration Text Field 1 placeholder")
+            }
             // Check for bubble
             if UserDefaults.standard.object(forKey: "textField1Bubble") != nil {
                 textField1Bubble.isHidden = false
+                NSLog("Displaying Registration Text Field 1 bubble")
             }
         } else {
-            print ("No Text Field 1 to load")
+            NSLog("No Text Field 1 to load")
         }
         
         // TextField1RegexPattern
         if let textField1RegexPatternValue = UserDefaults.standard.string(forKey: "textField1RegexPattern") {
             textField1RegexPattern = textField1RegexPatternValue
-            print("Text Field Regex Pattern 1: \(textField1RegexPattern)")
+            NSLog("Text Field Regex Pattern 1: \(textField1RegexPattern)")
         }
 
         // Set Text field 2 label
@@ -180,18 +189,25 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             textField2Label.stringValue = textField2LabelValue
             textField2Label.isHidden = false
             textField2.isHidden = false
+            NSLog("Displaying Registration Text Field 2")
+            // Check for placeholder
+            if let textField2LabelPlaceholderValue = UserDefaults.standard.string(forKey: "textField2Placeholder") {
+                textField2.placeholderString = textField2LabelPlaceholderValue
+                NSLog("Displaying Registration Text Field 2 placeholder")
+            }
             // Check for bubble
             if UserDefaults.standard.object(forKey: "textField2Bubble") != nil {
                 textField2Bubble.isHidden = false
+                NSLog("Displaying Registration Text Field 1 bubble")
             }
         } else {
-            print ("No Text Field 2 to load")
+            NSLog ("No Text Field 2 to load")
         }
     
         // TextField2RegexPattern
         if let textField2RegexPattern = UserDefaults.standard.string(forKey: "textField2RegexPattern") {
             //textField2RegexPattern = textField2RegexPatternValue
-            print("Text Field Regex Pattern 1: \(textField2RegexPattern)")
+            NSLog("Text Field Regex Pattern 1: \(textField2RegexPattern)")
         }
         
         // Set Button 1 label and contents
@@ -208,7 +224,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                     popupMenu1Bubble.isHidden = false
                 }
             } else {
-                print ("No Popup Contents in Defaults")
+                NSLog("No Popup Contents in Defaults")
                 popupButton1.removeAllItems()
             }
         }
@@ -227,7 +243,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                     popupMenu2Bubble.isHidden = false
                 }
             } else {
-                print ("No Popup Contents in Defaults")
+                NSLog("No Popup Contents in Defaults")
                 popupButton2.removeAllItems()
             }
         }
@@ -246,7 +262,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                     popupMenu3Bubble.isHidden = false
                 }
             } else {
-                print ("No Popup Contents in Defaults")
+                NSLog("No Popup Contents in Defaults")
                 popupButton3.removeAllItems()
             }
         }
@@ -265,11 +281,18 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                     popupMenu4Bubble.isHidden = false
                 }
             } else {
-                print ("No Popup Contents in Defaults")
+                NSLog("No Popup Contents in Defaults")
                 popupButton4.removeAllItems()
             }
         }
         
+        let thisComputerStoresSensitiveInformationEnabled = UserDefaults.standard.bool(forKey: "enableSensitiveInformationOption")
+        print(thisComputerStoresSensitiveInformationEnabled)
+        
+        if thisComputerStoresSensitiveInformationEnabled {
+            thisComputerStoresSensitiveInformation.isHidden = false
+            thisComputerStoresSensitiveInformationBuble.isHidden = false
+        }
     }
     
     
@@ -337,12 +360,10 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             popupSegue = "sensitiveInformationBubbleSegue"
             // Performe segue to Alert View Controller
             self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: popupSegue), sender: self)
-            print("on")
         case .off:
             // Set security options state to false
             writePlistFile(securityKeyValue: "StoresSecurityInformation", securityChoiceValue: false)
             //setSecurityOptionsToZero()
-            print("off")
         default: break
         }
     }
@@ -379,21 +400,21 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 textField1Required.isHidden = false
                 NSSound.beep()
                
-                print("Text Field 1 is empty")
+                NSLog("Text Field 1 is empty")
             }
         } else if textField2Value.isEmpty && !textField2.isHidden && !TextField2IsOptional {
             do {
                 textField2Required.isHidden = false
                 NSSound.beep()
                 
-                print("Text Field 2 is empty")
+                NSLog("Text Field 2 is empty")
             }
         } else if !textField1RegexPattern.isEmpty && !checkRegexPattern(regexPattern: textField1RegexPattern, textToValidate: textField1Value) {
             hasTextFieldValidPattern.stringValue = "\(textField1LabelForRegex) is not the correct format"
             hasTextFieldValidPattern.isHidden = false
             NSSound.beep()
             
-            print("Text Field 1 does not match pattern")
+            NSLog("Text Field 1 does not match pattern")
             
          
         } else if !textField2RegexPattern.isEmpty && !checkRegexPattern(regexPattern: textField2RegexPattern, textToValidate: textField2Value) {
@@ -401,7 +422,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             hasTextFieldValidPattern.isHidden = false
             NSSound.beep()
             
-            print("Text Field 2 does not match pattern")
+            NSLog("Text Field 2 does not match pattern")
        
         
         } else {
@@ -468,13 +489,13 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         // Touching bom file
         do {
             FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
-            print ("BOM file created")
+            NSLog("BOM file created")
         }
     }
 
     func setSecurityOptionsToZero() {
         
-            print("Resetting options at: \(plistPath)")
+            NSLog("Resetting options at: \(plistPath)")
             let userInputDictionary : [String: Any] = [
                 securityOption1Key: false,
                 securityOption2Key: false,
@@ -485,7 +506,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 ]
             let dataToWrite = NSDictionary(dictionary: userInputDictionary)
             let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
-            print("Resetting Security Options @\(dataWritten)")
+            NSLog("Resetting Security Options @\(dataWritten)")
         
     }
     
@@ -503,7 +524,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             }
             
         } catch let error as NSError {
-            print("invalid regex: \(error.localizedDescription)")
+            NSLog("invalid regex: \(error.localizedDescription)")
             returnValue = false
         }
         
@@ -545,7 +566,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             myResult = plistData[securityKeyValue] as! Bool
         }
         catch { // error condition
-            print("Error reading plist: \(error), format: \(format)")
+            NSLog("Error reading plist: \(error), format: \(format)")
         }
         return myResult
     }
@@ -556,7 +577,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             let plistContent = NSMutableDictionary(contentsOfFile: plistPath)!
             plistContent.setValue(securityChoiceValue, forKey: securityKeyValue)
             plistContent.write(toFile: plistPath, atomically: true)
-            print("Created Key: \(securityKeyValue) with \(securityChoiceValue)")
+            NSLog("Created Key: \(securityKeyValue) with \(securityChoiceValue)")
         }
         else {
             let userInputDictionary : [String: Any] = [
@@ -564,7 +585,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 ]
             let dataToWrite = NSDictionary(dictionary: userInputDictionary)
             let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
-            print("Is Plist file created: \(dataWritten)")
+            NSLog("Is Plist file created: \(dataWritten)")
             
         }
     }
@@ -582,7 +603,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         let popupButton4Value = popupButton4.title
         
         if readPlistFile(securityKeyValue: "StoresSecurityInformation") {
-            print ("Go ahead")
+            NSLog("Go ahead")
         } else {
             setSecurityOptionsToZero()
         }
@@ -595,7 +616,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         dateFormatter.dateFormat = "yyyy-mm-dd HH:mm:ss"
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         let LastRegistrationDate = dateFormatter.string(from: Date())
-        print (LastRegistrationDate)
+        NSLog(LastRegistrationDate)
 
         // Set Plist Domain Keys
         let textField1Key = textField1Label.stringValue
@@ -627,7 +648,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             plistContent.setValue(LastRegistrationDate, forKey: "Registration Date")
 
             plistContent.write(toFile: plistPath, atomically: true)
-            print("Is Plist file created: Yes")
+            NSLog("Is Plist file created: Yes")
         }
 
         else {
@@ -646,7 +667,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 ]
             let dataToWrite = NSDictionary(dictionary: userInputDictionary)
             let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
-            print("Is Plist file created: \(dataWritten)")
+            NSLog("Is Plist file created: \(dataWritten)")
         }
     }
     

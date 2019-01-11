@@ -85,7 +85,6 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
     
     // Variables to set Continue Button action
     var continueButtonTitle = "Continue" // Label of the continue button
-    var buttonAction = "" // Variable for the action of the continue button
 
     // Variablet to set Status Text alignment
     var defaultStatusTextAlignment = "center"
@@ -96,14 +95,13 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         // notification listeners
         NotificationCenter.default.addObserver(self, selector: #selector(enableContinue), name: enableContinueButton, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(resetContinueButtonActionVariable), name: resetContinueButonActionValue, object: nil)
-        
         //var isOpaque = false
         ProgressBar.startAnimation(nil)
         
         tracker.addObserver(self, forKeyPath: "statusText", options: .new, context: &statusContext)
         tracker.addObserver(self, forKeyPath: "command", options: .new, context: &commandContext)
         tracker.run()
+    
         
         NSApp.activate(ignoringOtherApps: true)
         
@@ -113,6 +111,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             self.flagsChanged(with: $0)
             return $0
         }
+        
         NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
             self.keyDown(with: $0)
             return $0
@@ -173,14 +172,14 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
     func updateStatus(status: String) {
         
         self.StatusText.stringValue = status
-        print(self.StatusText.stringValue)
+        NSLog(self.StatusText.stringValue)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &statusContext {
             if let newValue = change?[.newKey] {
-                print(newValue)
-                print("Change observed")
+                NSLog("\(newValue)")
+                NSLog("Change observed")
                 updateStatus(status: newValue as! String)
                 if notify {
                     sendNotification(text: newValue as! String)
@@ -198,8 +197,8 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             }
         } else if context == &commandContext {
             if let newValue = change?[.newKey] {
-                print("Command observed")
-                print(newValue)
+                NSLog("Command observed")
+                NSLog("\(newValue)")
                 buttonAction = ""
                 processCommand(command: newValue as! String)
             } else {
@@ -606,11 +605,11 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         if FileManager.default.fileExists(atPath: plistPath) {
             do {
                     try FileManager.default.removeItem(atPath: plistPath)
-                print("Removing plist file")
+                NSLog("Removing plist file")
             }
         catch {
-            print ("Error: No Plist File to Initialize")
-            print (plistPath)
+            NSLog("Error: No Plist File to Initialize")
+            NSLog(plistPath)
             
             }
         }
@@ -625,11 +624,6 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         continueButton.setNextState()
     }
 
-    @objc func resetContinueButtonActionVariable() {
-        //Reset Continue Button Action
-        buttonAction = ""
-        print ("Reseting ContinueButtonAction")
-    }
     
     @IBAction func HelpClick(_ sender: Any) {
         // HelpClick will not display a pop up window customized
@@ -680,8 +674,8 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
     override func keyDown(with event: NSEvent) {
         
         switch event.modifierFlags.intersection(NSEvent.ModifierFlags.deviceIndependentFlagsMask) {
-        case [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.control] where event.charactersIgnoringModifiers == "quitKey":
-            NSApp.terminate(nil)
+        case [NSEvent.ModifierFlags.command, NSEvent.ModifierFlags.control] where event.charactersIgnoringModifiers == quitKey:
+            NSApp.terminate(self)
         default:
             break
         }
