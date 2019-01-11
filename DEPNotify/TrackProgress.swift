@@ -18,6 +18,7 @@ enum OtherLogs {
     static let jamf = "/var/log/jamf.log"
     static let filewave = "/var/log/fwcld.log"
     static let munki = "/Library/Managed Installs/Logs/ManagedSoftwareUpdate.log"
+    static let airwatch = "/Library/Application Support/AirWatch/Data/Munki/Managed Installs/Logs/ManagedSoftwareUpdate.log"
     static let none = ""
 }
 
@@ -54,6 +55,8 @@ class TrackProgress: NSObject {
             case "-filewave" :
                 additionalPath = OtherLogs.filewave
                 statusText = "Downloading Filewave configuration"
+            case "-airwatch" :
+                additionalPath = OtherLogs.airwatch
             default :
                 break
             }
@@ -323,6 +326,21 @@ class TrackProgress: NSObject {
                     }
                 case OtherLogs.munki :
                     if (line.contains("Installing") || line.contains("Downloading"))
+                        && !line.contains(" at ") && !line.contains(" from ") {
+                        
+                        do {
+                            let installerRegEx = try NSRegularExpression(pattern: "^.{0,27}")
+                            let status = installerRegEx.stringByReplacingMatches(in: line,
+                                                                                 options: NSRegularExpression.MatchingOptions.anchored,
+                                                                                 range: NSMakeRange(0, line.count),
+                                                                                 withTemplate: "").trimmingCharacters(in: .whitespacesAndNewlines)
+                            statusText = status
+                        } catch {
+                            NSLog("Couldn't parse ManagedSoftwareUpdate.log")
+                        }
+                    }
+                case OtherLogs.airwatch :
+                    if (line.contains("Installing") || line.contains("Downloading") || line.contains("Install of"))
                         && !line.contains(" at ") && !line.contains(" from ") {
                         
                         do {
