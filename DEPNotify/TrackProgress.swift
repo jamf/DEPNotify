@@ -202,12 +202,12 @@ class TrackProgress: NSObject {
                                 
                             case line.range(of: "failed") != nil:
                                 let logLines = readFile(path: OtherLogs.jamf)
-                                let lineFailedItem = (logLines.index(where: {$0.contains("\(line)")}))
+                                let lineFailedItem = (logLines.firstIndex(where: {$0.contains("\(line)")}))
                                 let lineItemInstalled = lineFailedItem! - 1
                                 let lineFailedReason = lineFailedItem! + 1
                                 let getInstalledItem = logLines[lineItemInstalled].components(separatedBy: "Installing ")
                                 if (logLines[lineFailedReason].range(of: "Cannot install on volume / because it is disabled.") != nil) {
-                                    var getFailedReason = logLines[lineFailedReason].components(separatedBy: "installer: ")
+                                    let getFailedReason = logLines[lineFailedReason].components(separatedBy: "installer: ")
                                     NSLog("\(getFailedReason)")
                                     globalVariables.failedReason = getFailedReason[1]
                                     NSLog(globalVariables.failedReason)

@@ -121,7 +121,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 "StoresSecurityInformation": false,
                 ]
             let dataToWrite = NSDictionary(dictionary: userInputDictionary)
-            let dataWritten = dataToWrite.write(toFile: plistPath, atomically: true)
+            _ = dataToWrite.write(toFile: plistPath, atomically: true)
             NSLog("Plist file has been created")
             self.view.window?.close()
             
@@ -301,7 +301,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         contentToPass = textField1ContentToPass
         popupSegue = "textField1BubbleSegue"
         // Performe segue to Alert View Controller
-        self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: popupSegue), sender: self)
+        self.performSegue(withIdentifier: popupSegue, sender: self)
     }
 
     @IBAction func textField2BubbleAction(_ sender: Any) {
@@ -309,7 +309,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         contentToPass = contentToPassArray
         popupSegue = "textField2BubbleSegue"
         // Performe segue to Alert View Controller
-        self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: popupSegue), sender: self)
+        self.performSegue(withIdentifier: popupSegue, sender: self)
     }
 
     @IBAction func popupMenu1BubbleAction(_ sender: Any) {
@@ -317,7 +317,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         contentToPass = contentToPassArray
         popupSegue = "popupMenu1BubbleSegue"
         // Performe segue to Alert View Controller
-        self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: popupSegue), sender: self)
+        self.performSegue(withIdentifier: popupSegue, sender: self)
     }
     
     @IBAction func popupMenu2BubbleAction(_ sender: Any) {
@@ -325,7 +325,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         contentToPass = contentToPassArray
         popupSegue = "popupMenu2BubbleSegue"
         // Performe segue to Alert View Controller
-        self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: popupSegue), sender: self)
+        self.performSegue(withIdentifier: popupSegue, sender: self)
     }
    
     @IBAction func popupMenu3BubbleAction(_ sender: Any) {
@@ -333,7 +333,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         contentToPass = contentToPassArray
         popupSegue = "popupMenu3BubbleSegue"
         // Performe segue to Alert View Controller
-        self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: popupSegue), sender: self)
+        self.performSegue(withIdentifier: popupSegue, sender: self)
     }
     
     @IBAction func popupMenu4BubbleAction(_ sender: Any) {
@@ -341,7 +341,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         contentToPass = contentToPassArray
         popupSegue = "popupMenu4BubbleSegue"
         // Performe segue to Alert View Controller
-        self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: popupSegue), sender: self)
+        self.performSegue(withIdentifier: popupSegue, sender: self)
     }
     
     // Actions: Sensitive Information Action
@@ -349,7 +349,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         contentToPass = ["SomethingDummyToPass"]
         popupSegue = "sensitiveInformationBubbleSegue"
         // Performe segue to Alert View Controller
-        self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: popupSegue), sender: self)
+        self.performSegue(withIdentifier: popupSegue, sender: self)
     }
     
     @IBAction func sensitiveInformationCheckboxAction(_ sender: Any) {
@@ -359,7 +359,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             contentToPass = ["true"]
             popupSegue = "sensitiveInformationBubbleSegue"
             // Performe segue to Alert View Controller
-            self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: popupSegue), sender: self)
+            self.performSegue(withIdentifier: popupSegue, sender: self)
         case .off:
             // Set security options state to false
             writePlistFile(securityKeyValue: "StoresSecurityInformation", securityChoiceValue: false)
@@ -441,7 +441,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
     
     // Function to pass data to Alert View Controller
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if (segue.identifier!.rawValue == popupSegue) {
+        if (segue.identifier! == popupSegue) {
             if let myViewController = segue.destinationController as? PopupRegistrationViewController {
                 let datatoPass = contentToPass
                 myViewController.messagePass = datatoPass
@@ -451,7 +451,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
 
     
     // Use Regex to control character input in text fields
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         
         // Check DEPNotify defaults to get upper and lower input fields regex
        
