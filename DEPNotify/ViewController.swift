@@ -58,7 +58,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
     var logo: NSImage?
     var maintextImage: NSImage?
     var notificationImage: NSImage?
-    var fileVaultAlertIcon = NSImage(named: NSImage.Name(rawValue: "FileVault"))
+    var fileVaultAlertIcon = NSImage(named: "FileVault")
     
     // Preparing the web view
     let wkWebView = WKWebView(frame: CGRect(x: 0, y: 122, width: 700, height: 328))
@@ -106,6 +106,8 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         NSApp.activate(ignoringOtherApps: true)
         
         NSApp.windows[0].makeKeyAndOrderFront(self)
+        
+        //NSApp.windows[0].mov
         
         NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.flagsChanged) {
             self.flagsChanged(with: $0)
@@ -223,7 +225,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
                 // Loop Video
                 NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: myPlayer.currentItem, queue: nil)
                 { notification in
-                    let timer = CMTimeMake(5, 100);
+                    let timer = CMTimeMake(value: 5, timescale: 100);
                     myPlayer.seek(to: timer)
                     self.myVideoPlayerView.player?.play()
                 }
@@ -238,7 +240,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
                 // Loop Video
                 NotificationCenter.default.addObserver(forName: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: myPlayer.currentItem, queue: nil)
                 { notification in
-                    let timer = CMTimeMake(5, 100);
+                    let timer = CMTimeMake(value: 5, timescale: 100);
                     myPlayer.seek(to: timer)
                     self.myVideoPlayerView.player?.play()
                 }
@@ -377,7 +379,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         case "Logout:":
             alertMessage = command //.replacingOccurrences(of: "Logout: ", with: "")
             contentToPass = alertMessage
-            self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: "alertSegue"), sender: self)
+            self.performSegue(withIdentifier: "alertSegue", sender: self)
             
         case "LogoutNow:":
             self.quitSession()
@@ -474,7 +476,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         case "Quit:" :
             alertMessage = command //.replacingOccurrences(of: "Quit: ", with: "")
             contentToPass = alertMessage
-            self.performSegue(withIdentifier: NSStoryboard.SegueIdentifier(rawValue: "alertSegue"), sender: self)
+            self.performSegue(withIdentifier: "alertSegue", sender: self)
 
         
         case "QuitKey:" :
@@ -643,13 +645,13 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         // Start switch matching to display the correct window
         switch conditional {
         case "Register" :
-                let storyBoard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)  as NSStoryboard
-                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "RegistrationViewController")) as! NSViewController
-                self.presentViewControllerAsSheet(myViewController)
+                let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: "RegistrationViewController") as! NSViewController
+                self.presentAsSheet(myViewController)
         case "EULA" :
-                let storyBoard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)  as NSStoryboard
-                let myViewController = storyBoard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "EULAViewController")) as! NSViewController
-                self.presentViewControllerAsSheet(myViewController)
+                let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: "EULAViewController") as! NSViewController
+                self.presentAsSheet(myViewController)
         case "Restart" :
                 let bomFile = "/var/tmp/com.depnotify.provisioning.restart"
                 FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
@@ -683,7 +685,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
 
     // Function to pass data to Alert View Controller
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if (segue.identifier!.rawValue == "alertSegue") {
+        if (segue.identifier! == "alertSegue") {
             if let myViewController = segue.destinationController as? AlertViewController {
                 let datatoPass = contentToPass
                 myViewController.messagePass = datatoPass
@@ -703,10 +705,12 @@ class WindowController: NSWindowController {
             self.window?.center()
             self.window?.isMovable = false
             
-            background = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "Background")) as? Background
+            background = storyboard?.instantiateController(withIdentifier: "Background") as? Background
             background?.showWindow(self)
             background?.sendBack()
             NSApp.windows[0].level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))
+        } else {
+            self.window?.center()
         }
     }
 
