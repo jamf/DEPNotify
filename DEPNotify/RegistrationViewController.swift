@@ -205,9 +205,9 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         }
     
         // TextField2RegexPattern
-        if let textField2RegexPattern = UserDefaults.standard.string(forKey: "textField2RegexPattern") {
-            //textField2RegexPattern = textField2RegexPatternValue
-            NSLog("Text Field Regex Pattern 1: \(textField2RegexPattern)")
+        if let textField2RegexPatternValue = UserDefaults.standard.string(forKey: "textField2RegexPattern") {
+            textField2RegexPattern = textField2RegexPatternValue
+            NSLog("Text Field Regex Pattern 2: \(textField2RegexPattern)")
         }
         
         // Set Button 1 label and contents
