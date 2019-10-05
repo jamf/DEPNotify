@@ -1,19 +1,18 @@
-# [1.2.0] - Unreleased
-
-**Changed:**
-
-* Jamf log doesn't show Alert window when FileVault is enabled -@fgd (Do we want to keep this change? -clayton)
+# [1.1.5] - Oct 5, 2019
 
 **Fixed:**
+* Fixed issue with uncentered window on macOS Catalina
+* Fixed regex pattern 2 which was not working correctly
 
 **Added:**
+* Hardened runtime
+* Notarization of the package
+* Swift 5
 
-* "Video:" plays a video from a stream or local source. DEPNotify automatically detects if it’s a local or http video. (Video formats accepted .m4v, .mp4, .m3u8) Video Size is 700px x 328px -@fgd
-* "YouTube" plays a youtube video in DEPNotify. Video Size is 700px x 328px -@fgd
-* "Website" loads a webpage in DEPNotify. Size is 700px x 328px -@fgd
-* Add "LastRegistrationDate" key to DEPNotify.plist -@fgd
-* Handle display of "Executing Policy" inside jamf log -@fgd
-* Add "com.depnotify.provisioning.logout" bom file on logout action -@fgd
+# [1.1.4] - Jan 14, 2019
+
+**Added:**
+* copy and paste text functions
 
 # [1.1.3] - Nov 27, 2018
 
