@@ -21,14 +21,15 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
     // Registration Window: Labels
     @IBOutlet weak var textField1Label: NSTextField!
     @IBOutlet weak var textField2Label: NSTextField!
+    @IBOutlet weak var textField3Label: NSTextField!
     @IBOutlet weak var popupButton1Label: NSTextField!
     @IBOutlet weak var popupButton2Label: NSTextField!
     @IBOutlet weak var popupButton3Label: NSTextField!
-    @IBOutlet weak var popupButton4Label: NSTextField!
 
     // Registration Window: Input and Contents
     @IBOutlet weak var textField1: NSTextField!
     @IBOutlet weak var textField2: NSTextField!
+    @IBOutlet weak var textField3: NSTextField!
     
     @IBOutlet weak var popupButton1: NSPopUpButton!
     @IBOutlet weak var popupButton2: NSPopUpButton!
@@ -46,17 +47,18 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
     // Registration Window: Required Input
     @IBOutlet weak var textField1Required: NSImageView!
     @IBOutlet weak var textField2Required: NSImageView!
-
+    @IBOutlet weak var textField3Required: NSImageView!
+    
     // Registration Window: Action Button
     @IBOutlet weak var continueActionButton: NSButton!
     
     // Information Bubbles
     @IBOutlet weak var textField1Bubble: NSButton!
     @IBOutlet weak var textField2Bubble: NSButton!
+    @IBOutlet weak var textField3Bubble: NSButton!
     @IBOutlet weak var popupMenu1Bubble: NSButton!
     @IBOutlet weak var popupMenu2Bubble: NSButton!
     @IBOutlet weak var popupMenu3Bubble: NSButton!
-    @IBOutlet weak var popupMenu4Bubble: NSButton!
     
     
     // Global variables:
@@ -80,10 +82,13 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
     var securityOption6Key = "InfoSec - PCI Data"
     var textField1RegexPattern = ""
     var textField2RegexPattern = ""
+    var textField3RegexPattern = ""
     var textField1LabelForRegex = ""
     var textField2LabelForRegex = ""
+    var textField3LabelForRegex = ""
     var textField1Placeholder = ""
     var textField2Placeholder = ""
+    var textField3Placeholder = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -210,6 +215,33 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             NSLog("Text Field Regex Pattern 2: \(textField2RegexPattern)")
         }
         
+        // Set Text field 3 label
+            if let textField3LabelValue = UserDefaults.standard.string(forKey: "textField3Label") {
+                textField3LabelForRegex = textField3LabelValue
+                textField3Label.stringValue = textField3LabelValue
+                textField3Label.isHidden = false
+                textField3.isHidden = false
+                NSLog("Displaying Registration Text Field 3")
+                // Check for placeholder
+                if let textField3LabelPlaceholderValue = UserDefaults.standard.string(forKey: "textField3Placeholder") {
+                    textField3.placeholderString = textField3LabelPlaceholderValue
+                    NSLog("Displaying Registration Text Field 3 placeholder")
+                }
+                // Check for bubble
+                if UserDefaults.standard.object(forKey: "textField3Bubble") != nil {
+                    textField3Bubble.isHidden = false
+                    NSLog("Displaying Registration Text Field 3 bubble")
+                }
+            } else {
+                NSLog ("No Text Field 3 to load")
+            }
+        
+            // TextField3RegexPattern
+            if let textField3RegexPatternValue = UserDefaults.standard.string(forKey: "textField3RegexPattern") {
+                textField3RegexPattern = textField3RegexPatternValue
+                NSLog("Text Field Regex Pattern 3: \(textField2RegexPattern)")
+            }
+        
         // Set Button 1 label and contents
         if let popupButton1LabelValue = UserDefaults.standard.string(forKey: "popupButton1Label") {
             popupButton1Label.stringValue = popupButton1LabelValue
@@ -267,24 +299,24 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             }
         }
         
-        // Set Button 4 label and contents
-        if let popupButton4LabelValue = UserDefaults.standard.string(forKey: "popupButton4Label") {
-            popupButton4Label.stringValue = popupButton4LabelValue
-            popupButton4Label.isHidden = false
-            popupButton4.isHidden = false
-            if let popupButton4ContentValue = UserDefaults.standard.array(forKey: "popupButton4Content")  {
-                popupButton4.removeAllItems()
-                popupButton4.addItems(withTitles: popupButton4ContentValue as! [String])
-                popupButton4.selectItem(at: 0)
-                // Check for bubble
-                if UserDefaults.standard.object(forKey: "popupMenu4Bubble") != nil {
-                    popupMenu4Bubble.isHidden = false
-                }
-            } else {
-                NSLog("No Popup Contents in Defaults")
-                popupButton4.removeAllItems()
-            }
-        }
+//        // Set Button 4 label and contents
+//        if let popupButton4LabelValue = UserDefaults.standard.string(forKey: "popupButton4Label") {
+//            popupButton4Label.stringValue = popupButton4LabelValue
+//            popupButton4Label.isHidden = false
+//            popupButton4.isHidden = false
+//            if let popupButton4ContentValue = UserDefaults.standard.array(forKey: "popupButton4Content")  {
+//                popupButton4.removeAllItems()
+//                popupButton4.addItems(withTitles: popupButton4ContentValue as! [String])
+//                popupButton4.selectItem(at: 0)
+//                // Check for bubble
+//                if UserDefaults.standard.object(forKey: "popupMenu4Bubble") != nil {
+//                    popupMenu4Bubble.isHidden = false
+//                }
+//            } else {
+//                NSLog("No Popup Contents in Defaults")
+//                popupButton4.removeAllItems()
+//            }
+//        }
         
         let thisComputerStoresSensitiveInformationEnabled = UserDefaults.standard.bool(forKey: "enableSensitiveInformationOption")
         print(thisComputerStoresSensitiveInformationEnabled)
@@ -308,6 +340,14 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         let contentToPassArray = UserDefaults.standard.object(forKey: "textField2Bubble") as? [String] ?? [String]()
         contentToPass = contentToPassArray
         popupSegue = "textField2BubbleSegue"
+        // Performe segue to Alert View Controller
+        self.performSegue(withIdentifier: popupSegue, sender: self)
+    }
+    
+    @IBAction func textField3BubbleAction(_ sender: Any) {
+        let contentToPassArray = UserDefaults.standard.object(forKey: "textField3Bubble") as? [String] ?? [String]()
+        contentToPass = contentToPassArray
+        popupSegue = "textField3BubbleSegue"
         // Performe segue to Alert View Controller
         self.performSegue(withIdentifier: popupSegue, sender: self)
     }
@@ -381,16 +421,19 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         // Set Field Required Indicator to Hidden
         textField1Required.isHidden = true
         textField2Required.isHidden = true
+        textField3Required.isHidden = true
         hasTextFieldValidPattern.isHidden = true
         
         
         // Check if Text Fields are mandatory
         let TextField1IsOptional = UserDefaults.standard.bool(forKey: "textField1IsOptional")
         let TextField2IsOptional = UserDefaults.standard.bool(forKey: "textField2IsOptional")
-        
+        let TextField3IsOptional = UserDefaults.standard.bool(forKey: "textField3IsOptional")
+
         // Get NSTextField Values as Strings
         let textField1Value = textField1.stringValue
         let textField2Value = textField2.stringValue
+        let textField3Value = textField3.stringValue
         
         print("Text Field Regex Pattern 1: \(textField1RegexPattern)")
         
@@ -409,6 +452,13 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 
                 NSLog("Text Field 2 is empty")
             }
+        } else if textField3Value.isEmpty && !textField3.isHidden && !TextField3IsOptional {
+        do {
+            textField3Required.isHidden = false
+            NSSound.beep()
+            
+            NSLog("Text Field 3 is empty")
+            }
         } else if !textField1RegexPattern.isEmpty && !checkRegexPattern(regexPattern: textField1RegexPattern, textToValidate: textField1Value) {
             hasTextFieldValidPattern.stringValue = "\(textField1LabelForRegex) is not the correct format"
             hasTextFieldValidPattern.isHidden = false
@@ -423,8 +473,13 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             NSSound.beep()
             
             NSLog("Text Field 2 does not match pattern")
+        } else if !textField3RegexPattern.isEmpty && !checkRegexPattern(regexPattern: textField3RegexPattern, textToValidate: textField3Value) {
+                hasTextFieldValidPattern.stringValue = "\(textField3LabelForRegex) is not the correct format"
+                hasTextFieldValidPattern.isHidden = false
+                NSSound.beep()
+                
+                NSLog("Text Field 3 does not match pattern")
        
-        
         } else {
                 
             // Write user input content to UserInput plist file
@@ -597,10 +652,10 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         // Get NSTextField Values as Strings
         let textField1Value = textField1.stringValue
         let textField2Value = textField2.stringValue
+        let textField3Value = textField3.stringValue
         let popupButton1Value = popupButton1.title
         let popupButton2Value = popupButton2.title
         let popupButton3Value = popupButton3.title
-        let popupButton4Value = popupButton4.title
         
         if readPlistFile(securityKeyValue: "StoresSecurityInformation") {
             NSLog("Go ahead")
@@ -621,10 +676,10 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         // Set Plist Domain Keys
         let textField1Key = textField1Label.stringValue
         let textField2Key = textField2Label.stringValue
+        let textField3Key = textField3Label.stringValue
         let popupButton1Key = popupButton1Label.stringValue
         let popupButton2Key = popupButton2Label.stringValue
         let popupButton3Key = popupButton3Label.stringValue
-        let popupButton4Key = popupButton4Label.stringValue
 
         // Check if Plist file exits
         if FileManager.default.fileExists(atPath: plistPath) {
@@ -634,15 +689,14 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 plistContent.setValue(textField1Value, forKey: textField1Key) }
             if UserDefaults.standard.string(forKey: "textField2Label") != nil {
                 plistContent.setValue(textField2Value, forKey: textField2Key)}
+            if UserDefaults.standard.string(forKey: "textField3Label") != nil {
+                plistContent.setValue(textField3Value, forKey: textField3Key)}
             if UserDefaults.standard.string(forKey: "popupButton1Label") != nil {
                 plistContent.setValue(popupButton1Value, forKey: popupButton1Key)}
             if UserDefaults.standard.string(forKey: "popupButton2Label") != nil {
                 plistContent.setValue(popupButton2Value, forKey: popupButton2Key)}
             if UserDefaults.standard.string(forKey: "popupButton3Label") != nil {
                 plistContent.setValue(popupButton3Value, forKey: popupButton3Key)}
-            if UserDefaults.standard.string(forKey: "popupButton4Label") != nil {
-                plistContent.setValue(popupButton4Value, forKey: popupButton4Key)}
-            
             plistContent.setValue(systemSerialValue!, forKey: "Computer Serial")
             plistContent.setValue(systemUUIDValue!, forKey: "Computer UUID")
             plistContent.setValue(LastRegistrationDate, forKey: "Registration Date")
@@ -656,10 +710,11 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             let userInputDictionary : [String: Any] = [
                 textField1Key: textField1Value,
                 textField2Key: textField2Value,
+                textField3Key: textField3Value,
                 popupButton1Key: popupButton1Value,
                 popupButton2Key: popupButton2Value,
                 popupButton3Key: popupButton3Value,
-                popupButton4Key: popupButton4Value,
+                //popupButton4Key: popupButton4Value,
                 "Computer Serial": systemSerialValue!,
                 "Computer UUID": systemUUIDValue!,
                 "Registration Date": LastRegistrationDate,
