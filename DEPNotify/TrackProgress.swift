@@ -197,7 +197,7 @@ class TrackProgress: NSObject {
                                 
                                 if !(installedItem.isEmpty) {
                                     NSLog("Successfully installed:  \(installedItem)")
-                                    statusText = "Successfuly installed: \(installedItem)"
+                                    statusText = "Successfully installed: \(installedItem)"
                                 }
                                 
                             case line.range(of: "failed") != nil:
