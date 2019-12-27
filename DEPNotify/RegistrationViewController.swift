@@ -434,7 +434,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
             writeBomFile()
             
             // Close registration window and return to DEPNotify main window
-            self.view.window?.close()
+            self.view.window?.sheetParent?.endSheet(self.view.window!)
         }
     }
     
@@ -563,7 +563,7 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
         do{ //convert the data to a dictionary and handle errors.
             plistData = try PropertyListSerialization.propertyList(from: plistXML,options: .mutableContainersAndLeaves,format: &format)as! [String:AnyObject]
             //assign the values in the dictionary to the properties
-            myResult = plistData[securityKeyValue] as! Bool
+            myResult = plistData[securityKeyValue] as? Bool ?? false
         }
         catch { // error condition
             NSLog("Error reading plist: \(error), format: \(format)")
