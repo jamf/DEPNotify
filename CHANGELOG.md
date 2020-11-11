@@ -1,3 +1,11 @@
+# [1.1.6] - Nov 11, 2020
+
+**Fixed:**
+* Issue where DEP Notify could crash after enabling FileVault.
+
+**Added:**
+* Added support for Apple Silicon systems. DEP Notify is now a fat binary.
+
 # [1.1.5] - Oct 5, 2019
 
 **Fixed:**
