@@ -27,7 +27,7 @@ DEPNotify is a small light weight notification app that was designed to let your
 
 # Download
 
-Get the latest version, visit our tags: [DEPNotify tags](https://gitlab.com/Mactroll/DEPNotify/tags)
+Get the latest version, visit our tags: [DEPNotify tags](https://gitlab.com/Mactroll/DEPNotify/-/releases)
 
 # Basic Usage
 
