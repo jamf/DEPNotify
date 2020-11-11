@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <deployment version="101100" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
+        <deployment version="101200" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
+        <plugIn identifier="com.apple.WebKit2IBPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -182,6 +183,7 @@ DQ
                         <outlet property="logoView" destination="ybm-7R-2cn" id="Yqj-7N-ai8"/>
                         <outlet property="myView" destination="m2S-Jp-Qdl" id="dT9-W6-DCb"/>
                         <segue destination="HAO-QR-s4f" kind="sheet" identifier="alertSegue" id="sJH-0x-vuj"/>
+                        <segue destination="VU0-ho-Bgp" kind="sheet" id="uXB-Vw-2d5"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -283,6 +285,44 @@ DQ
             </objects>
             <point key="canvasLocation" x="804" y="821"/>
         </scene>
+        <!--Web View Controller-->
+        <scene sceneID="kTS-wI-aoc">
+            <objects>
+                <viewController storyboardIdentifier="WebViewController" id="VU0-ho-Bgp" customClass="WebViewController" customModule="DEPNotify" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="PTf-in-1m5">
+                        <rect key="frame" x="0.0" y="0.0" width="602" height="472"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <wkWebView wantsLayer="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fMJ-YA-OfU">
+                                <rect key="frame" x="20" y="51" width="562" height="401"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cah-VY-YR9">
+                                <rect key="frame" x="266" y="13" width="72" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="grx-fo-V3u">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="clickDone:" target="VU0-ho-Bgp" id="nSJ-Nr-pQa"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="doneButton" destination="Cah-VY-YR9" id="UzE-f3-YJX"/>
+                        <outlet property="webView" destination="fMJ-YA-OfU" id="Ovw-2i-9Wu"/>
+                    </connections>
+                </viewController>
+                <customObject id="ZEc-wt-bgo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1630" y="571"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="pRV-lG-EgP">
             <objects>
@@ -379,11 +419,11 @@ Gw
                             <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7LM-we-CqE">
                                 <rect key="frame" x="20" y="61" width="600" height="267"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="KC3-Iu-etL">
+                                <clipView key="contentView" drawsBackground="NO" id="KC3-Iu-etL">
                                     <rect key="frame" x="1" y="1" width="598" height="265"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView ambiguous="YES" editable="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" id="6Fj-1A-uEj">
+                                        <textView editable="NO" verticallyResizable="YES" allowsCharacterPickerTouchBarItem="NO" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" id="6Fj-1A-uEj">
                                             <rect key="frame" x="0.0" y="0.0" width="598" height="265"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -566,7 +606,7 @@ DQ
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Dql-Ou-14P" id="yyn-aS-NX3">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Mse-F5-k3p">
                                         <items>
                                             <menuItem title="Item 1" state="on" id="Dql-Ou-14P">
@@ -590,7 +630,7 @@ DQ
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ij0-Gm-mGp" id="T1j-EH-lwv">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Bmy-jW-vMA">
                                         <items>
                                             <menuItem title="Item 1" state="on" id="ij0-Gm-mGp"/>
@@ -613,7 +653,7 @@ DQ
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="LEb-hu-BZ8" id="9Y6-Mo-e0R">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Ie5-Y1-2rp">
                                         <items>
                                             <menuItem title="Item 1" state="on" id="LEb-hu-BZ8"/>
@@ -628,7 +668,7 @@ DQ
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="V1O-6D-cmc" id="nNo-dS-awj">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="PLN-ul-Rzw">
                                         <items>
                                             <menuItem title="Item 1" state="on" id="V1O-6D-cmc"/>
@@ -873,7 +913,7 @@ DQ
                             <box fixedFrame="YES" borderType="bezel" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="VYM-hH-srf">
                                 <rect key="frame" x="17" y="16" width="463" height="171"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <view key="contentView" ambiguous="YES" id="zhV-1L-Non">
+                                <view key="contentView" id="zhV-1L-Non">
                                     <rect key="frame" x="3" y="3" width="457" height="165"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -971,6 +1011,9 @@ DQ
             <point key="canvasLocation" x="519" y="1998"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Wex-Ls-Jf4"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="DEPNotify" width="512" height="512"/>
         <image name="GenericErrorDot" width="13" height="13"/>
@@ -979,7 +1022,4 @@ DQ
         <image name="macbasics_2x" width="487" height="242"/>
         <image name="mbpWhiteTick" width="5000" height="3000"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="Wex-Ls-Jf4"/>
-    </inferredMetricsTieBreakers>
 </document>
