@@ -168,6 +168,11 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 textField1.placeholderString = textField1LabelPlaceholderValue
                 NSLog("Displaying Registration Text Field 1 placeholder")
             }
+            if let textField1LabelDefaultValue = UserDefaults.standard.string(forKey: "textField1Default") {
+                textField1.stringValue = textField1LabelDefaultValue
+                NSLog("Displaying Default Text Field 1 placeholder")
+            }
+            
             // Check for bubble
             if UserDefaults.standard.object(forKey: "textField1Bubble") != nil {
                 textField1Bubble.isHidden = false
@@ -195,6 +200,10 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 textField2.placeholderString = textField2LabelPlaceholderValue
                 NSLog("Displaying Registration Text Field 2 placeholder")
             }
+            if let textField2LabelDefaultValue = UserDefaults.standard.string(forKey: "textField2Default") {
+                textField1.stringValue = textField2LabelDefaultValue
+                NSLog("Displaying Default Text Field 2 placeholder")
+            }
             // Check for bubble
             if UserDefaults.standard.object(forKey: "textField2Bubble") != nil {
                 textField2Bubble.isHidden = false
@@ -219,6 +228,10 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 popupButton1.removeAllItems()
                 popupButton1.addItems(withTitles: popupButton1ContentValue as! [String])
                 popupButton1.selectItem(at: 0)
+                
+                if let defaultbutton1 = UserDefaults.standard.string(forKey: "popupButton1Default") {
+                    popupButton1.stringValue = defaultbutton1
+                }
                 // Check for bubble
                 if UserDefaults.standard.object(forKey: "popupMenu1Bubble") != nil {
                     popupMenu1Bubble.isHidden = false
@@ -238,6 +251,10 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 popupButton2.removeAllItems()
                 popupButton2.addItems(withTitles: popupButton2ContentValue as! [String])
                 popupButton2.selectItem(at: 0)
+                
+                if let defaultbutton2 = UserDefaults.standard.string(forKey: "popupButton2Default") {
+                    popupButton2.stringValue = defaultbutton2
+                }
                 // Check for bubble
                 if UserDefaults.standard.object(forKey: "popupMenu2Bubble") != nil {
                     popupMenu2Bubble.isHidden = false
@@ -257,6 +274,9 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 popupButton3.removeAllItems()
                 popupButton3.addItems(withTitles: popupButton3ContentValue as! [String])
                 popupButton3.selectItem(at: 0)
+                if let defaultbutton3 = UserDefaults.standard.string(forKey: "popupButton3Default") {
+                    popupButton3.stringValue = defaultbutton3
+                }
                 // Check for bubble
                 if UserDefaults.standard.object(forKey: "popupMenu3Bubble") != nil {
                     popupMenu3Bubble.isHidden = false
@@ -276,6 +296,9 @@ class RegistrationViewController: NSViewController, NSTextFieldDelegate, NSAppli
                 popupButton4.removeAllItems()
                 popupButton4.addItems(withTitles: popupButton4ContentValue as! [String])
                 popupButton4.selectItem(at: 0)
+                if let defaultbutton4 = UserDefaults.standard.string(forKey: "popupButton4Default") {
+                    popupButton4.stringValue = defaultbutton4
+                }
                 // Check for bubble
                 if UserDefaults.standard.object(forKey: "popupMenu4Bubble") != nil {
                     popupMenu4Bubble.isHidden = false
