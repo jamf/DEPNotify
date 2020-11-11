@@ -131,9 +131,10 @@ Loads a website in DEPNotify.
 
 #### WindowStyle:
 This command has a few modifiers to it:
-    * `Activate` This will force the DEPNotify window to the front of all other windows.
-    * `ActivateOnStep` This will force the window to the front for each new progress bar step, so that you don't have to issue the Activate command each time.
-    * `NotMovable` This will center the DEPNotify window and make it unable to be moved.
+
+* `Activate` This will force the DEPNotify window to the front of all other windows.
+* `ActivateOnStep` This will force the window to the front for each new progress bar step, so that you don't have to issue the Activate command each time.
+* `NotMovable` This will center the DEPNotify window and make it unable to be moved.
 
 *Example:* `Command: WindowStyle: NotMovable`
 
