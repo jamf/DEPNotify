@@ -118,6 +118,12 @@ This command will change the main title of text in the application.
 
 *Example:* `Command: MainTitle: Something about how amazing the DEP process you've created is.`
 
+#### SetWebViewURL:
+This shows a sheet with the specified URL loaded in the sheet. Combine with `ContinueButtonWeb` to cause the web view to be shown.
+
+*Example:* `Command: SetWebViewURL: https://www.apple.com`
+
+
 #### Video:
 Plays a video from a stream or local source. DEPNotify automatically detects if it’s a local or http video. (Video formats accepted .m4v, .mp4, .m3u8)
 
@@ -158,7 +164,12 @@ This places a Continue button at the bottom of the screen that that calls the Re
 *Example:* `Command: ContinueButtonRegister: <Button Label>`
 
 #### ContinueButtonEULA:
-This places a Continue button at the bottom of the screen to display a URLA or other agreement you need the user to agree to. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
+This places a Continue button at the bottom of the screen to display a EULA or other agreement you need the user to agree to. Creates a bom file `/var/tmp/com.depnotify.provisioning.done` on successful completion.
+
+*Example:* `Command: ContinueButtonEULA: <Button Label>`
+
+#### ContinueButtonWeb:
+This places a Continue button at the bottom of the screen to display the sheet created by `SetWebView`. Creates a bom file `/var/tmp/com.depnotify.webview.done` on successful completion.
 
 *Example:* `Command: ContinueButtonEULA: <Button Label>`
 

@@ -1,3 +1,8 @@
+# [1.1.7] - Mar 7, 2021
+
+**Added:**
+* WebView that's able to be shown with a button that launches it.
+
 # [1.1.6] - Nov 11, 2020
 
 **Fixed:**
