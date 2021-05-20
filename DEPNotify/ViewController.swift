@@ -73,6 +73,10 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
     // url for the webview
     var webViewURL: String?
     
+    // url for the continue button
+    
+    var continueButtonURL: String?
+    
     @IBOutlet weak var test: NSImageView!
     
     var activateEachStep = false
@@ -287,6 +291,14 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             //continueButton.isHighlighted = true
             continueButton.isHidden = false
             buttonAction = "Continue"
+            
+        // Puts a Button at the bottom of the window to Quit DEPNotify
+        case "ContinueButtonURL:" :
+            let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonURL: ", with: "")
+            continueButton.title = continueButtonTitle
+            //continueButton.isHighlighted = true
+            continueButton.isHidden = false
+            buttonAction = "URL"
         
         // Puts a Button at the bottom of the window to display a Registration panel
         case "ContinueButtonRegister:" :
@@ -456,6 +468,10 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         case "SetWebViewURL:" :
             let url = command.replacingOccurrences(of: "SetWebViewURL: ", with: "")
             webViewURL = url
+            
+        case "SetContinueURL:":
+            let url = command.replacingOccurrences(of: "SetContinueURL: ", with: "")
+            
         case "WindowStyle:" :
             switch command.replacingOccurrences(of: "WindowStyle: ", with: "") {
             case "Activate" :
@@ -682,6 +698,15 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
                 FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
                 print ("BOM file create")
                 self.quitSession()
+        case "URL":
+            if let urlString = continueButtonURL,
+               let url = URL(string: urlString) {
+                NSWorkspace.shared.open(url)
+            }
+            let bomFile = "/var/tmp/com.depnotify.provisioning.done"
+            FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
+            print ("BOM file create")
+            NSApp.terminate(self)
         default :
                 let bomFile = "/var/tmp/com.depnotify.provisioning.done"
                 FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
