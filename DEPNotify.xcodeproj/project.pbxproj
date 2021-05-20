@@ -22,6 +22,7 @@
 		50161D3D218B33EA008A4F03 /* SensitiveInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50161D3C218B33EA008A4F03 /* SensitiveInformationViewController.swift */; };
 		50E322C1216FA87F003EF3FC /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E322C0216FA87F003EF3FC /* AlertViewController.swift */; };
 		50E49559211DF13A0013AA03 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E49558211DF13A0013AA03 /* HelpViewController.swift */; };
+		5BBE9932255C83D90007D761 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBE9931255C83D90007D761 /* WebViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		5070626D21275AB800DBF107 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Main.strings"; sourceTree = "<group>"; };
 		50E322C0216FA87F003EF3FC /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		50E49558211DF13A0013AA03 /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
+		5BBE9931255C83D90007D761 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 				1A10FCD71FB2AAFB00D30727 /* Background.swift */,
 				1A376814209D4F2E00F28164 /* RegistrationViewController.swift */,
 				1A376818209D633900F28164 /* EULAViewController.swift */,
+				5BBE9931255C83D90007D761 /* WebViewController.swift */,
 				50FA0CB8218C98720009CA5D /* Helpers */,
 				1A6059921E55D6E90085B55F /* Assets.xcassets */,
 				1A6059941E55D6E90085B55F /* Main.storyboard */,
@@ -316,6 +319,7 @@
 				1A376815209D4F3200F28164 /* RegistrationViewController.swift in Sources */,
 				1A60598F1E55D6E90085B55F /* AppDelegate.swift in Sources */,
 				1A6059BA1E55D8F70085B55F /* TrackProgress.swift in Sources */,
+				5BBE9932255C83D90007D761 /* WebViewController.swift in Sources */,
 				50161D3D218B33EA008A4F03 /* SensitiveInformationViewController.swift in Sources */,
 				50E322C1216FA87F003EF3FC /* AlertViewController.swift in Sources */,
 				50161D3B218A3D09008A4F03 /* PopupRegistrationViewController.swift in Sources */,
@@ -482,13 +486,13 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_TEAM = VRPY9KHGX6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = DEPNotify/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 1.1.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MARKETING_VERSION = 1.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = menu.nomad.DEPNotify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -503,13 +507,13 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 42;
+				CURRENT_PROJECT_VERSION = 46;
 				DEVELOPMENT_TEAM = VRPY9KHGX6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = DEPNotify/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MARKETING_VERSION = 1.1.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MARKETING_VERSION = 1.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = menu.nomad.DEPNotify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

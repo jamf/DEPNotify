@@ -70,6 +70,9 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
     // Video file URL
     var pathToVideo = "/var/tmp/sample.mp4"
     
+    // url for the webview
+    var webViewURL: String?
+    
     @IBOutlet weak var test: NSImageView!
     
     var activateEachStep = false
@@ -316,6 +319,14 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             continueButton.isHidden = false
             //continueButton.isHighlighted = true
             buttonAction = "Logout"
+            
+        // Puts a Button at the bottom of the window to display an EULA panel
+        case "ContinueButtonWeb:" :
+            let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonWeb: ", with: "")
+            continueButton.title = continueButtonTitle
+            continueButton.isHidden = false
+            //continueButton.isHighlighted = true
+            buttonAction  = "Web"
 
         case "Determinate:" :
             determinate = true
@@ -442,6 +453,9 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         case "NotificationOn:" :
             notify = true
             
+        case "SetWebViewURL:" :
+            let url = command.replacingOccurrences(of: "SetWebViewURL: ", with: "")
+            webViewURL = url
         case "WindowStyle:" :
             switch command.replacingOccurrences(of: "WindowStyle: ", with: "") {
             case "Activate" :
@@ -651,6 +665,11 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         case "EULA" :
                 let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
                 let myViewController = storyBoard.instantiateController(withIdentifier: "EULAViewController") as! NSViewController
+                self.presentAsSheet(myViewController)
+        case "Web":
+                let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
+                let myViewController = storyBoard.instantiateController(withIdentifier: "WebViewController") as! WebViewController
+                myViewController.urlString = webViewURL
                 self.presentAsSheet(myViewController)
         case "Restart" :
                 let bomFile = "/var/tmp/com.depnotify.provisioning.restart"
