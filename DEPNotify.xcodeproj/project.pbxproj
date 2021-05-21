@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A0EC896265812FC00547915 /* ButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0EC895265812FC00547915 /* ButtonAction.swift */; };
 		1A10FCD81FB2AAFC00D30727 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A10FCD71FB2AAFB00D30727 /* Background.swift */; };
 		1A376815209D4F3200F28164 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A376814209D4F2E00F28164 /* RegistrationViewController.swift */; };
 		1A376819209D633900F28164 /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A376818209D633900F28164 /* EULAViewController.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A0EC895265812FC00547915 /* ButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonAction.swift; sourceTree = "<group>"; };
 		1A10FCD71FB2AAFB00D30727 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		1A376814209D4F2E00F28164 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		1A376817209D558A00F28164 /* SampleTest.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = SampleTest.sh; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				1A376816209D556400F28164 /* Sample Setup */,
 				1A60598E1E55D6E90085B55F /* AppDelegate.swift */,
 				1A6059901E55D6E90085B55F /* ViewController.swift */,
+				1A0EC895265812FC00547915 /* ButtonAction.swift */,
 				1A6059B91E55D8F70085B55F /* TrackProgress.swift */,
 				1A10FCD71FB2AAFB00D30727 /* Background.swift */,
 				1A376814209D4F2E00F28164 /* RegistrationViewController.swift */,
@@ -312,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0EC896265812FC00547915 /* ButtonAction.swift in Sources */,
 				50E49559211DF13A0013AA03 /* HelpViewController.swift in Sources */,
 				1A376819209D633900F28164 /* EULAViewController.swift in Sources */,
 				1A688FB121E90CFA002A417A /* NotifyApplication.swift in Sources */,

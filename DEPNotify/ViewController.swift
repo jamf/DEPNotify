@@ -24,7 +24,7 @@ var background: Background?
 var enableContinueButton =  NSNotification.Name(rawValue: "menu.nomad.DEPNotify.reenableContinue")
 var resetContinueButonActionValue = NSNotification.Name(rawValue: "menu.nomad.DEPNotify.resetContinue")
 
-var buttonAction = ""
+var buttonAction: ButtonAction = .none
 var conditional = ""
 
 var alertMessage = ""
@@ -75,7 +75,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
     
     // url for the continue button
     
-    var continueButtonURL: String?
+    var buttonURL: String?
     
     @IBOutlet weak var test: NSImageView!
     
@@ -208,7 +208,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             if let newValue = change?[.newKey] {
                 NSLog("Command observed")
                 NSLog("\(newValue)")
-                buttonAction = ""
+                buttonAction = .none
                 processCommand(command: newValue as! String)
             } else {
                 super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -290,15 +290,18 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             continueButton.title = continueButtonTitle
             //continueButton.isHighlighted = true
             continueButton.isHidden = false
-            buttonAction = "Continue"
+            buttonAction = .proceed
             
         // Puts a Button at the bottom of the window to Quit DEPNotify
         case "ContinueButtonURL:" :
             let continueButtonTitle = command.replacingOccurrences(of: "ContinueButtonURL: ", with: "")
+            buttonAction = .url
             continueButton.title = continueButtonTitle
             //continueButton.isHighlighted = true
             continueButton.isHidden = false
-            buttonAction = "URL"
+            
+        case "ButtonURL:" :
+            buttonURL = command.replacingOccurrences(of: "ButtonURL: ", with: "")
         
         // Puts a Button at the bottom of the window to display a Registration panel
         case "ContinueButtonRegister:" :
@@ -306,7 +309,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
             //continueButton.isHighlighted = true
-            buttonAction = "Register"
+            buttonAction = .register
             
         // Puts a Button at the bottom of the window to display an EULA panel
         case "ContinueButtonEULA:" :
@@ -314,7 +317,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
             //continueButton.isHighlighted = true
-            buttonAction  = "EULA"
+            buttonAction  = .eula
         
         // Puts a Button at the bottom of the window to restart the Mac
         case "ContinueButtonRestart:" :
@@ -322,7 +325,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
             //continueButton.isHighlighted = true
-            buttonAction = "Restart"
+            buttonAction = .restart
 
         // Puts a Button at the bottom of the window to logout from the Mac
         case "ContinueButtonLogout:" :
@@ -330,7 +333,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
             //continueButton.isHighlighted = true
-            buttonAction = "Logout"
+            buttonAction = .logout
             
         // Puts a Button at the bottom of the window to display an EULA panel
         case "ContinueButtonWeb:" :
@@ -338,7 +341,7 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
             continueButton.title = continueButtonTitle
             continueButton.isHidden = false
             //continueButton.isHighlighted = true
-            buttonAction  = "Web"
+            buttonAction  = .web
 
         case "Determinate:" :
             determinate = true
@@ -674,32 +677,32 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         
         // Start switch matching to display the correct window
         switch conditional {
-        case "Register" :
+        case .register :
                 let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
                 let myViewController = storyBoard.instantiateController(withIdentifier: "RegistrationViewController") as! NSViewController
                 self.presentAsSheet(myViewController)
-        case "EULA" :
+        case .eula :
                 let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
                 let myViewController = storyBoard.instantiateController(withIdentifier: "EULAViewController") as! NSViewController
                 self.presentAsSheet(myViewController)
-        case "Web":
+        case .web :
                 let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
                 let myViewController = storyBoard.instantiateController(withIdentifier: "WebViewController") as! WebViewController
                 myViewController.urlString = webViewURL
                 self.presentAsSheet(myViewController)
-        case "Restart" :
+        case .restart :
                 let bomFile = "/var/tmp/com.depnotify.provisioning.restart"
                 FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
                 print ("BOM file create")
                 self.reboot()
                 NSApp.terminate(self)
-        case "Logout" :
+        case .logout :
                 let bomFile = "/var/tmp/com.depnotify.provisioning.logout"
                 FileManager.default.createFile(atPath: bomFile, contents: nil, attributes: nil)
                 print ("BOM file create")
                 self.quitSession()
-        case "URL":
-            if let urlString = continueButtonURL,
+        case .url :
+            if let urlString = buttonURL,
                let url = URL(string: urlString) {
                 NSWorkspace.shared.open(url)
             }
