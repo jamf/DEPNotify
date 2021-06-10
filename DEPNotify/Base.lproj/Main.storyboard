@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19115.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment version="101200" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
-        <plugIn identifier="com.apple.WebKit2IBPlugin" version="17506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19115.2"/>
+        <plugIn identifier="com.apple.WebKit2IBPlugin" version="19115.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -52,7 +52,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="lC2-WV-ZF0">
-                                <rect key="frame" x="0.0" y="0.0" width="700" height="45"/>
+                                <rect key="frame" x="0.0" y="0.0" width="700" height="44"/>
                             </visualEffectView>
                             <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="PdX-76-P6c">
                                 <rect key="frame" x="100" y="86" width="500" height="20"/>
@@ -95,7 +95,7 @@ This process could take up to 20 minutes so please don't restart or shutdown you
                                 </connections>
                             </button>
                             <button identifier="continueMain" hidden="YES" focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XoJ-GQ-tx3">
-                                <rect key="frame" x="303" y="5" width="95" height="32"/>
+                                <rect key="frame" x="306" y="5" width="89" height="32"/>
                                 <buttonCell key="cell" type="push" title="Continue" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" focusRingType="none" imageScaling="proportionallyUpOrDown" inset="2" id="Y7g-x8-UaJ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -243,7 +243,7 @@ DQ
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FnO-Lq-0ss">
-                                <rect key="frame" x="81" y="171" width="178" height="28"/>
+                                <rect key="frame" x="80" y="171" width="180" height="28"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="What's going on?" id="Jsq-sk-wwI">
                                     <font key="font" metaFont="systemThin" size="24"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -262,7 +262,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="k5i-EB-uN5">
-                                <rect key="frame" x="83" y="160" width="174" height="5"/>
+                                <rect key="frame" x="82" y="160" width="176" height="5"/>
                             </box>
                         </subviews>
                         <constraints>
@@ -515,7 +515,7 @@ DQ
                                 <rect key="frame" x="20" y="59" width="600" height="5"/>
                             </box>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZKf-xb-Pmu">
-                                <rect key="frame" x="536" y="13" width="90" height="32"/>
+                                <rect key="frame" x="542" y="14" width="85" height="32"/>
                                 <buttonCell key="cell" type="push" title="Register" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" focusRingType="none" allowsMixedState="YES" imageScaling="proportionallyDown" inset="2" id="pfx-G8-3O4">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -539,7 +539,7 @@ DQ
                                 </connections>
                             </button>
                             <button hidden="YES" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vqw-qm-yTY">
-                                <rect key="frame" x="30" y="75" width="284" height="18"/>
+                                <rect key="frame" x="30" y="76" width="284" height="18"/>
                                 <buttonCell key="cell" type="check" title="This computer stores sensitive information." bezelStyle="regularSquare" imagePosition="left" inset="2" id="xkk-lg-C1v">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -776,7 +776,7 @@ DQ
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="GenericErrorDot" id="Xz4-9U-i3i"/>
                             </imageView>
                             <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W1u-U3-VD9">
-                                <rect key="frame" x="340" y="22" width="188" height="17"/>
+                                <rect key="frame" x="347" y="22" width="188" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="184" id="TR3-e5-hvP"/>
                                     <constraint firstAttribute="height" constant="17" id="lMl-cT-NmF"/>

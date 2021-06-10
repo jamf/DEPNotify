@@ -14,6 +14,7 @@ import Foundation
 import WebKit
 import AVKit
 import AVFoundation
+import SwiftUI
 
 
 private var statusContext = 0
@@ -678,9 +679,19 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
         // Start switch matching to display the correct window
         switch conditional {
         case .register :
+                //let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
+                //let myViewController = storyBoard.instantiateController(withIdentifier: "RegistrationViewController") as! NSViewController
+                //self.presentAsSheet(myViewController)
+            if #available(macOS 11, *) {
+
+                let dynamicViewController = DynamicViewController()
+                self.presentAsSheet(dynamicViewController)
+            } else {
+                // Fallback on earlier versions
                 let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
                 let myViewController = storyBoard.instantiateController(withIdentifier: "RegistrationViewController") as! NSViewController
                 self.presentAsSheet(myViewController)
+            }
         case .eula :
                 let storyBoard = NSStoryboard(name: "Main", bundle: nil)  as NSStoryboard
                 let myViewController = storyBoard.instantiateController(withIdentifier: "EULAViewController") as! NSViewController

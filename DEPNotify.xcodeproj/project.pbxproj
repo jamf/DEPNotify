@@ -19,6 +19,7 @@
 		1A6059AC1E55D6EA0085B55F /* DEPNotifyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6059AB1E55D6EA0085B55F /* DEPNotifyUITests.swift */; };
 		1A6059BA1E55D8F70085B55F /* TrackProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6059B91E55D8F70085B55F /* TrackProgress.swift */; };
 		1A688FB121E90CFA002A417A /* NotifyApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A688FB021E90CFA002A417A /* NotifyApplication.swift */; };
+		1A9BE2E22671CEE800269F2A /* DynamicMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9BE2E12671CEE800269F2A /* DynamicMenuViewController.swift */; };
 		50161D3B218A3D09008A4F03 /* PopupRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50161D3A218A3D09008A4F03 /* PopupRegistrationViewController.swift */; };
 		50161D3D218B33EA008A4F03 /* SensitiveInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50161D3C218B33EA008A4F03 /* SensitiveInformationViewController.swift */; };
 		50E322C1216FA87F003EF3FC /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E322C0216FA87F003EF3FC /* AlertViewController.swift */; };
@@ -63,6 +64,7 @@
 		1A6059AD1E55D6EA0085B55F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A6059B91E55D8F70085B55F /* TrackProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackProgress.swift; sourceTree = "<group>"; };
 		1A688FB021E90CFA002A417A /* NotifyApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyApplication.swift; sourceTree = "<group>"; };
+		1A9BE2E12671CEE800269F2A /* DynamicMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicMenuViewController.swift; sourceTree = "<group>"; };
 		50161D3A218A3D09008A4F03 /* PopupRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupRegistrationViewController.swift; sourceTree = "<group>"; };
 		50161D3C218B33EA008A4F03 /* SensitiveInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensitiveInformationViewController.swift; sourceTree = "<group>"; };
 		5070626D21275AB800DBF107 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				1A6059921E55D6E90085B55F /* Assets.xcassets */,
 				1A6059941E55D6E90085B55F /* Main.storyboard */,
 				1A6059971E55D6E90085B55F /* Info.plist */,
+				1A9BE2E12671CEE800269F2A /* DynamicMenuViewController.swift */,
 			);
 			path = DEPNotify;
 			sourceTree = "<group>";
@@ -240,7 +243,7 @@
 					Background,
 				);
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = "Trusource Labs";
 				TargetAttributes = {
 					1A60598A1E55D6E90085B55F = {
@@ -325,6 +328,7 @@
 				1A6059BA1E55D8F70085B55F /* TrackProgress.swift in Sources */,
 				5BBE9932255C83D90007D761 /* WebViewController.swift in Sources */,
 				50161D3D218B33EA008A4F03 /* SensitiveInformationViewController.swift in Sources */,
+				1A9BE2E22671CEE800269F2A /* DynamicMenuViewController.swift in Sources */,
 				50E322C1216FA87F003EF3FC /* AlertViewController.swift in Sources */,
 				50161D3B218A3D09008A4F03 /* PopupRegistrationViewController.swift in Sources */,
 				1A10FCD81FB2AAFC00D30727 /* Background.swift in Sources */,
@@ -400,6 +404,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -458,6 +463,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
