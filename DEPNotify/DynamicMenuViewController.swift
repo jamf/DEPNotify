@@ -12,7 +12,7 @@ import AppKit
 
 @available(macOS 11, *)
 enum EntryObjectTypes {
-    case text, textField, secureText, pullDown
+    case text, textField, secureText, pullDown, toggle
 }
 
 @available(macOS 11, *)
@@ -76,6 +76,22 @@ struct PullDownFormField : View {
 }
 
 @available(macOS 11, *)
+struct ToggleButton: View {
+    @State private var output: Bool = false
+    let title: String
+    var didUpdateText: (String) -> ()
+    var body: some View {
+        HStack {
+            Toggle(title, isOn: $output)
+            .toggleStyle(SwitchToggleStyle(tint: .blue))
+            .onChange(of: output, perform: { i in
+                self.didUpdateText(String(i))
+            })
+        }
+    }
+}
+
+@available(macOS 11, *)
 class FormModel: ObservableObject {
     @Published var entries = [EntryObject]()
     var results = [String:String]()
@@ -95,6 +111,9 @@ class FormModel: ObservableObject {
                     entries.append(newEntry)
                 case "SecureTextField":
                     let newEntry = EntryObject(type: .secureText, title: title, tag: tag)
+                    entries.append(newEntry)
+                case "Toggle":
+                    let newEntry = EntryObject(type: .toggle, title: title, tag: tag)
                     entries.append(newEntry)
                 default:
                     let items = menu["Items"] as? [String] ?? [String]()
@@ -116,7 +135,7 @@ struct DynamicMenuView: View {
         getImage()
             .resizable()
             .scaledToFit()
-            .frame(minWidth: 200, idealWidth: nil, maxWidth: 500, minHeight: 200, idealHeight: nil, maxHeight: 500, alignment: .center)
+            .frame(minWidth: 200, idealWidth: 500, maxWidth: 900, minHeight: 200, idealHeight: nil, maxHeight: 500, alignment: .center)
             .padding()
         if let registerMainText = UserDefaults.standard.string(forKey: "registrationMainTitle"){
             Text(registerMainText)
@@ -156,6 +175,13 @@ struct DynamicMenuView: View {
                     })
                     }
                         .padding([.leading, .trailing])
+                } else if i.type == .toggle {
+                    HStack {
+                        ToggleButton(title: i.title, didUpdateText: { (output) in
+                            model.results[i.tag] = output
+                        })
+                        }
+                            .padding([.leading, .trailing])
                 } else {
                     HStack {
                         Text(i.title)
@@ -172,8 +198,9 @@ struct DynamicMenuView: View {
         Spacer()
         }
         }
-        .frame(minWidth: 500, idealWidth: 500, maxWidth: 500, minHeight: 200, idealHeight: nil, maxHeight: 500, alignment: .center)
         }
+        .frame(minWidth: 600, idealWidth: 600, maxWidth: 900, minHeight: 200, idealHeight: nil, maxHeight: 900, alignment: .center)
+
         Spacer()
     }
     
@@ -185,7 +212,7 @@ struct DynamicMenuView: View {
         } else {
             NSLog("No Registation custom image found. Reverting to default image")
         }
-        return Image("DEPNotify")
+        return Image("mbpWhiteTick")
     }
     
     // Write Registration done bom file to disk
