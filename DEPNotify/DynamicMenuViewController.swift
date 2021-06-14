@@ -113,7 +113,7 @@ struct DynamicMenuView: View {
     @Binding var parent: NSViewController?
 
     var body: some View {
-        Image("DEPNotify")
+        getImage()
             .resizable()
             .scaledToFit()
             .frame(minWidth: 200, idealWidth: nil, maxWidth: 500, minHeight: 200, idealHeight: nil, maxHeight: 500, alignment: .center)
@@ -164,9 +164,8 @@ struct DynamicMenuView: View {
                 }
         }
         Button(action: {
-            print("Here goes...")
-            print(model.results)
-            //writeOutAnswers()
+            writeBomFile()
+            writeOutAnswers()
             self.parent?.dismiss(nil)
         }) { Text("Done")}
         .padding()
@@ -175,7 +174,7 @@ struct DynamicMenuView: View {
         }
         .frame(minWidth: 500, idealWidth: 500, maxWidth: 500, minHeight: 200, idealHeight: nil, maxHeight: 500, alignment: .center)
         }
-
+        Spacer()
     }
     
     func getImage() -> Image {
@@ -204,9 +203,22 @@ struct DynamicMenuView: View {
     
     func writeOutAnswers() {
         
-        let path = UserDefaults.standard.object(forKey: "pathToPlistFile") as? String ?? "/Users/Shared/UserInput.plist"
+        let systemUUIDValue = getSystemUUID()
+        let systemSerialValue = getSystemSerial()
+
+        // Set timestamp
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-mm-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        let LastRegistrationDate = dateFormatter.string(from: Date())
+        
+        var results = model.results
+        results["LastRegistrationDate"] = LastRegistrationDate
+        results["Serial"] = getSystemSerial()
+        results["UUID"] = getSystemUUID()
+        let path = UserDefaults.standard.object(forKey: "pathToPlistFile") as? String ?? "/Users/Shared/UserInput.json"
         let encoder = JSONEncoder()
-        if let json = try? encoder.encode(model.results),
+        if let json = try? encoder.encode(results),
            let jsonString = String(data: json, encoding: .utf8) {
             do {
                 try jsonString.write(toFile: path, atomically: true, encoding: .utf8)
@@ -214,6 +226,30 @@ struct DynamicMenuView: View {
                 print(error)
             }
         }
+    }
+    
+    func getSystemUUID() -> String? {
+        let dev = IOServiceMatching("IOPlatformExpertDevice")
+        let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, dev)
+        let serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformUUIDKey as CFString, kCFAllocatorDefault, 0)
+        IOObjectRelease(platformExpert)
+        let ser: CFTypeRef = serialNumberAsCFString!.takeUnretainedValue()
+        if let result = ser as? String {
+            return result
+        }
+        return nil
+    }
+    
+    func getSystemSerial() -> String? {
+        let dev = IOServiceMatching("IOPlatformExpertDevice")
+        let platformExpert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, dev)
+        let serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformSerialNumberKey as CFString, kCFAllocatorDefault, 0)
+        IOObjectRelease(platformExpert)
+        let ser: CFTypeRef = serialNumberAsCFString!.takeUnretainedValue()
+        if let result = ser as? String {
+            return result
+        }
+        return nil
     }
 }
 

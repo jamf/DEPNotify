@@ -683,7 +683,6 @@ class ViewController: NSViewController, WKNavigationDelegate, NSApplicationDeleg
                 //let myViewController = storyBoard.instantiateController(withIdentifier: "RegistrationViewController") as! NSViewController
                 //self.presentAsSheet(myViewController)
             if #available(macOS 11, *) {
-
                 let dynamicViewController = DynamicViewController()
                 self.presentAsSheet(dynamicViewController)
             } else {
