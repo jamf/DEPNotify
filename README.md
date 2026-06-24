@@ -1,7 +1,7 @@
 # DEPNotify Deprecation
 DEPNotify is pretty old at this point and it's not getting updated very often. As a result you should look for a different solution.
 
-At Jamf we are moving to the fancy new [Setup Manager](https://github.com/jamf/Setup-Manager). It's open source, is currently maintained, and really nice. If there is a feature you depend on in DEPNotify that isn't in Setup Manager then please open an issue in the repo or, even better, a pull request.
+At Jamf we are moving to the fancy new [Setup Manager](https://github.com/jamf/Setup-Manager). It's is currently maintained, and really nice. If there is a feature you depend on in DEPNotify that isn't in Setup Manager then please open an issue in the repo.
 
 # DEPNotify
 
