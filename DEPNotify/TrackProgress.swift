@@ -327,32 +327,12 @@ class TrackProgress: NSObject {
                 case OtherLogs.munki :
                     if (line.contains("Installing") || line.contains("Downloading"))
                         && !line.contains(" at ") && !line.contains(" from ") {
-                        
-                        do {
-                            let installerRegEx = try NSRegularExpression(pattern: "^.{0,27}")
-                            let status = installerRegEx.stringByReplacingMatches(in: line,
-                                                                                 options: NSRegularExpression.MatchingOptions.anchored,
-                                                                                 range: NSMakeRange(0, line.count),
-                                                                                 withTemplate: "").trimmingCharacters(in: .whitespacesAndNewlines)
-                            statusText = status
-                        } catch {
-                            NSLog("Couldn't parse ManagedSoftwareUpdate.log")
-                        }
+                        statusText = stripMunkiTimestamp(line)
                     }
                 case OtherLogs.airwatch :
                     if (line.contains("Installing") || line.contains("Downloading") || line.contains("Install of"))
                         && !line.contains(" at ") && !line.contains(" from ") {
-                        
-                        do {
-                            let installerRegEx = try NSRegularExpression(pattern: "^.{0,27}")
-                            let status = installerRegEx.stringByReplacingMatches(in: line,
-                                                                                 options: NSRegularExpression.MatchingOptions.anchored,
-                                                                                 range: NSMakeRange(0, line.count),
-                                                                                 withTemplate: "").trimmingCharacters(in: .whitespacesAndNewlines)
-                            statusText = status
-                        } catch {
-                            NSLog("Couldn't parse ManagedSoftwareUpdate.log")
-                        }
+                        statusText = stripMunkiTimestamp(line)
                     }
                 case OtherLogs.none :
                     break
@@ -364,6 +344,26 @@ class TrackProgress: NSObject {
         }
     }
     
+    // Strips the leading timestamp from a Munki/AirWatch log line, returning the
+    // status message. Handles both the pre-7 month-name format
+    // ("Aug 13 2026 02:11:46 -0700 ") and the Munki 7 ISO format with
+    // milliseconds and colon timezone ("2026-08-12 07:22:31.771-07:00 ").
+    func stripMunkiTimestamp(_ line: String) -> String {
+        let legacy = "[A-Za-z]{3} \\d{1,2} \\d{4} \\d{2}:\\d{2}:\\d{2} [-+]\\d{4}"
+        let iso = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}(\\.\\d+)?\\s*[-+]\\d{2}:?\\d{2}"
+        let pattern = "^(\(legacy)|\(iso))\\s+"
+        do {
+            let regex = try NSRegularExpression(pattern: pattern)
+            return regex.stringByReplacingMatches(in: line,
+                                                   options: NSRegularExpression.MatchingOptions.anchored,
+                                                   range: NSMakeRange(0, line.count),
+                                                   withTemplate: "").trimmingCharacters(in: .whitespacesAndNewlines)
+        } catch {
+            NSLog("Couldn't parse ManagedSoftwareUpdate.log")
+            return line.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
+
     func killCommandFile() {
         // delete the command file
         
