@@ -21,9 +21,18 @@ class DEPNotifyTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testStripMunkiTimestampMunki7() {
+        // Munki 7 format: milliseconds + colon timezone, no space before tz.
+        let tp = TrackProgress()
+        let line = "2026-08-12 07:22:31.771-07:00     Downloading GoogleChrome-1.5.pkg..."
+        XCTAssertEqual(tp.stripMunkiTimestamp(line), "Downloading GoogleChrome-1.5.pkg...")
+    }
+
+    func testStripMunkiTimestampLegacy() {
+        // Pre-7 format: month-name date, space before tz.
+        let tp = TrackProgress()
+        let line = "Aug 13 2026 02:11:46 -0700     Installing Foo"
+        XCTAssertEqual(tp.stripMunkiTimestamp(line), "Installing Foo")
     }
     
     func testPerformanceExample() {
